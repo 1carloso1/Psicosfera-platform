@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block titulo %}
+  Psicosfera | Registro
+{% endblock %}
+
+
+{% block contenido %}
+<section id="contact" class="contact">
+
+  <!--  Section Title -->
+  <div class="container section-title" data-aos="fade-up">
+  <h2>Registro</h2>
+  <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
+  </div><!-- End Section Title -->
+
+  <div class="container " data-aos="fade-up" data-aos-delay="100">
+
+  <div class="row gy-4 justify-content-center">
+
+      <div class="col-lg-6 ">
+      <form method="post" data-aos="fade-up" data-aos-delay="200">
+          <div class="row gy-4 row ">
+
+          <div class="col-md-6">
+              <input type="text" name="name" class="form-control" placeholder="Your Name" required>
+          </div>
+
+          <div class="col-md-6 ">
+              <input type="email" class="form-control" name="email" placeholder="Your Email" required>
+          </div>
+
+          <div class="col-md-12">
+              <input type="text" class="form-control" name="subject" placeholder="Subject" required>
+          </div>
+
+          <div class="col-md-12">
+              <textarea class="form-control" name="message" rows="6" placeholder="Message" required></textarea>
+          </div>
+
+          <div class="col-md-12 text-center">
+              <button type="submit">Registrarse</button>
+          </div>
+
+          </div>
+      </form>
+      </div><!-- End Contact Form -->
+
+  </div>
+
+  </div>
+
+</section><!-- End Contact Section -->
+
+{% endblock %}
+    
+
+{% block scripts %}
+    
+{% endblock %}
+    
