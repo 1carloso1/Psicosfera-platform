@@ -30,5 +30,5 @@ document.addEventListener('DOMContentLoaded', function () {
     carouselTexts[currentIndex].classList.add('active');
 
     // Cambia las frases cada 10 segundos (10000 milisegundos)
-    setInterval(showNextText, 5000);
+    setInterval(showNextText, 10000);
 });
