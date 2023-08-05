@@ -5,3 +5,8 @@ class Home(TemplateView):
     template_name = 'home.html'
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
+    
+class Registro(TemplateView):
+    template_name = 'registro.html'
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
