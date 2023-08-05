@@ -6,4 +6,5 @@ urlpatterns = [
     path('', LoginView.as_view(), name = 'login'),
     path('reestablecer_contraseña', ResContraView.as_view(), name = "reestablecer_contra"),
     path('registro', RegistroView.as_view(), name = "registro"),
+    path('registro-usuario', RegistroUsuarioView.as_view(), name = "registro-usuario"),
 ]
