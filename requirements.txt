@@ -3,9 +3,9 @@ mysqlclient==2.1.1
 Pillow==9.5.0
 six==1.16.0
 djangorestframework==3.14.0
-django-bootstrap4   23.2
-django-crispy-forms 2.0
-crispy-bootstrap4   2022.1
+django-bootstrap4==23.2
+django-crispy-forms==2.0
+crispy-bootstrap4==2022.1
 
 
 #docker compose up -d --build
