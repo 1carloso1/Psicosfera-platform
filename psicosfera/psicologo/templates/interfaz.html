@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block titulo %}
+    Psicosfera | Psicologo
+{% endblock %}
+
+
+{% block contenido %}
+<section id="directorio" class="service-details">
+    <div class="container">
+        <div class="row gy-5">
+            <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="service-box">
+                    <h4>Citas de pacientes</h4>
+                        <div class="services-list">
+                            <a href="#" class="active"><i class="bi bi-arrow-right-circle"></i><span>Juanito Marquez                  Prox. Cita: 03/03/23</span></a>
+                            <a href="#"><i class="bi bi-arrow-right-circle"></i><span>Roman Alfredo Alegria Perez               Prox. Cita: 04/03/23</span></a>
+                            <a href="#"><i class="bi bi-arrow-right-circle"></i><span>Pancho Esquivel             Prox. Cita: 05/03/23</span></a>
+                            <a href="#"><i class="bi bi-arrow-right-circle"></i><span>Luis Andrade                Prox. Cita: 06/03/23</span></a>
+                            <a href="#"><i class="bi bi-arrow-right-circle"></i><span>Pablo Motas                 Prox. Cita: 07/03/23</span></a>
+                        </div>
+                </div>     
+            </div>
+            
+                <div class="col-lg-8 ps-lg-5" data-aos="fade-up" data-aos-delay="200">
+                    <div class="service-box">
+                        <h3>Nombre Paciente</h3>
+                        <p>
+                        Datos pacientes
+                        ...
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="agenda" class="service-details">
+
+</section>
+
+<section id="diario" class="service-details">
+
+    <div class="container">
+
+      <div class="row gy-5">
+
+        <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
+
+          <div class="service-box">
+            <h4>Notas de pacientes</h4>
+            <div class="services-list">
+              <a href="#" class="active"><i class="bi bi-arrow-right-circle"></i><span>Juanito Marquez                  Ult. Cita: 03/03/23</span></a>
+              <a href="#"><i class="bi bi-arrow-right-circle"></i><span>Roman Alfredo Alegria Perez               Ult. Cita: 04/03/23</span></a>
+              <a href="#"><i class="bi bi-arrow-right-circle"></i><span>Pancho Esquivel             Ult. Cita: 05/03/23</span></a>
+              <a href="#"><i class="bi bi-arrow-right-circle"></i><span>Luis Andrade                Ult. Cita: 06/03/23</span></a>
+              <a href="#"><i class="bi bi-arrow-right-circle"></i><span>Pablo Motas                 Ult. Cita: 07/03/23</span></a>
+            </div>
+          </div><!-- End Services List -->
+
+          <div class="service-box">
+            <h4>Descargar detalles</h4>
+            <div class="download-catalog">
+              <a href="#"><i class="bi bi-filetype-pdf"></i><span>Catalog PDF</span></a>
+              <a href="#"><i class="bi bi-file-earmark-word"></i><span>Catalog DOC</span></a>
+            </div>
+          </div><!-- End Services List -->
+
+        </div>
+        <div class="col-lg-8 ps-lg-5" data-aos="fade-up" data-aos-delay="200">
+          <div class="service-box">
+
+          <h3>Nombre Paciente</h3>
+          <p>
+            Datos pacientes
+            ...
+          </p>
+          <ul>
+            <li><i class="bi bi-check-circle"></i> <span>Aut eum totam accusantium voluptatem.</span></li>
+            <li><i class="bi bi-check-circle"></i> <span>Assumenda et porro nisi nihil nesciunt voluptatibus.</span></li>
+            <li><i class="bi bi-check-circle"></i> <span>Ullamco laboris nisi ut aliquip ex ea</span></li>
+          </ul>
+          <div class="container">
+          <div class="swiper ">
+            <template class="swiper-config">
+            {
+            "speed" : 600,
+            "slidesPerView": "auto",
+            "pagination": {
+            "el": ".swiper-pagination",
+            "type": "bullets",
+            "clickable": true
+            }
+            }
+            </template>
+            <div class="swiper-wrapper">
+              <div class="swiper-slide">
+                <div class="testimonial-item">
+                  <div class="d-flex">
+                      <div>
+                      <h5>Notas Personales</h5>
+                      
+                      </div>
+                  </div>
+                  
+                  <textarea name="notas-personales" class="form-control" id="" cols="30" rows="10" ></textarea>
+                  <button type="submit" class="btn btn-primary">Guardar nota</button>
+                </div>
+              </div><!-- End testimonial item -->
+              <div class="swiper-slide">
+                <div class="testimonial-item">
+                  <div class="d-flex">
+                    <div>
+                      <h5>Notas Compartidas</h5>
+                    </div>
+                  </div>
+                  <p> 
+                    <textarea name="notas-compartidas" class="form-control" id="" cols="30" rows="10" value=""></textarea>
+                    <button type="submit" class="btn btn-primary">Guardar nota</button>
+                  </p>
+                </div>
+              </div><!-- End testimonial item -->
+            </div>
+            <br>
+            <div class="swiper-pagination"></div>
+          </div>
+        </div>
+        </div>
+        </div>
+      </div>
+    </div>
+</section><!-- End Service-details Section -->
+{% endblock %}
+
+
+{% block scripts %}
+    
+{% endblock  %}
+    
+    
+    
