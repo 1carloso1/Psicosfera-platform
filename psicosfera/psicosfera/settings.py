@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'home',
     'login',
     'psicologo',
-    'modelos',
 ]
 
 MIDDLEWARE = [
