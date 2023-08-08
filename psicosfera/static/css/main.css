@@ -49,6 +49,33 @@
 }
 
 /*--------------------------------------------------------------
+# Google Maps
+--------------------------------------------------------------*/
+.contenedor-mapa{
+  padding: 20px 0;
+  display: none; 
+  height: 70vh;
+}
+
+.divisor-2{
+  flex: 1;
+}
+
+.mapa{
+  display: flex;
+  flex-direction: column;
+}
+
+/*--------------------------------------------------------------
+# Tarjetas de a lado
+--------------------------------------------------------------*/
+.card-small {
+  max-width: 90%; /* Ajusta este valor según tu preferencia */
+  margin: 0 auto; /* Para centrar la tarjeta si es necesario */
+  margin-bottom: 30px;
+}
+
+/*--------------------------------------------------------------
 # General
 --------------------------------------------------------------*/
 body {
@@ -2635,6 +2662,36 @@ section {
 .blog-details .sidebar .sidebar-item+.sidebar-item {
   margin-top: 40px;
 }
+
+
+.titulo-search {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 0;
+}
+
+
+#search-form .col-md-4 {
+  padding: 0 2px; /* Ajusta el espacio horizontal interno */
+}
+
+
+.align-items-end {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Estilos para el botón de búsqueda */
+.btn-search {
+  /* Asegurarse de que el botón tenga la misma altura que las cajas de texto */
+  height: 38px;
+  padding: 6px 12px; /* Ajustar el espacio de relleno según tus preferencias */
+  width: 50%; /* Hace que el botón ocupe todo el ancho del contenedor */
+}
+
+/* Estilos para el botón de búsqueda cuando se le hace hover */
 
 .blog-details .sidebar .search-form form {
   background: var(--color-background);

@@ -7,5 +7,5 @@ urlpatterns = [
     path('', Home.as_view(), name = 'home'),
     path('psicologo/', include('psicologo.urls')),
     path('login/', include('login.urls')),
-    path('perfil/', include('paciente.urls')),
+    path('paciente/', include('paciente.urls')),
 ]

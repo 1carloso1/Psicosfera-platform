@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block titulo %}
+    Psicosfera | Actividad
+{% endblock %}
+
+{% block contenido %}
+<section>
+    <div class="titulo-search">
+      <h2>Encuentra a quien necesitas</h2>
+    </div>
+    
+    <div id="search-form" class="row align-items-end">
+        <div class="col-md-3">
+            <label>¿Qué necesitas?</label>
+            <input type="text" placeholder="Especialidad médica, especialista" id="specialty-input" class="form-control">
+        </div>
+        <div class="col-md-2">
+            <label>¿En dónde?</label>
+            <div class="input-group">
+                <input type="text" placeholder="Cerca de mí" id="location-input" class="form-control">
+                <button title="Cerca de mí" onclick="getLocation()" class="btn btn-primary">&#9679;</button>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="d-grid">
+                <button  class="btn btn-primary btn-search">Buscar</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="contenedor-mapa">
+      <div class="divisor-2 mapa">
+        <div id="map" class="divisor-2"></div>
+          <!-- Aquí puedes agregar más contenido debajo del mapa si es necesario -->
+      </div>
+      <div class="divisor-2">
+        <div class="card card-small ">
+          <div class="card-body profile-card pt-4 d-flex flex-column align-items-center margen-inferior">
+            <img src="{% static 'img/img-user/profile-img.jpg' %}" alt="Profile" class="rounded-circle">
+            <br>
+            <h2>Kevin Anderson</h2>
+            <h3>Web Designer</h3>
+            <div class="social-links mt-2">
+              <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+              <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+              <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+              <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card card-small">
+          <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+            <img src="{% static 'img/img-user/profile-img.jpg' %}" alt="Profile" class="rounded-circle">
+            <br>
+            <h2>Kevin Anderson</h2>
+            <h3>Web Designer</h3>
+            <div class="social-links mt-2">
+              <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+              <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+              <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+              <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+  <script src="{% static 'js/googleMaps.js' %}" ></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDaeWicvigtP9xPv919E-RNoxfvC-Hqik&callback=iniciarMap"></script>
+  
+{% endblock %}

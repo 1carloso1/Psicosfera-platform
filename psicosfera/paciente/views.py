@@ -5,3 +5,8 @@ class PerfilView(TemplateView):
     template_name = 'users-profile.html'
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
+    
+class PacienteInterfazView(TemplateView):
+    template_name = 'interfaz-paciente.html'
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
