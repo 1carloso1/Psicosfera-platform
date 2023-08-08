@@ -31,7 +31,6 @@
   <link href="{% static 'vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
   <link href="{% static 'vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
   <link href="{% static 'vendor/aos/aos.css' %}" rel="stylesheet">
-  
 
   <!-- Template Main CSS File -->
   <link href="{% static 'css/main.css' %}" rel="stylesheet">
@@ -53,7 +52,7 @@
 
       <a href="{% url 'home' %}" class="logo d-flex align-items-center me-auto me-xl-0">
         <!-- Uncomment the line below if you also wish to use an image logo -->
-        <img src="{% static 'img/logo.png' %}" alt="logo">
+        <img src="{% static 'img/psicosfera.png' %}" alt="">
       </a>
       <!-- Nav Menu -->
       <nav id="navmenu" class="navmenu">
@@ -82,10 +81,13 @@
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav><!-- End Nav Menu -->
+      <nav>
       <a class="btn btn-getstarted" href="{% url 'registro' %}">Registrarse</a>
+      <a class="btn btn-getstarted" href="{% url 'login' %}">Iniciar Sesión</a>
+      </nav>
     </div>
   </header><!-- End Header -->
-<br>
+
   <main id="main">
     {% block contenido %}
         

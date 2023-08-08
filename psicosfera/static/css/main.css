@@ -57,6 +57,7 @@ body {
   font-family: var(--font-default);
 }
 
+
 a {
   color: var(--color-primary);
   text-decoration: none;
@@ -176,12 +177,17 @@ section {
   padding: 15px 0;
   transition: all 0.5s;
   z-index: 997;
+  max-height: 70px;
 }
 
+
 .header .logo img {
-  max-height: 40px;
+  width:280px;
+  height: 200px;
   margin-right: 6px;
 }
+
+
 
 .header .logo h1 {
   font-size: 24px;
