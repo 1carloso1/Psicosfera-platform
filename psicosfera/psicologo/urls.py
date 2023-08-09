@@ -4,4 +4,6 @@ from .views import *
 
 urlpatterns = [
     path('', Interfaz.as_view(), name = 'interfaz'),
+    path('perfil/', PerfilPsicologoView.as_view(), name = 'perfil-psicologo'),
+    
 ]
