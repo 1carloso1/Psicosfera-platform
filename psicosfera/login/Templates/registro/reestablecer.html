@@ -6,7 +6,7 @@
     Psicosfera | Reestablecer
 {% endblock %}
 
-{% block titulo %}
+{% block tituloLogin %}
     Reestablecer
 {% endblock %}
 
@@ -37,4 +37,15 @@
   <div class="text-center">
     <a class="small" href="{% url 'login' %}">¿Ya tienes cuenta? Inicia Sesión</a>
   </div>
+{% endblock %}
+
+{% block scripts %}
+    <!-- Bootstrap core JavaScript-->
+    <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="{% static 'js/carousel.js' %}"></script>
 {% endblock %}
