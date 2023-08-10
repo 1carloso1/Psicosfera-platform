@@ -18,6 +18,7 @@ class Paciente(models.Model):
     telefono = models.CharField(max_length=15)
     direccion = models.CharField(max_length=200, blank=True)
     fecha_registro = models.DateTimeField(auto_now_add=True)
+    foto_perfil = models.ImageField(upload_to='pacientes_foto_perfil/', blank=True, null=True)
 
     def __str__(self):
         return self.nombre
