@@ -1,159 +1,72 @@
+
+{% extends 'baseLogin.html' %}
+
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
+    
+{% block titulo %}
+    Psicosfera | Registro
+{% endblock %}
 
-<head>
+{% block tituloLogin %}
+    Registro
+{% endblock %}
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
+{% block btnsNav %}
+    
+{% endblock btnsNav %}
+    
 
-    <title>Registrate</title>
-
-    <!-- Custom fonts for this template-->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap">
-    <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
-
-    <!-- Custom styles for this template-->
-    <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
-
-    <!-- Template Main CSS File -->
-    <link href="{% static 'css/main.css' %}" rel="stylesheet">
-
-</head>
-
-<body class="bg-gradient-primary" class="index-page" data-bs-spy="scroll" data-bs-target="#navmenu" data-aos-easing="ease-in-out" data-aos-duration="600" data-aos-delay="0">
-
-    <!-- ======= Header ======= -->
-  <header id="header" class="header fixed-top d-flex align-items-center">
-    <div class="container-fluid d-flex align-items-center justify-content-between">
-
-      <a href="{% url 'home' %}" class="logo d-flex align-items-center me-auto me-xl-0">
-        <!-- Uncomment the line below if you also wish to use an image logo -->
-        <img src="{% static 'img/psicosfera.png' %}" alt="">
-      </a>
-      <!-- Nav Menu -->
-      <nav id="navmenu" class="navmenu">
-        <ul>
-          <li><a href="{% url 'home' %}#hero" class="active">Home</a></li>
-          <li><a href="{% url 'home' %}#about">About</a></li>
-          <li><a href="{% url 'home' %}#services">Services</a></li>
-          <li class="dropdown has-dropdown"><a href="#"><span>Dropdown</span> <i class="bi bi-chevron-down"></i></a>
-            <ul class="dd-box-shadow">
-              <li><a href="#">Dropdown 1</a></li>
-              <li class="dropdown has-dropdown"><a href="#"><span>Deep Dropdown</span> <i class="bi bi-chevron-down"></i></a>
-                <ul class="dd-box-shadow">
-                  <li><a href="#">Deep Dropdown 1</a></li>
-                  <li><a href="#">Deep Dropdown 2</a></li>
-                  <li><a href="#">Deep Dropdown 3</a></li>
-                  <li><a href="#">Deep Dropdown 4</a></li>
-                  <li><a href="#">Deep Dropdown 5</a></li>
-                </ul>
-              </li>
-              <li><a href="#">Dropdown 2</a></li>
-              <li><a href="#">Dropdown 3</a></li>
-              <li><a href="#">Dropdown 4</a></li>
-            </ul>
-          </li>
-          <li><a href="{% url 'home' %}#contact">Contact</a></li>
-        </ul>
-        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
-      </nav><!-- End Nav Menu -->
-      <nav>
-      <a class="btn btn-getstarted" href="{% url 'registro' %}">Registrarse</a>
-      <a class="btn btn-getstarted" href="{% url 'login' %}">Iniciar Sesión</a>
-      </nav>
+{% block login %}
+    <div class="text-center">
+        <h1 class="h4 text-gray-900 mb-4">¡Crea una cuenta!</h1>
     </div>
-  </header><!-- End Header -->
-
-    <div class="container">
-
-        <div class="card o-hidden border-0 shadow-lg my-5 margen-bar">
-            <div class="card-body p-0">
-                <!-- Nested Row within Card Body -->
-                <div class="row">
-                    <div class="col-lg-5 d-none d-lg-block carousel-container">
-                        <div class="carousel-text active">“La acción puede no siempre atraer la felicidad, pero no hay felicidad sin acción”. (William James)</div>
-                        <div class="carousel-text">"El perdón es un regalo que te haces a ti mismo." - Suzanne Somers</div>
-                        <div class="carousel-text">"La paciencia y la perseverancia tienen un efecto mágico en todo lo que haces." - Napoleon Hill</div>
-                        <div class="carousel-text">"No puedes controlar las olas, pero puedes aprender a surfear." - Jon Kabat-Zinn</div>
-                        <div class="carousel-text">"El optimismo es la fe que conduce al logro." - Helen Keller</div>
-                        <div class="carousel-text">"La aceptación de uno mismo es el primer paso hacia el crecimiento personal." - Desconocido</div>
-                        <div class="carousel-text">"La mente es como un jardín, si no la cuidas, puedes permitir que crezcan las malas hierbas." - Desconocido</div>
-                        <div class="carousel-text">"La vida es cambio, crecimiento y evolución. No te resistas a ellos." - Desconocido</div>                        
-                    </div>
-                    <div class="col-lg-7">
-                        <div class="p-5">
-                            <div class="text-center">
-                                <h1 class="h4 text-gray-900 mb-4">¡Crea una cuenta!</h1>
-                            </div>
-                            <form class="user">
-                                <div class="form-group row">
-                                    <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input type="text" class="form-control form-control-user" id="exampleFirstName"
-                                            placeholder="First Name">
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <input type="text" class="form-control form-control-user" id="exampleLastName"
-                                            placeholder="Last Name">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <input type="email" class="form-control form-control-user" id="exampleInputEmail"
-                                        placeholder="Email Address">
-                                </div>
-                                <div class="form-group row">
-                                    <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input type="password" class="form-control form-control-user"
-                                            id="exampleInputPassword" placeholder="Password">
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <input type="password" class="form-control form-control-user"
-                                            id="exampleRepeatPassword" placeholder="Repeat Password">
-                                    </div>
-                                </div>
-                                <a href="{% url 'registro-usuario' %}" class="btn btn-primary btn-user btn-block">
-                                    Registrar cuenta
-                                </a>
-                                <hr>
-                                <a href="index.html" class="btn btn-google btn-user btn-block">
-                                    <i class="fab fa-google fa-fw"></i> Iniciar Sesión con Google
-                                </a>
-                                <a href="index.html" class="btn btn-facebook btn-user btn-block">
-                                    <i class="fab fa-facebook-f fa-fw"></i> Iniciar Sesión con Facebook
-                                </a>
-                            </form>
-                            <hr>
-                            <div class="text-center">
-                                <a class="small" href="{% url 'reestablecer_contra' %}">¿Olvidaste tu contraseña?</a>
-                            </div>
-                            <div class="text-center">
-                                <a class="small" href="{% url 'login' %}">¿Ya tienes cuenta? Inicia Sesión</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <form class="user">
+        <div class="form-group row">
+            <div class="col-sm-6 mb-3 mb-sm-0">
+                <input type="text" class="form-control form-control-user" id="exampleFirstName"
+                    placeholder="First Name">
+            </div>
+            <div class="col-sm-6">
+                <input type="text" class="form-control form-control-user" id="exampleLastName"
+                    placeholder="Last Name">
             </div>
         </div>
-
+        <div class="form-group">
+            <input type="email" class="form-control form-control-user" id="exampleInputEmail"
+                placeholder="Email Address">
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-6 mb-3 mb-sm-0">
+                <input type="password" class="form-control form-control-user"
+                    id="exampleInputPassword" placeholder="Password">
+            </div>
+            <div class="col-sm-6">
+                <input type="password" class="form-control form-control-user"
+                    id="exampleRepeatPassword" placeholder="Repeat Password">
+            </div>
+        </div>
+        <a href="{% url 'registro-usuario' %}" class="btn btn-primary btn-user btn-block">
+            Registrar cuenta
+        </a>
+        <hr>
+        <a href="index.html" class="btn btn-google btn-user btn-block">
+            <i class="fab fa-google fa-fw"></i> Iniciar Sesión con Google
+        </a>
+        <a href="index.html" class="btn btn-facebook btn-user btn-block">
+            <i class="fab fa-facebook-f fa-fw"></i> Iniciar Sesión con Facebook
+        </a>
+    </form>
+    <hr>
+    <div class="text-center">
+        <a class="small" href="{% url 'reestablecer_contra' %}">¿Olvidaste tu contraseña?</a>
     </div>
+    <div class="text-center">
+        <a class="small" href="{% url 'login' %}">¿Ya tienes cuenta? Inicia Sesión</a>
+    </div>
+{% endblock %}
 
-    <!-- Bootstrap core JavaScript-->
-    <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
-    <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 
-    <!-- Core plugin JavaScript-->
-    <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
-
-    <!-- Custom scripts for all pages-->
-    <script src="{% static 'js/sb-admin-2.min.js' %}"></script>
-    <script src="{% static 'js/carousel.js' %}"></script>
-
-</body>
-
-</html>
+{% block scripts %}
+    
+{% endblock %}
+    

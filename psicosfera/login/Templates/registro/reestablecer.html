@@ -1,142 +1,40 @@
+{% extends 'baseLogin.html' %}
+
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
+    
+{% block titulo %}
+    Psicosfera | Reestablecer
+{% endblock %}
 
-<head>
+{% block titulo %}
+    Reestablecer
+{% endblock %}
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
+{% block btns %}
+    
+{% endblock  %}
+    
 
-    <title>¿Olvidaste tu contraseña?</title>
-
-    <!-- Custom fonts for this template-->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap">
-    <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
-
-    <!-- Custom styles for this template-->
-    <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
-    <!-- Template Main CSS File -->
-    <link href="{% static 'css/main.css' %}" rel="stylesheet">
-
-</head>
-
-<body class="bg-gradient-primary" class="index-page" data-bs-spy="scroll" data-bs-target="#navmenu" data-aos-easing="ease-in-out" data-aos-duration="600" data-aos-delay="0">
-
-    <!-- ======= Header ======= -->
-  <header id="header" class="header fixed-top d-flex align-items-center">
-    <div class="container-fluid d-flex align-items-center justify-content-between">
-
-      <a href="{% url 'home' %}" class="logo d-flex align-items-center me-auto me-xl-0">
-        <!-- Uncomment the line below if you also wish to use an image logo -->
-        <img src="{% static 'img/psicosfera.png' %}" alt="">
-      </a>
-      <!-- Nav Menu -->
-      <nav id="navmenu" class="navmenu">
-        <ul>
-          <li><a href="{% url 'home' %}#hero" class="active">Home</a></li>
-          <li><a href="{% url 'home' %}#about">About</a></li>
-          <li><a href="{% url 'home' %}#services">Services</a></li>
-          <li class="dropdown has-dropdown"><a href="#"><span>Dropdown</span> <i class="bi bi-chevron-down"></i></a>
-            <ul class="dd-box-shadow">
-              <li><a href="#">Dropdown 1</a></li>
-              <li class="dropdown has-dropdown"><a href="#"><span>Deep Dropdown</span> <i class="bi bi-chevron-down"></i></a>
-                <ul class="dd-box-shadow">
-                  <li><a href="#">Deep Dropdown 1</a></li>
-                  <li><a href="#">Deep Dropdown 2</a></li>
-                  <li><a href="#">Deep Dropdown 3</a></li>
-                  <li><a href="#">Deep Dropdown 4</a></li>
-                  <li><a href="#">Deep Dropdown 5</a></li>
-                </ul>
-              </li>
-              <li><a href="#">Dropdown 2</a></li>
-              <li><a href="#">Dropdown 3</a></li>
-              <li><a href="#">Dropdown 4</a></li>
-            </ul>
-          </li>
-          <li><a href="{% url 'home' %}#contact">Contact</a></li>
-        </ul>
-        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
-      </nav><!-- End Nav Menu -->
-      <nav>
-      <a class="btn btn-getstarted" href="{% url 'registro' %}">Registrarse</a>
-      <a class="btn btn-getstarted" href="{% url 'login' %}">Iniciar Sesión</a>
-      </nav>
+{% block login %}
+  <div class="text-center">
+    <h1 class="h4 text-gray-900 mb-2">¿Olvidaste tu contraseña?</h1>
+    <p class="mb-4">Lo entendemos, pasan cosas. ¡Simplemente ingrese su dirección de correo electrónico a continuación y le enviaremos un enlace para restablecer su contraseña!</p>
+  </div>
+  <form class="user">
+    <div class="form-group">
+        <input type="email" class="form-control form-control-user"
+            id="exampleInputEmail" aria-describedby="emailHelp"
+            placeholder="Enter Email Address...">
     </div>
-  </header><!-- End Header -->
-
-
-    <div class="container">
-
-        <!-- Outer Row -->
-        <div class="row justify-content-center margen-bar">
-
-            <div class="col-xl-10 col-lg-12 col-md-9">
-
-                <div class="card o-hidden border-0 shadow-lg my-5">
-                    <div class="card-body p-0">
-                        <!-- Nested Row within Card Body -->
-                        <div class="row">
-                            <div class="col-lg-6 d-none d-lg-block carousel-container">
-                                <div class="carousel-text">"La autenticidad es la clave para liberar el poder dentro de ti." - Oprah Winfrey</div>
-                                    <div class="carousel-text">"La resiliencia no se trata de evitar la caída, sino de aprender a recuperarse." - Desconocido</div>
-                                    <div class="carousel-text">"El autocuidado no es egoísmo. Cuidar tu bienestar es una necesidad." - Desconocido</div>
-                                    <div class="carousel-text">"La vida no se trata de encontrarte a ti mismo, sino de crearte a ti mismo." - George Bernard Shaw</div>
-                                    <div class="carousel-text">"La felicidad no es la ausencia de problemas, sino la capacidad para lidiar con ellos." - Steve Maraboli</div>
-                                    <div class="carousel-text">"Cambia tus pensamientos y cambiarás tu mundo." - Norman Vincent Peale</div>
-                                    <div class="carousel-text">"El camino hacia adelante es a través de la autorreflexión y el crecimiento personal." - Desconocido</div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="p-5">
-                                    <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-2">¿Olvidaste tu contraseña?</h1>
-                                        <p class="mb-4">Lo entendemos, pasan cosas. ¡Simplemente ingrese su dirección de correo electrónico a continuación y le enviaremos un enlace para restablecer su contraseña!</p>
-                                    </div>
-                                    <form class="user">
-                                        <div class="form-group">
-                                            <input type="email" class="form-control form-control-user"
-                                                id="exampleInputEmail" aria-describedby="emailHelp"
-                                                placeholder="Enter Email Address...">
-                                        </div>
-                                        <a href="{% url 'login' %}" class="btn btn-primary btn-user btn-block">
-                                            Reestablecer Contraseña
-                                        </a>
-                                    </form>
-                                    <hr>
-                                    <div class="text-center">
-                                        <a class="small" href="{% url 'registro' %}">Crea una cuenta</a>
-                                    </div>
-                                    <div class="text-center">
-                                        <a class="small" href="{% url 'login' %}">¿Ya tienes cuenta? Inicia Sesión</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <!-- Bootstrap core JavaScript-->
-    <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
-    <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-
-    <!-- Core plugin JavaScript-->
-    <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
-
-    <!-- Custom scripts for all pages-->
-    <script src="{% static 'js/sb-admin-2.min.js' %}"></script>
-    <script src="{% static 'js/carousel.js' %}"></script>
-
-</body>
-
-</html>
+    <a href="{% url 'login' %}" class="btn btn-primary btn-user btn-block">
+        Reestablecer Contraseña
+    </a>
+  </form>
+  <hr>
+  <div class="text-center">
+    <a class="small" href="{% url 'registro' %}">Crea una cuenta</a>
+  </div>
+  <div class="text-center">
+    <a class="small" href="{% url 'login' %}">¿Ya tienes cuenta? Inicia Sesión</a>
+  </div>
+{% endblock %}

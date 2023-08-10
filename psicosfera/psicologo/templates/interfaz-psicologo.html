@@ -7,48 +7,62 @@
 {% endblock %}
 
 
+{% block btns %}
+  <li><a href="{% url 'interfaz' %}#directorio" >Directorio</a></li>
+  <li><a href="{% url 'interfaz' %}#agenda" >Agenda</a></li>
+  <li><a href="{% url 'interfaz' %}#diario" >Diario</a></li>
+{% endblock %}
+
 {% block contenido %}
 <section id="directorio" class="service-details">
   <div class="container">
-      <h1>Directorio</h1>
+    <div class="container section-title" data-aos="fade-up">
+      <h2>Directorio de Pacientes</h2>
+    </div><!-- End Section Title -->
         <div class="row gy-5">
-            <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
-                <div class="service-box">
-                    <h4>Citas de pacientes</h4>
-                        <div class="services-list">
-                            <a href="#" class="active"><i class="bi bi-arrow-right-circle"></i><span>Juanito Marquez                  Prox. Cita: 03/03/23</span></a>
-                            <a href="#"><i class="bi bi-arrow-right-circle"></i><span>Roman Alfredo Alegria Perez               Prox. Cita: 04/03/23</span></a>
-                            <a href="#"><i class="bi bi-arrow-right-circle"></i><span>Pancho Esquivel             Prox. Cita: 05/03/23</span></a>
-                            <a href="#"><i class="bi bi-arrow-right-circle"></i><span>Luis Andrade                Prox. Cita: 06/03/23</span></a>
-                            <a href="#"><i class="bi bi-arrow-right-circle"></i><span>Pablo Motas                 Prox. Cita: 07/03/23</span></a>
-                        </div>
-                </div>     
+          <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
+              <div class="service-box">
+                <div class="container section-title" data-aos="fade-up">
+                  <h2>Citas de pacientes</h2>
+                </div><!-- End Section Title -->
+                <div class="services-list">
+                    <a href="#" class="active"><i class="bi bi-arrow-right-circle"></i><span>Juanito Marquez                  Prox. Cita: 03/03/23</span></a>
+                    <a href="#"><i class="bi bi-arrow-right-circle"></i><span>Roman Alfredo Alegria Perez               Prox. Cita: 04/03/23</span></a>
+                    <a href="#"><i class="bi bi-arrow-right-circle"></i><span>Pancho Esquivel             Prox. Cita: 05/03/23</span></a>
+                    <a href="#"><i class="bi bi-arrow-right-circle"></i><span>Luis Andrade                Prox. Cita: 06/03/23</span></a>
+                    <a href="#"><i class="bi bi-arrow-right-circle"></i><span>Pablo Motas                 Prox. Cita: 07/03/23</span></a>
+                  </div>
+              </div>     
+          </div>
+          <div class="col-lg-8 ps-lg-5" data-aos="fade-up" data-aos-delay="200">
+            <div class="service-box">
+                <h3>Nombre Paciente</h3>
+                <p>
+                Datos pacientes
+                ...
+                </p>
             </div>
-            
-                <div class="col-lg-8 ps-lg-5" data-aos="fade-up" data-aos-delay="200">
-                    <div class="service-box">
-                        <h3>Nombre Paciente</h3>
-                        <p>
-                        Datos pacientes
-                        ...
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
+          </div>
+      </div>
     </div>
+  </div>
 </section>
 
 <section id="agenda" class="service-details">
   <div class="container">  
-    <h1>Calendario de citas</h1>
+    <div class="container section-title" data-aos="fade-up">
+      <h2>Calendario de citas</h2>
+    </div><!-- End Section Title -->
     <div id='calendar'></div>
   </div>
 </section>
 
 <section id="diario" class="service-details">
   <div class="container">
-      <h1>Diario</h1>
+      
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Diario</h2>
+      </div><!-- End Section Title -->
 
       <div class="row gy-5">
 
