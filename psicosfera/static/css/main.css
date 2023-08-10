@@ -67,13 +67,69 @@
 }
 
 /*--------------------------------------------------------------
-# Tarjetas de a lado
+# Tarjetas de a lado del mapa
 --------------------------------------------------------------*/
 .card-small {
   max-width: 90%; /* Ajusta este valor según tu preferencia */
   margin: 0 auto; /* Para centrar la tarjeta si es necesario */
   margin-bottom: 30px;
 }
+
+/*--------------------------------------------------------------
+# Botones de terapia
+--------------------------------------------------------------*/
+.bg-terapia-individual {
+  background: url("/static/img/TipoDeTerapia/individual.jpg") center/cover;
+}
+.bg-terapia-familiar {
+  background: url("/static/img/TipoDeTerapia/familiar.jpg") center/cover;
+}
+.bg-terapia-parejas {
+  background: url("/static/img/TipoDeTerapia/parejas.jpg") center/cover;
+}
+.bg-terapia-grupal {
+  background: url("/static/img/TipoDeTerapia/grupal.jpg") center/cover;
+}
+.button-terapia {
+  display: flex;
+  justify-content: flex-start; /* Ajustar la justificación */
+  align-items: center;
+  height: 100%;
+ 
+  
+}
+.btn-terapia {
+    width: 300px;
+    height:  280px;
+    padding: 20px;
+    border:  none;
+    position: relative;
+  overflow: hidden;
+}
+
+.btn-terapia::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 123, 255, 0.5); /* Cambia el color de superposición */
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease; /* Agregar transición de opacidad */
+}
+
+.btn-toggle.btn-selected::before {
+  opacity: 1;
+}
+
+/* Anular margen de la columna */
+.row-no-margin {
+  margin-left: -5px;
+  margin-right: -5px;
+}
+
 
 /*--------------------------------------------------------------
 # General
@@ -2671,6 +2727,13 @@ section {
   padding: 20px 0;
 }
 
+.titulo-terapia {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 40px;
+  margin-bottom: 20px;
+}
 
 #search-form .col-md-4 {
   padding: 0 2px; /* Ajusta el espacio horizontal interno */

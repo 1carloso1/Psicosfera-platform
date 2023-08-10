@@ -8,6 +8,7 @@
 
 {% block contenido %}
 <section>
+  
     <div class="titulo-search">
       <h2>Encuentra a quien necesitas</h2>
     </div>
@@ -31,6 +32,40 @@
         </div>
     </div>
 
+    <div class="titulo-terapia">
+      <h3>¿Qué tipo de terapia buscas?</h3>
+    </div>
+
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-3 mb-4">
+            <div class="button-terapia">
+              <button class="btn btn-terapia btn-block bg-terapia-individual btn-toggle">
+              </button>
+            </div>
+          </div>
+          <div class="col-lg-3 mb-4">
+            <div class="button-terapia">
+              <button class="btn btn-terapia btn-block bg-terapia-parejas btn-toggle">
+              </button>
+            </div>
+          </div>
+          <div class="col-lg-3 mb-4">
+            <div class="button-terapia">
+              <button class="btn btn-terapia btn-block bg-terapia-familiar btn-toggle">
+              </button>
+            </div>
+          </div>
+          <div class="col-lg-3 mb-4">
+            <div class="button-terapia">
+              <button class="btn btn-terapia btn-block bg-terapia-grupal btn-toggle">
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      
     <div class="contenedor-mapa">
       <div class="divisor-2 mapa">
         <div id="map" class="divisor-2"></div>
@@ -69,11 +104,24 @@
 
       </div>
   </div>
+
+  <div class="titulo-terapia">
+    <h4 style="margin-bottom: 10px;">¿Eres un profesional y buscas ser parte de la comunidad de Psicosfera?</h4>
+  </div>
+
+  <div class="d-flex justify-content-center">
+    <div class="col-md-2">
+        <div class="d-flex align-items-center justify-content-center" style="height: 100%;">
+            <a class="btn btn-primary" href="{% url 'registro' %}">¡ÚNETE AHORA!</a>
+        </div>
+    </div>
+</div>
+
 </section>
 {% endblock %}
 
 {% block scripts %}
   <script src="{% static 'js/googleMaps.js' %}" ></script>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDaeWicvigtP9xPv919E-RNoxfvC-Hqik&callback=iniciarMap"></script>
-  
+  <script src="{% static 'js/seleccionarOpcion.js' %}" ></script>
 {% endblock %}
