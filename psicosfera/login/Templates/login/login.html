@@ -18,25 +18,25 @@
 <div class="text-center">
     <h1 class="h4 text-gray-900 mb-4">¡Bienvenido de vuelta!</h1>
 </div>
-<form class="user">
+<form class="user" method = "post" action="">
     <div class="form-group">
-        <input type="email" class="form-control form-control-user"
-            id="exampleInputEmail" aria-describedby="emailHelp"
-            placeholder="Enter Email Address...">
+    {% csrf_token %}
+    
+    
+    <div class="form-group">
+        {{form.username}}
     </div>
     <div class="form-group">
-        <input type="password" class="form-control form-control-user"
-            id="exampleInputPassword" placeholder="Password">
+        {{form.password}}
     </div>
+</div>
     <div class="form-group">
         <div class="custom-control custom-checkbox small">
             <input type="checkbox" class="custom-control-input" id="customCheck">
-            <label class="custom-control-label" for="customCheck">Recuérdame</label>
+            <label class="custom-control-label" for="customCheck">Recuérdame</label> <!--Solo es estetico-->
         </div>
     </div>
-    <a href="{% url 'home' %}" class="btn btn-primary btn-user btn-block">
-        Iniciar Sesión
-    </a>
+    <button type="submit" class="btn btn-primary btn-user btn-block">Iniciar Sesión</button>
     <hr>
     <a href="{% url 'home' %}" class="btn btn-google btn-user btn-block">
         <i class="fab fa-google fa-fw"></i> Iniciar Sesión con Google
@@ -52,7 +52,6 @@
 <div class="text-center">
     <a class="small" href="{% url 'registro' %}">Crea una cuenta</a>
 </div>
-    
 {% endblock %}
 
 

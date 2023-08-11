@@ -14,13 +14,23 @@
         
     {% endblock titulo %}
 
-    <!-- Custom fonts for this template-->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap">
-    <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
+    <!-- Favicons -->
+  <link href="{% static 'img/favicon.png' %}" rel="icon">
+  <link href="{% static 'img/apple-touch-icon.png' %}" rel="apple-touch-icon">
 
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap">
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/aos/aos.css' %}" rel="stylesheet">
+  
     <!-- Custom styles for this template-->
     <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
 
@@ -31,7 +41,7 @@
 
 <body class="bg-gradient-primary " class="index-page" data-bs-spy="scroll" data-bs-target="#navmenu" data-aos-easing="ease-in-out" data-aos-duration="600" data-aos-delay="0">
 
-    <!-- ======= Header ======= -->
+   <!-- ======= Header ======= -->
   <header id="header" class="header fixed-top d-flex align-items-center">
     <div class="container-fluid d-flex align-items-center justify-content-between">
 
@@ -42,17 +52,66 @@
       <!-- Nav Menu -->
       <nav id="navmenu" class="navmenu">
         <ul>
+          <li><a href="{% url 'home' %}" class="active">Home</a></li>
+          {% block btns %}
             
-            {% block btns %}
-                
-            {% endblock btns %}
-                
+          {% endblock btns %}
+            
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav><!-- End Nav Menu -->
       <nav>
-      <a class="btn btn-getstarted" href="{% url 'registro' %}">Registrarse</a>
-      <a class="btn btn-getstarted" href="{% url 'login' %}">Iniciar Sesión</a>
+        {% if user.is_authenticated %}
+        <div class="nav-item dropdown pe-3">
+          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+            <img src="{% static 'img/img-user/profile-img.jpg' %}" alt="Profile" class="rounded-circle" width="40" height="40">
+            <span class="d-none d-md-block dropdown-toggle ps-2">{{ user }}</span>
+          </a><!-- End Profile Image Icon -->
+  
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+            <li class="dropdown-header">
+              <h6>{{ user }}</h6>
+              <!--<span>Web Designer</span>-->
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+  
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="{% url 'perfil-paciente' %}">
+                <i class="bi bi-person"></i>
+                <span>Mi Perfil</span>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+  
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
+                <i class="bi bi-gear"></i>
+                <span>Ajustes de la cuenta</span>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+  
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="#" data-toggle="modal" data-target="#logoutModal">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Cerrar Sesión</span>
+              </a>
+            </li>
+          </ul><!-- End Profile Dropdown Items -->
+        </div><!-- End Profile Nav -->
+        {% else %}
+        <a class="btn btn-getstarted" href="{% url 'registro' %}">Registrarse</a>
+        <a class="btn btn-getstarted" href="{% url 'login' %}">Iniciar Sesión</a>
+        {% endif %}
       </nav>
     </div>
   </header><!-- End Header -->
@@ -60,7 +119,7 @@
   <main>
     <div class="container"> 
         <!-- Outer Row -->
-        <div class="row justify-content-center margen-bar">
+        <div class="row justify-content-center margen-bar margen-footer">
             <div class="col-xl-10 col-lg-12 col-md-9">
                 <div class="card o-hidden border-0 shadow-lg my-5">
                     <div class="card-body p-0">

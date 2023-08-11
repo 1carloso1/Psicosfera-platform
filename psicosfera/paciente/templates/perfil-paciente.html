@@ -1,496 +1,302 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
+{% block titulo %}
+    Psicosfera | Mi Perfil
+{% endblock %}
 
-    <title>Perfil</title>
+{% block links %}
+  <link href="{% static 'css/style.css' %}" rel="stylesheet">
+  <link href="{% static 'lightbox/css/lightbox.css' %}" rel="stylesheet">
+{% endblock links %}
 
-    <link href="{% static 'img/favicon.png' %}" rel="icon">
-    <link href="{% static 'img/apple-touch-icon.png' %}" rel="apple-touch-icon">
-  
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com" rel="preconnect">
-    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
-  
-    <!-- Vendor CSS Files -->
-    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
-    <link href="{% static 'vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
-    <link href="{% static 'vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
-    <link href="{% static 'vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
-    <link href="{% static 'vendor/aos/aos.css' %}" rel="stylesheet">
-    
-  
-    <!-- Template Main CSS File -->
-    <link href="{% static 'css/main.css' %}" rel="stylesheet">
-    <link href="{% static 'lightbox/css/lightbox.css' %}" rel="stylesheet">
- 
-</head>
+{% block contenido %}
+<section class="section profile">
+  <div class="row">
+    <div class="col-xl-4">
 
-<body class="bg-gradient-primary " class="index-page" data-bs-spy="scroll" data-bs-target="#navmenu" data-aos-easing="ease-in-out" data-aos-duration="600" data-aos-delay="0">
+      <div class="card  mt-5">
+        <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+          <img src="{% static 'img/img-user/profile-img.jpg' %}" alt="Profile" class="rounded-circle">
+          <br>
+          <h2>{{user}}</h2>
+          <h3>Web Designer</h3>
+          <div class="social-links mt-2">
+            <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+            <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+            <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+            <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+          </div>
+        </div>
+      </div>
 
-    <!-- ======= Header ======= -->
-  <header id="header" class="header fixed-top d-flex align-items-center">
-    <div class="container-fluid d-flex align-items-center justify-content-between">
+    </div>
 
-      <a href="{% url 'home' %}" class="logo d-flex align-items-center me-auto me-xl-0">
-        <!-- Uncomment the line below if you also wish to use an image logo -->
-        <img src="{% static 'img/psicosfera.png' %}" alt="">
-      </a>
-      <!-- Nav Menu -->
-      <nav id="navmenu" class="navmenu">
-        <ul>
-          <li><a href="{% url 'home' %}#hero" class="active">Home</a></li>
-          <li><a href="{% url 'home' %}#about">About</a></li>
-          <li><a href="{% url 'home' %}#services">Services</a></li>
-          <li class="dropdown has-dropdown"><a href="#"><span>Dropdown</span> <i class="bi bi-chevron-down"></i></a>
-            <ul class="dd-box-shadow">
-              <li><a href="#">Dropdown 1</a></li>
-              <li class="dropdown has-dropdown"><a href="#"><span>Deep Dropdown</span> <i class="bi bi-chevron-down"></i></a>
-                <ul class="dd-box-shadow">
-                  <li><a href="#">Deep Dropdown 1</a></li>
-                  <li><a href="#">Deep Dropdown 2</a></li>
-                  <li><a href="#">Deep Dropdown 3</a></li>
-                  <li><a href="#">Deep Dropdown 4</a></li>
-                  <li><a href="#">Deep Dropdown 5</a></li>
-                </ul>
-              </li>
-              <li><a href="#">Dropdown 2</a></li>
-              <li><a href="#">Dropdown 3</a></li>
-              <li><a href="#">Dropdown 4</a></li>
-            </ul>
-          </li>
-          <li><a href="{% url 'home' %}#contact">Contact</a></li>
-        </ul>
-        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
-      </nav><!-- End Nav Menu -->
-           <!-- Profile Dropdown -->
-      <div class="nav-item dropdown pe-3">
-        <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-          <img src="{% static 'img/img-user/profile-img.jpg' %}" alt="Profile" class="rounded-circle" width="40" height="40">
-          <span class="d-none d-md-block dropdown-toggle ps-2">K. Anderson</span>
-        </a><!-- End Profile Image Icon -->
+    <div class="col-xl-8">
 
-        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
-          <li class="dropdown-header">
-            <h6>Kevin Anderson</h6>
-            <span>Web Designer</span>
-          </li>
-          <li>
-            <hr class="dropdown-divider">
-          </li>
+      <div class="card mt-5">
+        <div class="card-body pt-3">
+          <!-- Bordered Tabs -->
+          <ul class="nav nav-tabs nav-tabs-bordered">
 
-          <li>
-            <a class="dropdown-item d-flex align-items-center" href="{% url 'perfil' %}">
-              <i class="bi bi-person"></i>
-              <span>Mi Perfil</span>
-            </a>
-          </li>
-          <li>
-            <hr class="dropdown-divider">
-          </li>
+            <li class="nav-item">
+              <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Descripción</button>
+            </li>
 
-          <li>
-            <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
-              <i class="bi bi-gear"></i>
-              <span>Ajustes de la cuenta</span>
-            </a>
-          </li>
-          <li>
-            <hr class="dropdown-divider">
-          </li>
+            <li class="nav-item">
+              <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Editar Perfil</button>
+            </li>
 
-          <li>
-            <a class="dropdown-item d-flex align-items-center" href="pages-faq.html">
-              <i class="bi bi-question-circle"></i>
-              <span>¿Necesitas ayuda?</span>
-            </a>
-          </li>
-          <li>
-            <hr class="dropdown-divider">
-          </li>
+            <li class="nav-item">
+              <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-settings">Ajustes</button>
+            </li>
 
-          <li>
-            <a class="dropdown-item d-flex align-items-center" href="#">
-              <i class="bi bi-box-arrow-right"></i>
-              <span>Cerrar Sesión</span>
-            </a>
-          </li>
-        </ul><!-- End Profile Dropdown Items -->
-      </div><!-- End Profile Nav -->
-      </header><!-- End Header -->
+            <li class="nav-item">
+              <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password">Cambiar contraseña</button>
+            </li>
 
-        <div class="pagetitle">
-          <h1>Perfil</h1>
-        </div><!-- End Page Title -->
-    
-        <section class="section profile">
-          <div class="row">
-            <div class="col-xl-4">
-    
-              <div class="card">
-                <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
-                  <img src="{% static 'img/img-user/profile-img.jpg' %}" alt="Profile" class="rounded-circle">
-                  <br>
-                  <h2>Kevin Anderson</h2>
-                  <h3>Web Designer</h3>
-                  <div class="social-links mt-2">
-                    <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
-                    <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
-                    <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
-                    <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+          </ul>
+          <div class="tab-content pt-2">
+
+            <div class="tab-pane fade show active profile-overview" id="profile-overview">
+              <h5 class="card-title">Sobre mí</h5>
+              <p class="small fst-italic">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor. Ut sunt iure rerum quae quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea saepe at unde.</p>
+
+              <h5 class="card-title">Detalles de la cuenta</h5>
+
+              <div class="row">
+                <div class="col-lg-3 col-md-4 label ">Nombre de usuario</div>
+                <div class="col-lg-9 col-md-8">{{ user }}</div>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-3 col-md-4 label ">Nombre completo</div>
+                <div class="col-lg-9 col-md-8">{{ user.get_full_name }}</div>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-3 col-md-4 label">Compañia</div>
+                <div class="col-lg-9 col-md-8">Lueilwitz, Wisoky and Leuschke</div>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-3 col-md-4 label">Puesto de trabajo</div>
+                <div class="col-lg-9 col-md-8">Web Designer</div>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-3 col-md-4 label">País</div>
+                <div class="col-lg-9 col-md-8">USA</div>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-3 col-md-4 label">Domicilio</div>
+                <div class="col-lg-9 col-md-8">A108 Adam Street, New York, NY 535022</div>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-3 col-md-4 label">Número de teléfono</div>
+                <div class="col-lg-9 col-md-8">(436) 486-3538 x29071</div>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-3 col-md-4 label">Correo electrónico</div>
+                <div class="col-lg-9 col-md-8">k.anderson@example.com</div>
+              </div>
+
+            </div>
+
+            <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
+
+              <!-- Profile Edit Form -->
+              <form>
+                <div class="row mb-3">
+                  <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Imágen de perfil</label>
+                  <div class="col-md-8 col-lg-9">
+                    <img src="{% static 'img/img-user/profile-img.jpg' %}" alt="Profile">
+                    <div class="pt-2">
+                      <a href="#" class="btn btn-primary btn-sm" title="Upload new profile image"><i class="bi bi-upload"></i></a>
+                      <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a>
+                    </div>
                   </div>
                 </div>
-              </div>
-    
-            </div>
-    
-            <div class="col-xl-8">
-    
-              <div class="card">
-                <div class="card-body pt-3">
-                  <!-- Bordered Tabs -->
-                  <ul class="nav nav-tabs nav-tabs-bordered">
-    
-                    <li class="nav-item">
-                      <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Descripción</button>
-                    </li>
-    
-                    <li class="nav-item">
-                      <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Editar Perfil</button>
-                    </li>
-    
-                    <li class="nav-item">
-                      <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-settings">Ajustes</button>
-                    </li>
-    
-                    <li class="nav-item">
-                      <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password">Cambiar contraseña</button>
-                    </li>
-    
-                  </ul>
-                  <div class="tab-content pt-2">
-    
-                    <div class="tab-pane fade show active profile-overview" id="profile-overview">
-                      <h5 class="card-title">Sobre mí</h5>
-                      <p class="small fst-italic">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor. Ut sunt iure rerum quae quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea saepe at unde.</p>
-    
-                      <h5 class="card-title">Detalles de la cuenta</h5>
-    
-                      <div class="row">
-                        <div class="col-lg-3 col-md-4 label ">Nombre completo</div>
-                        <div class="col-lg-9 col-md-8">Kevin Anderson</div>
-                      </div>
-    
-                      <div class="row">
-                        <div class="col-lg-3 col-md-4 label">Compañia</div>
-                        <div class="col-lg-9 col-md-8">Lueilwitz, Wisoky and Leuschke</div>
-                      </div>
-    
-                      <div class="row">
-                        <div class="col-lg-3 col-md-4 label">Puesto de trabajo</div>
-                        <div class="col-lg-9 col-md-8">Web Designer</div>
-                      </div>
-    
-                      <div class="row">
-                        <div class="col-lg-3 col-md-4 label">País</div>
-                        <div class="col-lg-9 col-md-8">USA</div>
-                      </div>
-    
-                      <div class="row">
-                        <div class="col-lg-3 col-md-4 label">Domicilio</div>
-                        <div class="col-lg-9 col-md-8">A108 Adam Street, New York, NY 535022</div>
-                      </div>
-    
-                      <div class="row">
-                        <div class="col-lg-3 col-md-4 label">Número de teléfono</div>
-                        <div class="col-lg-9 col-md-8">(436) 486-3538 x29071</div>
-                      </div>
-    
-                      <div class="row">
-                        <div class="col-lg-3 col-md-4 label">Correo electrónico</div>
-                        <div class="col-lg-9 col-md-8">k.anderson@example.com</div>
-                      </div>
-    
-                    </div>
-    
-                    <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
-    
-                      <!-- Profile Edit Form -->
-                      <form>
-                        <div class="row mb-3">
-                          <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Imágen de perfil</label>
-                          <div class="col-md-8 col-lg-9">
-                            <img src="{% static 'img/img-user/profile-img.jpg' %}" alt="Profile">
-                            <div class="pt-2">
-                              <a href="#" class="btn btn-primary btn-sm" title="Upload new profile image"><i class="bi bi-upload"></i></a>
-                              <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a>
-                            </div>
-                          </div>
-                        </div>
-    
-                        <div class="row mb-3">
-                          <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Nombre completo</label>
-                          <div class="col-md-8 col-lg-9">
-                            <input name="fullName" type="text" class="form-control" id="fullName" value="Kevin Anderson">
-                          </div>
-                        </div>
-    
-                        <div class="row mb-3">
-                          <label for="about" class="col-md-4 col-lg-3 col-form-label">Sobre mí</label>
-                          <div class="col-md-8 col-lg-9">
-                            <textarea name="about" class="form-control" id="about" style="height: 100px">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor. Ut sunt iure rerum quae quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea saepe at unde.</textarea>
-                          </div>
-                        </div>
-    
-                        <div class="row mb-3">
-                          <label for="company" class="col-md-4 col-lg-3 col-form-label">Compañia</label>
-                          <div class="col-md-8 col-lg-9">
-                            <input name="company" type="text" class="form-control" id="company" value="Lueilwitz, Wisoky and Leuschke">
-                          </div>
-                        </div>
-    
-                        <div class="row mb-3">
-                          <label for="Job" class="col-md-4 col-lg-3 col-form-label">Puesto de trabajo</label>
-                          <div class="col-md-8 col-lg-9">
-                            <input name="job" type="text" class="form-control" id="Job" value="Web Designer">
-                          </div>
-                        </div>
-    
-                        <div class="row mb-3">
-                          <label for="Country" class="col-md-4 col-lg-3 col-form-label">País</label>
-                          <div class="col-md-8 col-lg-9">
-                            <input name="country" type="text" class="form-control" id="Country" value="USA">
-                          </div>
-                        </div>
-    
-                        <div class="row mb-3">
-                          <label for="Address" class="col-md-4 col-lg-3 col-form-label">Domicilio</label>
-                          <div class="col-md-8 col-lg-9">
-                            <input name="address" type="text" class="form-control" id="Address" value="A108 Adam Street, New York, NY 535022">
-                          </div>
-                        </div>
-    
-                        <div class="row mb-3">
-                          <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Número de teléfono</label>
-                          <div class="col-md-8 col-lg-9">
-                            <input name="phone" type="text" class="form-control" id="Phone" value="(436) 486-3538 x29071">
-                          </div>
-                        </div>
-    
-                        <div class="row mb-3">
-                          <label for="Email" class="col-md-4 col-lg-3 col-form-label">Correo</label>
-                          <div class="col-md-8 col-lg-9">
-                            <input name="email" type="email" class="form-control" id="Email" value="k.anderson@example.com">
-                          </div>
-                        </div>
-    
-                        <div class="row mb-3">
-                          <label for="Twitter" class="col-md-4 col-lg-3 col-form-label">Perfil de Twitter</label>
-                          <div class="col-md-8 col-lg-9">
-                            <input name="twitter" type="text" class="form-control" id="Twitter" value="https://twitter.com/#">
-                          </div>
-                        </div>
-    
-                        <div class="row mb-3">
-                          <label for="Facebook" class="col-md-4 col-lg-3 col-form-label">Perfil de  Facebook</label>
-                          <div class="col-md-8 col-lg-9">
-                            <input name="facebook" type="text" class="form-control" id="Facebook" value="https://facebook.com/#">
-                          </div>
-                        </div>
-    
-                        <div class="row mb-3">
-                          <label for="Instagram" class="col-md-4 col-lg-3 col-form-label">Perfil de Instagram</label>
-                          <div class="col-md-8 col-lg-9">
-                            <input name="instagram" type="text" class="form-control" id="Instagram" value="https://instagram.com/#">
-                          </div>
-                        </div>
-    
-                        <div class="row mb-3">
-                          <label for="Linkedin" class="col-md-4 col-lg-3 col-form-label">Perfil de Linkedin</label>
-                          <div class="col-md-8 col-lg-9">
-                            <input name="linkedin" type="text" class="form-control" id="Linkedin" value="https://linkedin.com/#">
-                          </div>
-                        </div>
-    
-                        <div class="text-center">
-                          <button type="submit" class="btn btn-primary">Guardar cambios</button>
-                        </div>
-                      </form><!-- End Profile Edit Form -->
-    
-                    </div>
-    
-                    <div class="tab-pane fade pt-3" id="profile-settings">
-    
-                      <!-- Settings Form -->
-                      <form>
-    
-                        <div class="row mb-3">
-                          <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Notificaciones de Correo electrónico</label>
-                          <div class="col-md-8 col-lg-9">
-                            <div class="form-check">
-                              <input class="form-check-input" type="checkbox" id="changesMade" checked>
-                              <label class="form-check-label" for="changesMade">
-                                Cambios realizados en su cuenta
-                              </label>
-                            </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="checkbox" id="newProducts" checked>
-                              <label class="form-check-label" for="newProducts">
-                                Información sobre nuevos productos y servicios.
-                              </label>
-                            </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="checkbox" id="proOffers">
-                              <label class="form-check-label" for="proOffers">
-                                Ofertas promocionales y de marketing
-                              </label>
-                            </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="checkbox" id="securityNotify" checked disabled>
-                              <label class="form-check-label" for="securityNotify">
-                                Alertas de seguridad
-                              </label>
-                            </div>
-                          </div>
-                        </div>
-    
-                        <div class="text-center">
-                          <button type="submit" class="btn btn-primary">Guardar cambios</button>
-                        </div>
-                      </form><!-- End settings Form -->
-    
-                    </div>
-    
-                    <div class="tab-pane fade pt-3" id="profile-change-password">
-                      <!-- Change Password Form -->
-                      <form>
-    
-                        <div class="row mb-3">
-                          <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Contraseña actual</label>
-                          <div class="col-md-8 col-lg-9">
-                            <input name="password" type="password" class="form-control" id="currentPassword">
-                          </div>
-                        </div>
-    
-                        <div class="row mb-3">
-                          <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">Nueva Contraseña</label>
-                          <div class="col-md-8 col-lg-9">
-                            <input name="newpassword" type="password" class="form-control" id="newPassword">
-                          </div>
-                        </div>
-    
-                        <div class="row mb-3">
-                          <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Repita la Nueva Contraseña</label>
-                          <div class="col-md-8 col-lg-9">
-                            <input name="renewpassword" type="password" class="form-control" id="renewPassword">
-                          </div>
-                        </div>
-    
-                        <div class="text-center">
-                          <button type="submit" class="btn btn-primary">Cambiar Contraseña</button>
-                        </div>
-                      </form><!-- End Change Password Form -->
-    
-                    </div>
-    
-                  </div><!-- End Bordered Tabs -->
-    
+
+                <div class="row mb-3">
+                  <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Nombre completo</label>
+                  <div class="col-md-8 col-lg-9">
+                    <input name="fullName" type="text" class="form-control" id="fullName" value="Kevin Anderson">
+                  </div>
                 </div>
-              </div>
-    
+
+                <div class="row mb-3">
+                  <label for="about" class="col-md-4 col-lg-3 col-form-label">Sobre mí</label>
+                  <div class="col-md-8 col-lg-9">
+                    <textarea name="about" class="form-control" id="about" style="height: 100px">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor. Ut sunt iure rerum quae quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea saepe at unde.</textarea>
+                  </div>
+                </div>
+
+                <div class="row mb-3">
+                  <label for="company" class="col-md-4 col-lg-3 col-form-label">Compañia</label>
+                  <div class="col-md-8 col-lg-9">
+                    <input name="company" type="text" class="form-control" id="company" value="Lueilwitz, Wisoky and Leuschke">
+                  </div>
+                </div>
+
+                <div class="row mb-3">
+                  <label for="Job" class="col-md-4 col-lg-3 col-form-label">Puesto de trabajo</label>
+                  <div class="col-md-8 col-lg-9">
+                    <input name="job" type="text" class="form-control" id="Job" value="Web Designer">
+                  </div>
+                </div>
+
+                <div class="row mb-3">
+                  <label for="Country" class="col-md-4 col-lg-3 col-form-label">País</label>
+                  <div class="col-md-8 col-lg-9">
+                    <input name="country" type="text" class="form-control" id="Country" value="USA">
+                  </div>
+                </div>
+
+                <div class="row mb-3">
+                  <label for="Address" class="col-md-4 col-lg-3 col-form-label">Domicilio</label>
+                  <div class="col-md-8 col-lg-9">
+                    <input name="address" type="text" class="form-control" id="Address" value="A108 Adam Street, New York, NY 535022">
+                  </div>
+                </div>
+
+                <div class="row mb-3">
+                  <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Número de teléfono</label>
+                  <div class="col-md-8 col-lg-9">
+                    <input name="phone" type="text" class="form-control" id="Phone" value="(436) 486-3538 x29071">
+                  </div>
+                </div>
+
+                <div class="row mb-3">
+                  <label for="Email" class="col-md-4 col-lg-3 col-form-label">Correo</label>
+                  <div class="col-md-8 col-lg-9">
+                    <input name="email" type="email" class="form-control" id="Email" value="k.anderson@example.com">
+                  </div>
+                </div>
+
+                <div class="row mb-3">
+                  <label for="Twitter" class="col-md-4 col-lg-3 col-form-label">Perfil de Twitter</label>
+                  <div class="col-md-8 col-lg-9">
+                    <input name="twitter" type="text" class="form-control" id="Twitter" value="https://twitter.com/#">
+                  </div>
+                </div>
+
+                <div class="row mb-3">
+                  <label for="Facebook" class="col-md-4 col-lg-3 col-form-label">Perfil de  Facebook</label>
+                  <div class="col-md-8 col-lg-9">
+                    <input name="facebook" type="text" class="form-control" id="Facebook" value="https://facebook.com/#">
+                  </div>
+                </div>
+
+                <div class="row mb-3">
+                  <label for="Instagram" class="col-md-4 col-lg-3 col-form-label">Perfil de Instagram</label>
+                  <div class="col-md-8 col-lg-9">
+                    <input name="instagram" type="text" class="form-control" id="Instagram" value="https://instagram.com/#">
+                  </div>
+                </div>
+
+                <div class="row mb-3">
+                  <label for="Linkedin" class="col-md-4 col-lg-3 col-form-label">Perfil de Linkedin</label>
+                  <div class="col-md-8 col-lg-9">
+                    <input name="linkedin" type="text" class="form-control" id="Linkedin" value="https://linkedin.com/#">
+                  </div>
+                </div>
+
+                <div class="text-center">
+                  <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                </div>
+              </form><!-- End Profile Edit Form -->
+
             </div>
-          </div>
-        </section>
-    
 
-      <!-- ======= Footer ======= -->
-  <footer id="footer" class="footer">
+            <div class="tab-pane fade pt-3" id="profile-settings">
 
-    <div class="container footer-top">
-      <div class="row gy-4">
-        <div class="col-lg-5 col-md-12 footer-about">
-          <a href="{% url 'home' %}" class="logo d-flex align-items-center">
-            <span>Append</span>
-          </a>
-          <p>Cras fermentum odio eu feugiat lide par naso tierra. Justo eget nada terra videa magna derita valies darta donna mare fermentum iaculis eu non diam phasellus.</p>
-          <div class="social-links d-flex mt-4">
-            <a href=""><i class="bi bi-twitter"></i></a>
-            <a href=""><i class="bi bi-facebook"></i></a>
-            <a href=""><i class="bi bi-instagram"></i></a>
-            <a href=""><i class="bi bi-linkedin"></i></a>
-          </div>
+              <!-- Settings Form -->
+              <form>
+
+                <div class="row mb-3">
+                  <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Notificaciones de Correo electrónico</label>
+                  <div class="col-md-8 col-lg-9">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="changesMade" checked>
+                      <label class="form-check-label" for="changesMade">
+                        Cambios realizados en su cuenta
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="newProducts" checked>
+                      <label class="form-check-label" for="newProducts">
+                        Información sobre nuevos productos y servicios.
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="proOffers">
+                      <label class="form-check-label" for="proOffers">
+                        Ofertas promocionales y de marketing
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="securityNotify" checked disabled>
+                      <label class="form-check-label" for="securityNotify">
+                        Alertas de seguridad
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="text-center">
+                  <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                </div>
+              </form><!-- End settings Form -->
+
+            </div>
+
+            <div class="tab-pane fade pt-3" id="profile-change-password">
+              <!-- Change Password Form -->
+              <form>
+
+                <div class="row mb-3">
+                  <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Contraseña actual</label>
+                  <div class="col-md-8 col-lg-9">
+                    <input name="password" type="password" class="form-control" id="currentPassword">
+                  </div>
+                </div>
+
+                <div class="row mb-3">
+                  <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">Nueva Contraseña</label>
+                  <div class="col-md-8 col-lg-9">
+                    <input name="newpassword" type="password" class="form-control" id="newPassword">
+                  </div>
+                </div>
+
+                <div class="row mb-3">
+                  <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Repita la Nueva Contraseña</label>
+                  <div class="col-md-8 col-lg-9">
+                    <input name="renewpassword" type="password" class="form-control" id="renewPassword">
+                  </div>
+                </div>
+
+                <div class="text-center">
+                  <button type="submit" class="btn btn-primary">Cambiar Contraseña</button>
+                </div>
+              </form><!-- End Change Password Form -->
+
+            </div>
+
+          </div><!-- End Bordered Tabs -->
+
         </div>
-
-        <div class="col-lg-2 col-6 footer-links">
-          <h4>Useful Links</h4>
-          <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">About us</a></li>
-            <li><a href="#">Services</a></li>
-            <li><a href="#">Terms of service</a></li>
-            <li><a href="#">Privacy policy</a></li>
-          </ul>
-        </div>
-
-        <div class="col-lg-2 col-6 footer-links">
-          <h4>Our Services</h4>
-          <ul>
-            <li><a href="#">Web Design</a></li>
-            <li><a href="#">Web Development</a></li>
-            <li><a href="#">Product Management</a></li>
-            <li><a href="#">Marketing</a></li>
-            <li><a href="#">Graphic Design</a></li>
-          </ul>
-        </div>
-
-        <div class="col-lg-3 col-md-12 footer-contact text-center text-md-start">
-          <h4>Contact Us</h4>
-          <p>A108 Adam Street</p>
-          <p>New York, NY 535022</p>
-          <p>United States</p>
-          <p class="mt-4"><strong>Phone:</strong> <span>+1 5589 55488 55</span></p>
-          <p><strong>Email:</strong> <span>info@example.com</span></p>
-        </div>
-
       </div>
+
     </div>
+  </div>
+</section>
+{% endblock %}
 
-    <div class="container copyright text-center mt-4">
-      <p>&copy; <span>Copyright</span> <strong class="px-1">Append</strong> <span>All Rights Reserved</span></p>
-      <div class="credits">
-        <!-- All the links in the footer should remain intact. -->
-        <!-- You can delete the links only if you've purchased the pro version. -->
-        <!-- Licensing information: https://bootstrapmade.com/license/ -->
-        <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
-        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-      </div>
-    </div>
-
-  </footer><!-- End Footer -->
-
-    
-
-    <!-- Bootstrap core JavaScript-->
-    <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
-    <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-
-    <!-- Core plugin JavaScript-->
-    <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
-
-    <!-- Custom scripts for all pages-->
-    <script src="{% static 'js/carousel.js' %}"></script>
-
-    <link href="{% static 'lightbox/js/lightbox.js' %}" rel="stylesheet">
-    
-
-</body>
-
-</html>
+{% block scripts %}
+<link href="{% static 'lightbox/js/lightbox.js' %}" rel="stylesheet">
+{% endblock %}

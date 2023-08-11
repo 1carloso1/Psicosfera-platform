@@ -51,10 +51,9 @@
 /*--------------------------------------------------------------
 # Google Maps
 --------------------------------------------------------------*/
-.contenedor-mapa{
-  padding: 20px 0;
-  display: none; 
-  height: 70vh;
+.contenedor-mapa-contenido {
+  display: none;
+  margin-left: 40px;
 }
 
 .divisor-2{
@@ -66,13 +65,35 @@
   flex-direction: column;
 }
 
+.contenedor-mapa {
+  padding: 20px 0;
+  display: block;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-in-out;
+}
+
+.expandir {
+  max-height: auto; /* Ajusta la altura máxima según tus necesidades */
+}
+
+#expandir-boton {
+  display: block;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.expandir ~ #expandir-boton {
+  margin-top: 20px;
+}
+
 /*--------------------------------------------------------------
 # Tarjetas de a lado del mapa
 --------------------------------------------------------------*/
 .card-small {
   max-width: 90%; /* Ajusta este valor según tu preferencia */
   margin: 0 auto; /* Para centrar la tarjeta si es necesario */
-  margin-bottom: 30px;
+  margin-bottom: 10px;
 }
 
 /*--------------------------------------------------------------
@@ -2025,6 +2046,7 @@ section {
   margin-bottom: 5px;
 }
 
+
 .recent-posts .post-date {
   font-size: 14px;
   color: rgba(var(--color-default-rgb), 0.5);
@@ -2732,7 +2754,7 @@ section {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 40px;
+  margin-top: 30px;
   margin-bottom: 20px;
 }
 
@@ -3041,4 +3063,13 @@ section {
 .blog-details .comments .reply-form .btn-primary:hover {
   color: var(--color-inverse);
   background-color: rgba(var(--color-primary-rgb), 0.8);
+}
+
+.no-border {
+  border: none;
+  outline: none;
+}
+
+.no-padding {
+  padding: 0;
 }

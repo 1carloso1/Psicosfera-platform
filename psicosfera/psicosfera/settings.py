@@ -143,3 +143,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
 CRISPY_TEMPLATE_PACK = "bootstrap4"
+
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+SESSION_COOKIE_SECURE = True  # Solo si estás utilizando HTTPS
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+SESSION_COOKIE_HTTPONLY = True
