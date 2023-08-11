@@ -19,25 +19,25 @@
 
 /* Global Colors */
 :root {
-  --color-default: #212529;
-  --color-default-rgb: 33, 37, 41;
+  --color-default: #3498db;
+  --color-default-rgb: 52, 152, 219;
   --color-background: #ffffff;
   --color-background-rgb: 255, 255, 255;
-  --color-primary: #e84545;
-  --color-primary-rgb: 232, 69, 69;
-  --color-secondary: #32353a;
-  --color-secondary-rgb: 50, 53, 58;
+  --color-primary: #1abc9c;
+  --color-primary-rgb: 26, 188, 156;
+  --color-secondary: #9b59b6;
+  --color-secondary-rgb: 155, 89, 182;
   --color-box-background: #ffffff;
   --color-box-background-rgb: 255, 255, 255;
-  --color-inverse: #ffffff;
-  --color-inverse-rgb: 255, 255, 255;
+  --color-inverse: #95a5a6;
+  --color-inverse-rgb: 149, 165, 166;
 }
 
 /* Nav Menu Colors */
 :root {
-  --color-nav: #3a3939;
+  --color-nav: #3498db;
   --color-nav-hover: #e84545;
-  --color-nav-dropdown: #3a3939;
+  --color-nav-dropdown: #3498db;
   --color-nav-dropdown-hover: #e84545;
   --color-nav-dropdown-background: #ffffff;
   --color-nav-mobile-background: #ffffff;
@@ -323,8 +323,8 @@ section {
 ------------------------------*/
 .scrolled .header {
   --color-background: #ffffff;
-  --color-secondary: #444444;
-  --color-nav: #444444;
+  --color-secondary: #95a5a6;
+  --color-nav: #95a5a6;
   --color-nav-hover: #e84545;
   box-shadow: 0 0 30px 10px rgba(0, 0, 0, 0.1);
 }
@@ -354,9 +354,9 @@ section {
 ------------------------------*/
 .index-page.scrolled .header {
   --color-background: #ffffff;
-  --color-secondary: #444444;
-  --color-nav: #444444;
-  --color-nav-hover: #d83535;
+  --color-secondary: #95a5a6;
+  --color-nav: #95a5a6;
+  --color-nav-hover: #a435d8;
 }
 
 /*--------------------------------------------------------------
