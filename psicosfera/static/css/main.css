@@ -773,6 +773,7 @@ section {
   background-color: var(--color-background);
   font-size: 14px;
   padding-bottom: 50px;
+  z-index: 4;
 }
 
 .footer .footer-top {
