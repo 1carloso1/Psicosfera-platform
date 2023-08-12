@@ -19,29 +19,30 @@
 
 /* Global Colors */
 :root {
-  --color-default: #3498db;
-  --color-default-rgb: 52, 152, 219;
-  --color-background: #ffffff;
-  --color-background-rgb: 255, 255, 255;
-  --color-primary: #1abc9c;
-  --color-primary-rgb: 26, 188, 156;
-  --color-secondary: #9b59b6;
-  --color-secondary-rgb: 155, 89, 182;
-  --color-box-background: #ffffff;
-  --color-box-background-rgb: 255, 255, 255;
-  --color-inverse: #95a5a6;
-  --color-inverse-rgb: 149, 165, 166;
+  --color-default: #7c6f67;
+  --color-default-rgb: 124, 111, 103;
+  --color-background: #f9fbfa;
+  --color-background-rgb: 249, 251, 250;
+  --color-primary: #6caedc;
+  --color-primary-rgb: 108, 174, 220;
+  --color-secondary: #000000;
+  --color-secondary-rgb: 0, 0, 0;
+  --color-box-background: #f5e7d8;
+  --color-box-background-rgb: 245, 231, 216;
+  --color-inverse: #070607;
+  --color-inverse-rgb: 208, 162, 216;
 }
 
 /* Nav Menu Colors */
 :root {
-  --color-nav: #3498db;
-  --color-nav-hover: #e84545;
-  --color-nav-dropdown: #3498db;
-  --color-nav-dropdown-hover: #e84545;
-  --color-nav-dropdown-background: #ffffff;
-  --color-nav-mobile-background: #ffffff;
+  --color-nav: #7e8a92;
+  --color-nav-hover: #6caedc;
+  --color-nav-dropdown: #7e8a92;
+  --color-nav-dropdown-hover: #6caedc;
+  --color-nav-dropdown-background: #d0e0d8;
+  --color-nav-mobile-background: #d0e0d8;
 }
+
 
 /* Smooth scroll */
 :root {
@@ -51,9 +52,10 @@
 /*--------------------------------------------------------------
 # Google Maps
 --------------------------------------------------------------*/
-.contenedor-mapa-contenido {
-  display: none;
-  margin-left: 40px;
+.contenedor-mapa{
+  padding: 20px 0;
+  display: none; 
+  height: 70vh;
 }
 
 .divisor-2{
@@ -65,35 +67,13 @@
   flex-direction: column;
 }
 
-.contenedor-mapa {
-  padding: 20px 0;
-  display: block;
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.3s ease-in-out;
-}
-
-.expandir {
-  max-height: auto; /* Ajusta la altura máxima según tus necesidades */
-}
-
-#expandir-boton {
-  display: block;
-  text-align: center;
-  margin-top: 10px;
-}
-
-.expandir ~ #expandir-boton {
-  margin-top: 20px;
-}
-
 /*--------------------------------------------------------------
 # Tarjetas de a lado del mapa
 --------------------------------------------------------------*/
 .card-small {
   max-width: 90%; /* Ajusta este valor según tu preferencia */
   margin: 0 auto; /* Para centrar la tarjeta si es necesario */
-  margin-bottom: 10px;
+  margin-bottom: 30px;
 }
 
 /*--------------------------------------------------------------
@@ -341,7 +321,6 @@ section {
 }
 
 /* Global Header on page scroll
-------------------------------*/
 .scrolled .header {
   --color-background: #ffffff;
   --color-secondary: #95a5a6;
@@ -349,6 +328,7 @@ section {
   --color-nav-hover: #e84545;
   box-shadow: 0 0 30px 10px rgba(0, 0, 0, 0.1);
 }
+------------------------------*/
 
 /* Global Scroll Margin Top
 ------------------------------*/
@@ -363,22 +343,22 @@ section {
 }
 
 /* Home Page Custom Header
-------------------------------*/
 .index-page .header {
   --color-background: rgba(255, 255, 255, 0);
   --color-secondary: #ffffff;
   --color-nav: rgba(255, 255, 255, 0.515);
   --color-nav-hover: #ffffff;
 }
+------------------------------*/
 
 /* Home Page Custom Header on page scroll
-------------------------------*/
 .index-page.scrolled .header {
   --color-background: #ffffff;
   --color-secondary: #95a5a6;
   --color-nav: #95a5a6;
   --color-nav-hover: #a435d8;
 }
+------------------------------*/
 
 /*--------------------------------------------------------------
 # Navigation Menu
@@ -2046,7 +2026,6 @@ section {
   margin-bottom: 5px;
 }
 
-
 .recent-posts .post-date {
   font-size: 14px;
   color: rgba(var(--color-default-rgb), 0.5);
@@ -2479,6 +2458,14 @@ section {
   color: var(--color-primary);
 }
 
+.service-details .guardar input[type=submit] {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  padding: 8px 20px 10px 20px;
+  border-radius: 7px;
+  color: var(--color-inverse);
+}
+
 /*--------------------------------------------------------------
 # Blog Page
 --------------------------------------------------------------*/
@@ -2754,7 +2741,7 @@ section {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 30px;
+  margin-top: 40px;
   margin-bottom: 20px;
 }
 
@@ -3063,13 +3050,4 @@ section {
 .blog-details .comments .reply-form .btn-primary:hover {
   color: var(--color-inverse);
   background-color: rgba(var(--color-primary-rgb), 0.8);
-}
-
-.no-border {
-  border: none;
-  outline: none;
-}
-
-.no-padding {
-  padding: 0;
 }
