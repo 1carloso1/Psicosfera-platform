@@ -40,16 +40,29 @@
 
     <div class="container">
       <div class="row">
+        {% if user.is_authenticated %}
         <div class="col-lg-10">
-          <h2 data-aos="fade-up" data-aos-delay="100">Bienvenido a Psicosfera.</h2>
-          <p data-aos="fade-up" data-aos-delay="200">Tu salud mental, nuestro compromiso total.</p>
+          <h2 data-aos="fade-up" data-aos-delay="100">Bienvenido a Psicosfera, {{user}}.</h2>
+          <p data-aos="fade-up" data-aos-delay="200">Busca a quien necesitas.</p>
         </div>
         <div class="col-lg-5">
           <form action="#" class="sign-up-form d-flex" data-aos="fade-up" data-aos-delay="300">
-            <input type="text" class="form-control" placeholder="Correo electronico">
-            <input type="submit" class="btn btn-success" value="Iniciar sesión">
+            <input type="text" class="form-control" id="nombre-usuario" placeholder="Encuentra a un profesional" readonly>
+            <input type="submit" class="btn btn-success" value="¡Comienza ahora!" formaction="{% url 'paciente' %}">
           </form>
         </div>
+        {% else %}
+        <div class="col-lg-10">
+          <h2 data-aos="fade-up" data-aos-delay="100">Bienvenido a Psicosfera.</h2>
+          <p data-aos="fade-up" data-aos-delay="200">Tu salud mental, nuestro compromiso total.</p>
+        </div>
+        <div class="col-lg-5">
+          <form action="#" class="sign-up-form d-flex" data-aos="fade-up" data-aos-delay="300">
+            <input type="text" class="form-control" id="nombre-usuario" placeholder="Ingresa con tu cuenta para comenzar." readonly>
+            <input type="submit" class="btn btn-success" value="Iniciar sesión" formaction="{% url 'login' %}">
+          </form>
+        </div>
+        {% endif %}
       </div>
     </div>
 
@@ -239,3 +252,5 @@
   
 {% endblock %}
   
+{% block scripts %}
+{% endblock scripts %}
