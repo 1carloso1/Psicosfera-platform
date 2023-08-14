@@ -11,7 +11,7 @@
 {% endblock %}
 
 {% block btns %}
-    
+     
 {% endblock %}
 
 {% block contenido %}
@@ -21,15 +21,19 @@
 <form class="user" method = "post" action="">
     <div class="form-group">
     {% csrf_token %}
-    
-    
     <div class="form-group">
         {{form.username}}
     </div>
     <div class="form-group">
         {{form.password}}
     </div>
-</div>
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
     <div class="form-group">
         <div class="custom-control custom-checkbox small">
             <input type="checkbox" class="custom-control-input" id="customCheck">
@@ -54,15 +58,4 @@
 </div>
 {% endblock %}
 
-
-{% block scripts %}
-    <!-- Bootstrap core JavaScript-->
-    <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
-
-    <!-- Core plugin JavaScript-->
-    <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
-
-    <!-- Custom scripts for all pages-->
-    <script src="{% static 'js/carousel.js' %}"></script>
-{% endblock %}
     

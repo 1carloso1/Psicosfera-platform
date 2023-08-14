@@ -52,10 +52,9 @@
 /*--------------------------------------------------------------
 # Google Maps
 --------------------------------------------------------------*/
-.contenedor-mapa{
-  padding: 20px 0;
-  display: none; 
-  height: 70vh;
+.contenedor-mapa-contenido {
+  display: none;
+  margin-left: 40px;
 }
 
 .divisor-2{
@@ -65,6 +64,28 @@
 .mapa{
   display: flex;
   flex-direction: column;
+}
+
+.contenedor-mapa {
+  padding: 20px 0;
+  display: block;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-in-out;
+}
+
+.expandir {
+  max-height: auto; /* Ajusta la altura máxima según tus necesidades */
+}
+
+#expandir-boton {
+  display: block;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.expandir ~ #expandir-boton {
+  margin-top: 20px;
 }
 
 /*--------------------------------------------------------------
@@ -763,7 +784,26 @@ section {
     transition-delay: 0 !important;
   }
 }
+/*--------------------------------------------------------------
+# Mensajes de error
+--------------------------------------------------------------*/
+/* Estilos para mensajes de error */
+.messages .error {
+  color: red;
+  font-size: 14px;
+}
 
+/* Estilos para mensajes de éxito */
+.messages .success {
+  color: green;
+  font-size: 14px;
+}
+
+/* Estilos para mensajes de advertencia */
+.messages .warning {
+  color: orange;
+  font-size: 14px;
+}
 /*--------------------------------------------------------------
 # Footer
 --------------------------------------------------------------*/
