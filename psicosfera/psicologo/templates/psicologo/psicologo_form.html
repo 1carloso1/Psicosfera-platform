@@ -1,0 +1,160 @@
+{% load static %}
+{% load bootstrap4 %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Datos Del Psicólogo</title>
+    <!-- Mobile Specific Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <!-- Font-->
+    <link href="{% static 'css/montserrat-font.css' %}" rel="stylesheet">
+    <link href="{% static 'css/material-design-iconic-font.min.css' %}" rel="stylesheet">
+
+    <!-- Main Style Css -->
+    <link href="{% static 'css/style2.css' %}" rel="stylesheet">
+</head>
+
+<body>
+    <div class="page-content">
+        <div class="wizard-v10-content">
+            <div class="wizard-form">
+                <div class="wizard-header">
+                    <h3>Datos del Psicólogo</h3>
+                </div>
+                <form class="form-register" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div id="form-total">
+                        <!-- SECTION 1 -->
+                        <h2>1</h2>
+                        <section>
+                            <div class="inner">
+                                <div class="form-row">
+                                    <div class="form-holder form-holder-2">
+                                        {{ form.cedula.label_tag }}
+                                        {{ form.cedula }}
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-holder form-holder-2">
+                                        {{ form.nombre.label_tag }}
+                                        {{ form.nombre }}
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-holder form-holder-2">
+                                        {{ form.apaterno.label_tag }}
+                                        {{ form.apaterno }}
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-holder form-holder-2">
+                                        {{ form.amaterno.label_tag }}
+                                        {{ form.amaterno }}
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-holder form-holder-2">
+                                        {{ form.fecha_nacimiento.label_tag }}
+                                        <input type="date" class="form-control" id="{{ form.fecha_nacimiento.id_for_label }}" name="{{ form.fecha_nacimiento.name }}">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-holder form-holder-2">
+                                        {{ form.edad.label_tag }}
+                                        {{ form.edad }}
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <!-- SECTION 2 -->
+                        <h2>2</h2>
+                        <section>
+                            <div class="inner">
+                                <div class="form-row">
+                                    <div class="form-holder form-holder-2">
+                                        <label for="{{ form.correo.id_for_label }}">Correo Electrónico:</label>
+                                        <input type="email" class="form-control" id="{{ form.correo.id_for_label }}" name="{{ form.correo.name }}" pattern="[^@]+@[^@]+\.[a-zA-Z]{2,6}">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-holder form-holder-2">
+                                        <label for="{{ form.telefono.id_for_label }}">Teléfono:</label>
+                                        <input type="tel" class="form-control" id="{{ form.telefono.id_for_label }}" name="{{ form.telefono.name }}" pattern="[0-9]{10,15}">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-holder form-holder-2">
+                                        {{ form.ubicacion.label_tag }}
+                                        {{ form.ubicacion }}
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-holder form-holder-2">
+                                        {{ form.descripcion.label_tag }}
+                                        {{ form.descripcion }}
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <!-- SECTION 3 -->
+                        <h2>3</h2>
+                        <section>
+                            <div class="inner">
+                                <div class="form-row">
+                                    <div class="form-holder form-holder-2">
+                                        {{ form.direccion.label_tag }}
+                                        {{ form.direccion }}
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-holder form-holder-2">
+                                        {{ form.sexo.label_tag }}
+                                        {{ form.sexo }}
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-holder form-holder-2">
+                                        {{ form.especialidad.label_tag }}
+                                        {{ form.especialidad }}
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <!-- SECTION 4 -->
+                        <h2>4</h2>
+                        <section>
+                            <div class="inner">
+                                <div class="form-row">
+                                    <div class="form-holder form-holder-2">
+                                        <label for="{{ form.foto_perfil.id_for_label }}">Foto de Perfil:</label>
+                                        <input type="file" class="form-control" id="{{ form.foto_perfil.id_for_label }}" name="{{ form.foto_perfil.name }}">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-holder form-holder-2">
+                                        <label for="{{ form.certificado.id_for_label }}">Certificado:</label>
+                                        <input type="file" class="form-control" id="{{ form.certificado.id_for_label }}" name="{{ form.certificado.name }}">
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                    <button type="submit" class="btn btn-success">
+                        {% if accion == 'Nuevo' %}
+                            Agregar
+                        {% else %}
+                            Guardar
+                        {% endif %}        
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'js/jquery.steps.js' %}"></script>
+    <script src="{% static 'js/main2.js' %}"></script>
+</body>
+
+</html>

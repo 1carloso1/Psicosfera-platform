@@ -9,8 +9,8 @@ SEXO_CHOICES = (
 class Psicologo(models.Model):
     cedula = models.CharField(primary_key=True, max_length=8)
     nombre = models.CharField(max_length=100)
-    apaterno = models.CharField(max_length=120)
-    amaterno= models.CharField(max_length=120)
+    apaterno = models.CharField(max_length=120, verbose_name="Primer Apellido")
+    amaterno= models.CharField(max_length=120, verbose_name="Segundo Apellido")
     edad = models.PositiveIntegerField()
     sexo = models.CharField(max_length=1, choices=SEXO_CHOICES)
     especialidad = models.CharField(max_length=120)

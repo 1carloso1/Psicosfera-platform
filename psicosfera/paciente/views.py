@@ -22,5 +22,5 @@ class NuevoPaciente(CreateView):
     form_class = FormPaciente
     # fields = '__all__'
     success_url = reverse_lazy('home') # Modificar la url cuando este la interfaz de usuario 
-    extra_context = {'accion': 'Nueva'}
+    extra_context = {'accion': 'Nuevo'}
      
