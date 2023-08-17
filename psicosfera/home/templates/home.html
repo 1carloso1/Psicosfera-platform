@@ -3,14 +3,17 @@
 
 
 {% block titulo %}
-  Psicosfera | Contacta a un profesional
+Psicosfera | Contacta a un profesional
 {% endblock %}
- 
+
 
 {% block btns %}
-  <li><a href="{% url 'home' %}#about">¿Qué somos?</a></li>
-  <li><a href="{% url 'home' %}#porque">¿Por qué usar psicosfera?</a></li>
- <!--
+<li><a href="{% url 'home' %}#Nosotros">Nosotros</a></li>
+<li><a href="{% url 'home' %}#porque">¿Por qué usar psicosfera?</a></li>
+<li><a href="{% url 'home' %}#Psicologos">Psicólogos</a></li>
+<li><a href="{% url 'home' %}#P&R">P&R</a></li>
+<li><a href="{% url 'home' %}#Contacto">Contacto</a></li>
+<!--
   <li class="dropdown has-dropdown"><a href="#"><span>Dropdown</span> <i class="bi bi-chevron-down"></i></a>
     <ul class="dd-box-shadow">
       <li><a href="#">Dropdown 1</a></li>
@@ -28,137 +31,146 @@
       <li><a href="#">Dropdown 4</a></li>
     </ul>
   </li>
---> 
+-->
 {% endblock %}
-  
+
 
 {% block contenido %}
-  <!-- Hero Section - Home Page -->
-  <section id="hero" class="hero">
+<!-- Hero Section - Home Page -->
+<section id="hero" class="hero">
 
-    <img src="{% static 'img/hero-bg.jpg' %}" alt="" data-aos="fade-in">
+  <img src="{% static 'img/hero-bg.jpg' %}" alt="" data-aos="fade-in">
 
-    <div class="container">
-      <div class="row">
-        {% if user.is_authenticated %}
-        <div class="col-lg-10">
-          <h2 data-aos="fade-up" data-aos-delay="100">Bienvenido a Psicosfera, {{user}}.</h2>
-          <p data-aos="fade-up" data-aos-delay="200">Busca a quien necesitas.</p>
-        </div>
-        <div class="col-lg-5">
-          <form action="#" class="sign-up-form d-flex" data-aos="fade-up" data-aos-delay="300">
-            <input type="text" class="form-control" id="nombre-usuario" placeholder="Encuentra a un profesional" readonly>
-            <input type="submit" class="btn btn-success" value="¡Comienza ahora!" formaction="{% url 'paciente' %}">
-          </form>
-        </div>
-        {% else %}
-        <div class="col-lg-10">
-          <h2 data-aos="fade-up" data-aos-delay="100">Bienvenido a Psicosfera.</h2>
-          <p data-aos="fade-up" data-aos-delay="200">Tu salud mental, nuestro compromiso total.</p>
-        </div>
-        <div class="col-lg-5">
-          <form action="#" class="sign-up-form d-flex" data-aos="fade-up" data-aos-delay="300">
-            <input type="text" class="form-control" id="nombre-usuario" placeholder="Ingresa con tu cuenta para comenzar." readonly>
-            <input type="submit" class="btn btn-success" value="Iniciar sesión" formaction="{% url 'login' %}">
-          </form>
-        </div>
-        {% endif %}
+  <div class="container">
+    <div class="row">
+      {% if user.is_authenticated %}
+      <div class="col-lg-10">
+        <h2 data-aos="fade-up" data-aos-delay="100">Bienvenido a Psicosfera, {{user}}.</h2>
+        <!-- <p data-aos="fade-up" data-aos-delay="200">Busca a quien necesitas.</p> -->
+        <p data-aos="fade-up" data-aos-delay="200">Tu salud mental, nuestro compromiso total.</p>
       </div>
+      <div class="col-lg-5">
+        <form action="#" class="sign-up-form d-flex" data-aos="fade-up" data-aos-delay="300">
+          <input type="text" class="form-control" id="nombre-usuario" placeholder="Encuentra a un profesional" readonly>
+          <input type="submit" class="btn btn-success" value="¡Comienza ahora!" formaction="{% url 'paciente' %}">
+        </form>
+      </div>
+      {% else %}
+      <div class="col-lg-10">
+        <h2 data-aos="fade-up" data-aos-delay="100">Bienvenido a Psicosfera.</h2>
+        <p data-aos="fade-up" data-aos-delay="200">Tu salud mental, nuestro compromiso total.</p>
+      </div>
+      <div class="col-lg-5">
+        <form action="#" class="sign-up-form d-flex" data-aos="fade-up" data-aos-delay="300">
+          <input type="text" class="form-control" id="nombre-usuario" placeholder="Ingresa con tu cuenta para comenzar."
+            readonly>
+          <input type="submit" class="btn btn-success" value="Iniciar sesión" formaction="{% url 'login' %}">
+        </form>
+      </div>
+      {% endif %}
     </div>
+  </div>
 
-  </section><!-- End Hero Section -->
+</section><!-- End Hero Section -->
 
-  <!-- 'About' Section - Home Page -->
-  <section id="about" class="portfolio-details">
+<!-- 'About' Section - Home Page -->
+<section id="about" class="portfolio-details">
 
-    <div class="container" data-aos="fade-up" data-aos-delay="100" >
-      <!-- <div class="container col-lg-8" data-aos="fade-up" data-aos-delay="100" > -->
-      
-      <div class="row align-items-xl-center gy-5  d-flex justify-content-center">
+  <div class="container" data-aos="fade-up" data-aos-delay="100">
+    <!-- <div class="container col-lg-8" data-aos="fade-up" data-aos-delay="100" > -->
 
-        <div class="portfolio-details-slider swiper">
-          <template class="swiper-config">
-            {
-            "loop": true,
-            "speed" : 600,
-            "autoplay": {
-            "delay": 5000
-            },
-            "slidesPerView": "auto",
-            "navigation": {
-            "nextEl": ".swiper-button-next",
-            "prevEl": ".swiper-button-prev"
-            }
-            }
-          </template>
-          <!--  Section Title -->
-          <div class="container section-title" data-aos="fade-up">
-            <h2>¿Qué somos?</h2>
-          </div><!-- End Section Title -->
-          <div class="swiper-wrapper align-items-center ">
-            <div class="swiper-slide ">
-              <div class="position-relative d-flex justify-content-center align-items-center ">
-                <img src="{% static 'img/portfolio/app-1.jpg' %}" alt="Imagen" class="img-fluid " >
-                <div class="position-absolute top-50 start-50 translate-middle p-3 text-center">
-                  <h2 class="text-light">Texto Superpuesto</h2>
-                  <p class="text-light">Ipsa sint sit. Quis ducimus tempore dolores impedit et dolor cumque alias maxime. Enim reiciendis minus et rerum hic non. Dicta quas cum quia maiores iure. Quidem nulla qui assumenda incidunt voluptatem tempora deleniti soluta.</p>
-                  <a href="#" class="read-more"><span>Ver más</span><i class="bi bi-arrow-right"></i></a>
-                </div>
-              </div>
-            </div>
-            <div class="swiper-slide">
-              <div class="position-relative d-flex justify-content-center align-items-center">
-                <img src="{% static 'img/portfolio/product-1.jpg' %}" alt="Imagen" class="img-fluid">
-                <div class="position-absolute top-50 start-50 translate-middle p-3 text-center">
-                  <h2 class="text-light">Texto Superpuesto</h2>
-                  <p class="text-light">Ipsa sint sit. Quis ducimus tempore dolores impedit et dolor cumque alias maxime. Enim reiciendis minus et rerum hic non. Dicta quas cum quia maiores iure. Quidem nulla qui assumenda incidunt voluptatem tempora deleniti soluta.</p>
-                  <a href="#" class="read-more"><span>Ver más</span><i class="bi bi-arrow-right"></i></a>
-                </div>
-              </div>
-            </div>
-            <div class="swiper-slide">
-              <div class="position-relative d-flex justify-content-center align-items-center">
-                <img src="{% static 'img/portfolio/app-1.jpg' %}" alt="Imagen" class="img-fluid">
-                <div class="position-absolute top-50 start-50 translate-middle p-3 text-center">
-                  <h2 class="text-light">Ducimus rerum libero reprehenderit cumque</h2>
-                  <p class="text-light">Ipsa sint sit. Quis ducimus tempore dolores impedit et dolor cumque alias maxime. Enim reiciendis minus et rerum hic non. Dicta quas cum quia maiores iure. Quidem nulla qui assumenda incidunt voluptatem tempora deleniti soluta.</p>
-                  <a href="#" class="read-more"><span>Ver más</span><i class="bi bi-arrow-right"></i></a>
-                </div>
-              </div>
-            </div>
-            <div class="swiper-slide">
-              <div class="position-relative d-flex justify-content-center align-items-center">
-                <img src="{% static 'img/portfolio/branding-1.jpg' %}" alt="Imagen" class="img-fluid">
-                <div class="position-absolute top-50 start-50 translate-middle p-3 text-center">
-                  <h2 class="text-light">Ducimus rerum libero reprehenderit cumque</h2>
-                  <p class="text-light">Ipsa sint sit. Quis ducimus tempore dolores impedit et dolor cumque alias maxime. Enim reiciendis minus et rerum hic non. Dicta quas cum quia maiores iure. Quidem nulla qui assumenda incidunt voluptatem tempora deleniti soluta.</p>
-                  <a href="#" class="read-more"><span>Ver más</span><i class="bi bi-arrow-right"></i></a>
-                </div>
-              </div>
-            </div>
-            <div class="swiper-slide">
-              <div class="position-relative d-flex justify-content-center align-items-center">
-                <img src="{% static 'img/portfolio/books-1.jpg' %}" alt="Imagen" class="img-fluid">
-                <div class="position-absolute top-50 start-50 translate-middle p-3 text-center">
-                  <h2 class="text-light">Ducimus rerum libero reprehenderit cumque</h2>
-                  <p class="text-light">Ipsa sint sit. Quis ducimus tempore dolores impedit et dolor cumque alias maxime. Enim reiciendis minus et rerum hic non. Dicta quas cum quia maiores iure. Quidem nulla qui assumenda incidunt voluptatem tempora deleniti soluta.</p>
-                  <a href="#" class="read-more"><span>Ver más</span><i class="bi bi-arrow-right"></i></a>
-                </div>
+    <div class="row align-items-xl-center gy-5  d-flex justify-content-center">
+
+      <div class="portfolio-details-slider swiper">
+        <template class="swiper-config">
+          {
+          "loop": true,
+          "speed" : 600,
+          "autoplay": {
+          "delay": 5000
+          },
+          "slidesPerView": "auto",
+          "navigation": {
+          "nextEl": ".swiper-button-next",
+          "prevEl": ".swiper-button-prev"
+          }
+          }
+        </template>
+        <!--  Section Title -->
+        <div class="container section-title" data-aos="fade-up">
+          <h2>¿Cómo funciona?</h2>
+        </div><!-- End Section Title -->
+        <div class="swiper-wrapper align-items-center ">
+          <div class="swiper-slide ">
+            <div class="position-relative d-flex justify-content-center align-items-center ">
+              <img src="{% static 'img/portfolio/app-1.jpg' %}" alt="Imagen" class="img-fluid ">
+              <div class="position-absolute top-50 start-50 translate-middle p-3 text-center">
+                <h2 class="text-light">Texto Superpuesto</h2>
+                <p class="text-light">Ipsa sint sit. Quis ducimus tempore dolores impedit et dolor cumque alias maxime.
+                  Enim reiciendis minus et rerum hic non. Dicta quas cum quia maiores iure. Quidem nulla qui assumenda
+                  incidunt voluptatem tempora deleniti soluta.</p>
+                <a href="#" class="read-more"><span>Ver más</span><i class="bi bi-arrow-right"></i></a>
               </div>
             </div>
           </div>
-          <div class="swiper-button-prev"></div>
-          <div class="swiper-button-next"></div>
+          <div class="swiper-slide">
+            <div class="position-relative d-flex justify-content-center align-items-center">
+              <img src="{% static 'img/portfolio/product-1.jpg' %}" alt="Imagen" class="img-fluid">
+              <div class="position-absolute top-50 start-50 translate-middle p-3 text-center">
+                <h2 class="text-light">Texto Superpuesto</h2>
+                <p class="text-light">Ipsa sint sit. Quis ducimus tempore dolores impedit et dolor cumque alias maxime.
+                  Enim reiciendis minus et rerum hic non. Dicta quas cum quia maiores iure. Quidem nulla qui assumenda
+                  incidunt voluptatem tempora deleniti soluta.</p>
+                <a href="#" class="read-more"><span>Ver más</span><i class="bi bi-arrow-right"></i></a>
+              </div>
+            </div>
+          </div>
+          <div class="swiper-slide">
+            <div class="position-relative d-flex justify-content-center align-items-center">
+              <img src="{% static 'img/portfolio/app-1.jpg' %}" alt="Imagen" class="img-fluid">
+              <div class="position-absolute top-50 start-50 translate-middle p-3 text-center">
+                <h2 class="text-light">Ducimus rerum libero reprehenderit cumque</h2>
+                <p class="text-light">Ipsa sint sit. Quis ducimus tempore dolores impedit et dolor cumque alias maxime.
+                  Enim reiciendis minus et rerum hic non. Dicta quas cum quia maiores iure. Quidem nulla qui assumenda
+                  incidunt voluptatem tempora deleniti soluta.</p>
+                <a href="#" class="read-more"><span>Ver más</span><i class="bi bi-arrow-right"></i></a>
+              </div>
+            </div>
+          </div>
+          <div class="swiper-slide">
+            <div class="position-relative d-flex justify-content-center align-items-center">
+              <img src="{% static 'img/portfolio/branding-1.jpg' %}" alt="Imagen" class="img-fluid">
+              <div class="position-absolute top-50 start-50 translate-middle p-3 text-center">
+                <h2 class="text-light">Ducimus rerum libero reprehenderit cumque</h2>
+                <p class="text-light">Ipsa sint sit. Quis ducimus tempore dolores impedit et dolor cumque alias maxime.
+                  Enim reiciendis minus et rerum hic non. Dicta quas cum quia maiores iure. Quidem nulla qui assumenda
+                  incidunt voluptatem tempora deleniti soluta.</p>
+                <a href="#" class="read-more"><span>Ver más</span><i class="bi bi-arrow-right"></i></a>
+              </div>
+            </div>
+          </div>
+          <div class="swiper-slide">
+            <div class="position-relative d-flex justify-content-center align-items-center">
+              <img src="{% static 'img/portfolio/books-1.jpg' %}" alt="Imagen" class="img-fluid">
+              <div class="position-absolute top-50 start-50 translate-middle p-3 text-center">
+                <h2 class="text-light">Ducimus rerum libero reprehenderit cumque</h2>
+                <p class="text-light">Ipsa sint sit. Quis ducimus tempore dolores impedit et dolor cumque alias maxime.
+                  Enim reiciendis minus et rerum hic non. Dicta quas cum quia maiores iure. Quidem nulla qui assumenda
+                  incidunt voluptatem tempora deleniti soluta.</p>
+                <a href="#" class="read-more"><span>Ver más</span><i class="bi bi-arrow-right"></i></a>
+              </div>
+            </div>
+          </div>
         </div>
-        
-        
-
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
       </div>
     </div>
+  </div>
 
-  </section><!-- End 'About' Section -->
+</section><!-- End 'About' Section -->
 
-  <!-- 
+<!-- 
   <section id="stats" class="stats">
 
     <img src="{% static 'img/stats-bg.jpg' %}" alt="" data-aos="fade-in">
@@ -199,58 +211,140 @@
 
     </div>
 
-  </section>
- -->
+  </section> -->
 
-      <!--  Section - Home Page -->
-      <section id="porque" class="features">
 
-        <!--  Section Title -->
-        <div class="container section-title" data-aos="fade-up">
-          <h2>¿Por qué usar psicosfera y qué ofrecemos?</h2>
-          <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
-        </div><!-- End Section Title -->
-  
-        <div class="container">
-  
-          <div class="row gy-4 align-items-center features-item">
-            <div class="col-lg-5 order-2 order-lg-1" data-aos="fade-up" data-aos-delay="200">
-              <h3>Corporis temporibus maiores provident</h3>
-              <p>
-                Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-                velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.
-              </p>
-            </div>
-            <div class="col-lg-7 order-1 order-lg-2 d-flex align-items-center" data-aos="zoom-out" data-aos-delay="100">
-              <div class="image-stack">
-                <img src="{% static 'img/features-light-1.jpg' %}" alt="" class="stack-front">
-                <img src="{% static 'img/features-light-2.jpg' %}" alt="" class="stack-back">
-              </div>
-            </div>
-          </div><!-- Features Item -->
+<!--  Section - Home Page -->
+<section id="Nosotros" class="features">
 
-          <hr class="border">
+  <!--  Section Title -->
+  <div class="container section-title" data-aos="fade-up">
+    <h2>Acerca de Nosotros</h2>
+    <p>
+      En PsicoSfera, creemos en el poder de la conexión. 
+      Somos una empresa mexicana dedicada a transformar 
+      vidas al crear puentes entre profesionales de la salud 
+      mental y aquellos que buscan guía y apoyo. Nuestro 
+      compromiso con la calidad, integridad y bienestar de 
+      cada individuo nos ha posicionado con la visión de ser 
+      líderes en atención psicológica en línea. 
+      Imaginamos un mundo donde el acceso a la salud 
+      mental está al alcance de todos, sin barreras. 
+    </p>
+  </div><!-- End Section Title -->
 
-          <div class="row gy-4 align-items-stretch justify-content-between features-item ">
-            <div class="col-lg-6 d-flex align-items-center features-img-bg" data-aos="zoom-out">
-              <img src="{% static 'img/features-light-3.jpg' %}" class="img-fluid" alt="">
-            </div>
-            <div class="col-lg-5 d-flex justify-content-center flex-column" data-aos="fade-up">
-              <h3>Sunt consequatur ad ut est nulla</h3>
-              <p>Cupiditate placeat cupiditate placeat est ipsam culpa. Delectus quia minima quod. Sunt saepe odit aut quia voluptatem hic voluptas dolor doloremque.</p>
-              <ul>
-                <li><i class="bi bi-check"></i> <span>Ullamco laboris nisi ut aliquip ex ea commodo consequat.</span></li>
-                <li><i class="bi bi-check"></i><span> Duis aute irure dolor in reprehenderit in voluptate velit.</span></li>
-                <li><i class="bi bi-check"></i> <span>Facilis ut et voluptatem aperiam. Autem soluta ad fugiat</span>.</li>
-              </ul>
-            </div>
-          </div><!-- Features Item -->
-  
+  <div class="container">
+
+    <div class="row gy-4 align-items-center features-item">
+      <div class="col-lg-5 order-2 order-lg-1" data-aos="fade-up" data-aos-delay="200">
+        <h3>Misión</h3>
+        <p>
+          Transformar vidas a través de conexiones significativas. 
+          En PsicoSfera, nos dedicamos a crear puentes entre profesionales 
+          de la salud mental y aquellos que buscan guía y apoyo.
+        </p>
+      </div>
+      <div class="col-lg-7 order-1 order-lg-2 d-flex align-items-center" data-aos="zoom-out" data-aos-delay="100">
+        <div class="image-stack">
+          <img src="{% static 'img/features-light-1.jpg' %}" alt="" class="stack-front">
+          <img src="{% static 'img/features-light-2.jpg' %}" alt="" class="stack-back">
         </div>
-  
-      </section><!-- End Features Section -->
-  
+      </div>
+    </div><!-- Features Item -->
+
+    <hr class="border">
+
+    <div class="row gy-4 align-items-stretch justify-content-between features-item ">
+      <div class="col-lg-6 d-flex align-items-center features-img-bg" data-aos="zoom-out">
+        <img src="{% static 'img/features-light-3.jpg' %}" class="img-fluid" alt="">
+      </div>
+      <div class="col-lg-5 d-flex justify-content-center flex-column" data-aos="fade-up">
+        <h3>Visión</h3>
+        <p>
+          Ser la plataforma líder en México para la atención psicológica en línea, 
+          reconocida por su compromiso con la calidad, la integridad y 
+          el bienestar de cada individuo. Imaginamos un mundo donde el acceso a la 
+          salud mental esté al alcance de todos, sin barreras."
+        </p>
+      </div>
+    </div><!-- Features Item -->
+
+    <div class="row gy-4 align-items-center features-item">
+      <div class="col-lg-5 order-2 order-lg-1" data-aos="fade-up" data-aos-delay="200">
+        <h3>Valores</h3>
+        <ul>
+          <li><i class="bi bi-check"></i> <span><b>Empatía: </b>Nos ponemos en el lugar del otro, ya sea paciente o psicólogo, para entender sus necesidades y brindar soluciones adecuadas.</span></li>
+          <li><i class="bi bi-check"></i> <span><b>Integridad: </b>Nos comprometemos con la veracidad y precisión de la información, y con el respeto a la privacidad y seguridad de nuestros usuarios.</span></li>
+          <li><i class="bi bi-check"></i> <span><b>Innovación: </b>Buscamos constantemente mejorar y adaptarnos a las nuevas tecnologías para ofrecer una experiencia de usuario inigualable.</span></li>
+          <li><i class="bi bi-check"></i> <span><b>Responsabilidad: </b>Entendemos la importancia de la salud mental y trabajamos con diligencia para asegurar que cada interacción en nuestra plataforma sea beneficiosa.</span></li>
+          <li><i class="bi bi-check"></i> <span><b>Comunidad: </b>Creemos en el poder de la conexión y en la construcción de una comunidad donde todos se sientan apoyados y comprendidos.</span></li>
+          <li><i class="bi bi-check"></i> <span><b>Compromiso: </b>Con la calidad del servicio y con cada individuo que nos elige.</span></li>
+          <li><i class="bi bi-check"></i> <span><b>Confianza: </b>Garantizar un espacio seguro y respetuoso para todos.</span></li>
+          <li><i class="bi bi-check"></i> <span><b>Calidad: </b>Mantener altos estándares en cada interacción.</span></li>
+          <li><i class="bi bi-check"></i> <span><b>Solidaridad: </b>Entender que cada historia cuenta y cada individuo importa.</span></li>
+        </ul>
+      </div>
+      <div class="col-lg-7 order-1 order-lg-2 d-flex align-items-center" data-aos="zoom-out" data-aos-delay="100">
+        <div class="image-stack">
+          <img src="{% static 'img/features-light-1.jpg' %}" alt="" class="stack-front">
+          <img src="{% static 'img/features-light-2.jpg' %}" alt="" class="stack-back">
+        </div>
+      </div>
+    </div><!-- Features Item -->
+
+  </div>
+
+</section><!-- End Features Section -->
+
+<!--  Section - Home Page -->
+<section id="porque" class="features">
+
+  <!--  Section Title -->
+  <div class="container section-title" data-aos="fade-up">
+    <h2>¿Por qué usar Psicosfera? (Para Pacientes)</h2>
+    <p>
+      Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sunt accusamus deserunt doloribus? Dolorum reiciendis nam quidem nostrum maiores aliquid veritatis atque cum dolore! Cupiditate odit iure perferendis expedita dignissimos explicabo?
+    </p>
+  </div><!-- End Section Title -->
+
+  </div>
+</section><!-- End Features Section -->
+
+<!--  Section - Home Page -->
+<section id="P&R" class="features">
+
+  <!--  Section Title -->
+  <div class="container section-title" data-aos="fade-up">
+    <h2>Preguntas y Respuestas</h2>
+    <p>
+      Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sunt accusamus deserunt doloribus? Dolorum reiciendis nam quidem nostrum maiores aliquid veritatis atque cum dolore! Cupiditate odit iure perferendis expedita dignissimos explicabo?
+    </p>
+  </div><!-- End Section Title -->
+
+  </div>
+</section><!-- End Features Section -->
+
+<!--  Section - Home Page -->
+<section id="Contacto" class="features">
+
+  <!--  Section Title -->
+  <div class="container section-title" data-aos="fade-up">
+    <h2>Contacto</h2>
+    <h4>
+      Perfiles
+    </h4>
+    <ul>
+      <li><i class="bi bi-check"></i> <span><b>Javier Alejandro Carvajal Sanchez.</b></span></li>
+      <li><i class="bi bi-check"></i> <span><b>Luis Manuel Garcia Ochoa.</b></span></li>
+      <li><i class="bi bi-check"></i> <span><b>Ivan Uriel Olvera Perez.</b></span></li>
+    </ul>
+  </div><!-- End Section Title -->
+
+  </div>
+</section><!-- End Features Section -->
+
+
 {% endblock %}
-  
+
 {% block scripts %}
 {% endblock scripts %}
