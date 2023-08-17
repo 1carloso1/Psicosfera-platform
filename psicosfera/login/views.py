@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.views.generic import View
 from django.contrib.auth import login,logout, authenticate
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
  
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .forms import *
@@ -11,12 +12,21 @@ from django.views.generic import TemplateView
 from django.contrib.auth.models import User, Group
 from django.db.models.signals import post_save
 
-def add_user_to_group(sender, instance, created, **kwargs):
-    if created:
-        group = Group.objects.get(name='Pacientes')
-        instance.groups.add(group)
+@login_required
+def agregar_paciente(request):
+    if not request.user.groups.filter(name='Pacientes').exists():
+        paciente_group = Group.objects.get(name='Pacientes')
+        request.user.groups.add(paciente_group)
 
-post_save.connect(add_user_to_group, sender=User)
+    return redirect('nuevo_paciente')  # Redirige a la página de perfil del paciente
+
+@login_required
+def agregar_psicologo(request):
+    if not request.user.groups.filter(name='Psicologos').exists():
+        psicologo_group = Group.objects.get(name='Psicologos')
+        request.user.groups.add(psicologo_group)
+
+    return redirect('nuevo_psicologo')  # Redirige a la página de inicio de sesión
 
 class VRegistro(View):
     def get(self, request):
@@ -41,7 +51,7 @@ class VRegistro(View):
         if form.is_valid():
             user = form.save()
             login(request,user)
-            return redirect('home')
+            return redirect('registro-usuario')
         else:
             # No necesitas iterar sobre form.error_messages
             for field, errors in form.errors.items():
