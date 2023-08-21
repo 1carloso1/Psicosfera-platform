@@ -33,6 +33,6 @@ class Expediente(models.Model):
     observaciones = models.TextField(blank=True)
 
     def __str__(self):
-        return f"Expediente #{self.num_expediente} - Paciente: {self.paciente.nombre}"
+        return f"Expediente #{self.id} - Paciente: {self.paciente.nombre}"
 
     

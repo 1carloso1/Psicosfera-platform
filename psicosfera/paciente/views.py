@@ -28,3 +28,4 @@ class NuevoPaciente(CreateView):
     extra_context = {'accion': 'Nuevo'}
     
       
+ 

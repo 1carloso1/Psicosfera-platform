@@ -8,9 +8,9 @@
 
 
 {% block btns %}
-  <li><a href="{% url 'interfaz' %}#directorio" >Directorio</a></li>
-  <li><a href="{% url 'interfaz' %}#agenda" >Agenda</a></li>
-  <li><a href="{% url 'interfaz' %}#diario" >Diario</a></li>
+<li><a href="{% url 'interfaz' %}#directorio" >Directorio</a></li>
+<li><a href="{% url 'interfaz' %}#agenda" >Agenda</a></li>
+<li><a href="{% url 'interfaz' %}#diario" >Diario</a></li>
 {% endblock %}
 
 {% block contenido %}
@@ -19,66 +19,36 @@
     <div class="container section-title" data-aos="fade-up">
       <h2>Directorio de Pacientes</h2>
     </div><!-- End Section Title -->
-        <div class="row gy-5">
-          <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
-              <div class="service-box">
-                <div class="container section-title" data-aos="fade-up">
-                  <h2>Citas de pacientes</h2>
-                </div><!-- End Section Title -->
+    <div class="row gy-5">
+      <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
+        <div class="service-box">
+          <div class="container section-title" data-aos="fade-up">
+            <h2>Pacientes</h2>
+          </div><!-- End Section Title -->
+          <div id="myCarousel" class="carousel slide" >
+            <div class="carousel-inner">
+              <div class="carousel-item active">
                 <div class="services-list">
-                    <a href="#" class="active"><i class="bi bi-arrow-right-circle"></i><span>Juanito Marquez                  Prox. Cita: 03/03/23</span></a>
-                    <a href="#"><i class="bi bi-arrow-right-circle"></i><span>Roman Alfredo Alegria Perez               Prox. Cita: 04/03/23</span></a>
-                    <a href="#"><i class="bi bi-arrow-right-circle"></i><span>Pancho Esquivel             Prox. Cita: 05/03/23</span></a>
-                    <a href="#"><i class="bi bi-arrow-right-circle"></i><span>Luis Andrade                Prox. Cita: 06/03/23</span></a>
-                    <a href="#"><i class="bi bi-arrow-right-circle"></i><span>Pablo Motas                 Prox. Cita: 07/03/23</span></a>
+                  {% for paciente in pacientes %}
+                  {% if paciente.nombre == paciente_seleccionado.nombre %}
+                  <a href="{% url 'datos_paciente' paciente.id %}" id="" onclick="changeClass(this)" class="btn active" data-paciente-id="{{ paciente.id }}"><i class="bi bi-arrow-right-circle"></i><span>{{ paciente.nombre }}</span></a>
+                  {% else %}
+                        <a href="{% url 'datos_paciente' paciente.id %}" id="" onclick="changeClass(this)" class="btn" data-paciente-id="{{ paciente.id }}"><i class="bi bi-arrow-right-circle"></i><span>{{ paciente.nombre }}</span></a>
+                      {% endif %}
+                    {% endfor %} 
                   </div>
-              </div>     
-          </div>
-          <div class="col-lg-8 ps-lg-5" data-aos="fade-up" data-aos-delay="200">
-            <div class="service-box">
-                <h3>Nombre Paciente</h3>
-                <p>
-                Datos pacientes
-                ...
-                </p>
-            </div>
-          </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="agenda" class="service-details">
-  <div class="container">  
-    <div class="container section-title" data-aos="fade-up">
-      <h2>Calendario de citas</h2>
-    </div><!-- End Section Title -->
-    <div id='calendar'></div>
-  </div>
-</section>
-
-<section id="diario" class="service-details">
-  <div class="container">
-      
-      <div class="container section-title" data-aos="fade-up">
-        <h2>Diario</h2>
-      </div><!-- End Section Title -->
-
-      <div class="row gy-5">
-
-        <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
-
-          <div class="service-box">
-            <h4>Notas de pacientes</h4>
-            <div class="services-list">
-              <a href="#" class="active"><i class="bi bi-arrow-right-circle"></i><span>Juanito Marquez                  Ult. Cita: 03/03/23</span></a>
-              <a href="#"><i class="bi bi-arrow-right-circle"></i><span>Roman Alfredo Alegria Perez               Ult. Cita: 04/03/23</span></a>
-              <a href="#"><i class="bi bi-arrow-right-circle"></i><span>Pancho Esquivel             Ult. Cita: 05/03/23</span></a>
-              <a href="#"><i class="bi bi-arrow-right-circle"></i><span>Luis Andrade                Ult. Cita: 06/03/23</span></a>
-              <a href="#"><i class="bi bi-arrow-right-circle"></i><span>Pablo Motas                 Ult. Cita: 07/03/23</span></a>
-            </div>
+                </div>
+              </div>
+              <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+              </button>
+            </div>     
           </div><!-- End Services List -->
-
           <div class="service-box">
             <h4>Descargar detalles</h4>
             <div class="download-catalog">
@@ -86,45 +56,51 @@
               <a href="#"><i class="bi bi-file-earmark-word"></i><span>Catalog DOC</span></a>
             </div>
           </div><!-- End Services List -->
-
         </div>
+        {% if paciente_seleccionado %}
         <div class="col-lg-8 ps-lg-5" data-aos="fade-up" data-aos-delay="200">
-          <div class="service-box">
-
-          <h3>Nombre Paciente</h3>
-          <p>
-            Datos pacientes
-            ...
-          </p>
-          <ul>
-            <li><i class="bi bi-check-circle"></i> <span>Aut eum totam accusantium voluptatem.</span></li>
-            <li><i class="bi bi-check-circle"></i> <span>Assumenda et porro nisi nihil nesciunt voluptatibus.</span></li>
-            <li><i class="bi bi-check-circle"></i> <span>Ullamco laboris nisi ut aliquip ex ea</span></li>
-          </ul>
-          <div class="container">
-          <div class="swiper ">
-            <template class="swiper-config">
-            {
-            "speed" : 600,
-            "slidesPerView": "auto",
-            "pagination": {
-            "el": ".swiper-pagination",
-            "type": "bullets",
-            "clickable": true
-            }
-            }
+          <div id="datos-paciente" class="service-box">
+            
+            <h2>{{ paciente_seleccionado.nombre }} {{ paciente_seleccionado.apaterno }} {{ paciente_seleccionado.amaterno }} </h2>
+            <p>Correo Electronico: {{ paciente_seleccionado.correo }}</p>
+            <p>Telefono: {{ paciente_seleccionado.telefono }}</p>
+            <p>Direccion: {{ paciente_seleccionado.direccion }}</p>
+            <!-- Agrega otros campos que desees mostrar -->
+            
+            <p>Edad: {{ paciente_seleccionado.edad }}</p>
+            <p>Sexo: {{ paciente_seleccionado.Sexo }}</p>
+            <p>Ocupacion: {{ paciente_seleccionado.Ocupacion }}</p>
+            <p>Fecha de nacimiento: {{ paciente_seleccionado.fecha_nacimiento }}</p>
+            <!-- Agrega otros campos que desees mostrar -->
+            {% if expediente %}
+            <div class="container">
+              <div class="swiper ">
+                <template class="swiper-config">
+                  {
+                    "speed" : 600,
+                    "slidesPerView": "auto",
+                    "pagination": {
+                  "el": ".swiper-pagination",
+                  "type": "bullets",
+                  "clickable": true
+                }
+              }
             </template>
             <div class="swiper-wrapper">
               <div class="swiper-slide">
                 <div class="testimonial-item">
                   <div class="d-flex">
-                      <div>
+                    <div>
                       <h5>Notas Personales</h5>
-                      
-                      </div>
+                    </div>
                   </div>
-                  <form action="#" class="guardar" data-aos="fade-up" data-aos-delay="300">
-                    <textarea name="notas-personales" class="form-control" id="" cols="30" rows="10" ></textarea>
+                  <form action="{% url 'guardar_notas_personales' paciente_seleccionado.id %}" data-aos="fade-up" data-aos-delay="300" method="post">
+                    {% csrf_token %}
+                    <textarea name="notas-personales" class="form-control" id="" cols="30" rows="10" >
+Observaciones:
+{{ expediente.observaciones }}
+
+                    </textarea>
                     <input type="submit" class="btn btn-primary" value="Guardar nota"></input>
                   </form>
                 </div>
@@ -136,8 +112,13 @@
                       <h5>Notas Compartidas</h5>
                     </div>
                   </div>
-                  <form action="#" class="guardar" data-aos="fade-up" data-aos-delay="300">
-                    <textarea name="notas-personales" class="form-control" id="" cols="30" rows="10" ></textarea>
+                  <form action="{% url 'guardar_notas_compartidas' paciente_seleccionado.id %}" data-aos="fade-up" data-aos-delay="300" method="post">
+                    {% csrf_token %}
+                    <textarea name="notas-personales" class="form-control" id="" cols="30" rows="10" >
+Diagnostico:
+{{ expediente.diagnostico }}
+
+                    </textarea>
                     <input type="submit" class="btn btn-primary" value="Guardar nota"></input>
                   </form>
                 </div>
@@ -145,13 +126,22 @@
             </div>
             <br>
             <div class="swiper-pagination"></div>
+            {% endif %}
           </div>
         </div>
-        </div>
-        </div>
+        {% endif %} 
       </div>
     </div>
-</section><!-- End Service-details Section -->
+</section>
+        
+<section id="agenda" class="service-details">
+  <div class="container">  
+    <div class="container section-title" data-aos="fade-up">
+      <h2>Calendario de citas</h2>
+    </div><!-- End Section Title -->
+    <div id='calendar'></div>
+  </div>
+</section>
 {% endblock %}
 
 
@@ -250,8 +240,22 @@
 
     calendar.render();
   });
-
+  
   </script>
+  <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+  <!--
+
+  <script>
+    function changeClass(boton) { 
+      var botones = document.querySelectorAll('.btn');
+      botones.forEach(function(botone) {
+        botone.classList.remove('active');
+      });
+      boton.classList.add('active'); 
+      
+    }
+  </script>
+  -->
 {% endblock %}
     
     
