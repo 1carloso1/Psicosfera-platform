@@ -25,8 +25,18 @@ body {
 	-moz-background-size: cover;
 	-webkit-background-size: cover;
 }
+.centrar-seccion {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.trasparente {
+	background-color: rgba(255, 255, 255, 0.0);
+}
+
 .wizard-v10-content   {
-	background: #fff;
+	background: rgba(255, 255, 255, 0.5);
 	width: 850px;
 	box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.15);
 	-o-box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.15);
@@ -38,7 +48,7 @@ body {
 	-ms-border-radius: 8px;
 	-moz-border-radius: 8px;
 	-webkit-border-radius: 8px;
-	margin: 260px 0 160px;
+	margin: 100px auto;
 	font-family: 'Montserrat', sans-serif;
 	position: relative;
 	display: flex;
@@ -53,7 +63,7 @@ body {
 	-webkit-border-radius: 8px;
 }
 .wizard-form .wizard-header {
-	background: #3760e5;
+	background: rgba(128, 0, 128, 0.8);
 	border-top-left-radius: 8px;
 	border-top-right-radius: 8px;
 	padding: 13px 50px;
@@ -132,7 +142,7 @@ body {
 .form-register .steps li.done a::before,
 .form-register .steps li.done a,
 .form-register .steps li.done a:active  {
-    background: #3760e5;
+    background: rgba(128, 0, 128, 0.8);
 }
 .form-register .steps li .current-info {
 	display: none;
@@ -157,8 +167,11 @@ body {
 .form-register .content h2 {
 	display: none;
 }
+
+
 .inner .form-row {
     display: flex;
+    justify-content: center; /* Centrar horizontalmente */
     margin: 0 -10px;
     position: relative;
 }
@@ -259,14 +272,14 @@ body {
     -ms-align-items: center;
     -moz-align-items: center;
     -webkit-align-items: center;
-    background: #3760e5;
+    background: rgba(128, 0, 128, 0.8);
     font-family: 'Montserrat', sans-serif;
     font-size: 15px;
     font-weight: 600;
     cursor: pointer;
 }
 .actions ul li:hover {
-	background: #2b4ab3;
+	background: purple;
 }
 .actions ul li a {
 	color: #fff;

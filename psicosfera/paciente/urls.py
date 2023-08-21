@@ -5,6 +5,6 @@ from paciente import views
 
 urlpatterns = [
     path('', PacienteInterfazView.as_view(), name = 'paciente'),
-    path('perfil/', PerfilView.as_view(), name = 'perfil-paciente'),
-    path('nuevo', views.NuevoPaciente.as_view(), name='nuevo_paciente'),
+    path('perfil', PerfilView.as_view(), name = 'perfil-paciente'),
+    path('nuevo', NuevoPaciente.as_view(), name='nuevo_paciente'),
 ]

@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, ListView
 from django.views.generic.detail import DetailView
@@ -26,7 +27,6 @@ class NuevoPsicologo(CreateView):
     form_class = FormPsicologo
     # fields = '__all__'
     success_url = reverse_lazy('home') # Modificar la url cuando este la interfaz de usuario 
-    extra_context = {'accion': 'Nuevo'}
     
 def datos_paciente(request, pk):
     pacientes = Paciente.objects.all()
