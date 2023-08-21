@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import VRegistro,RegistroUsuarioView,cerrarSesion, loguear,reestablecer_contraseña, agregar_paciente, agregar_psicologo
+from .views import *
 
 urlpatterns = [
     path('', loguear, name = 'login'),
@@ -8,7 +8,10 @@ urlpatterns = [
     path('registro', VRegistro.as_view(), name = "registro"),
     path('registro-usuario', RegistroUsuarioView.as_view(), name = "registro-usuario"),
     # URL para agregar usuario a grupo "Pacientes"
-    path('agregar-paciente/', agregar_paciente, name='agregar-paciente'),
+    path('agregar-paciente', agregar_paciente, name='agregar-paciente'),
     # URL para agregar usuario a grupo "Psicólogos"
-    path('agregar-psicologo/', agregar_psicologo, name='agregar-psicologo'),
+    path('agregar-psicologo', agregar_psicologo, name='agregar-psicologo'),
+    # URL para agregar usuario a grupo "Usuarios-Registrados"
+    path('usuario-registrado', usuario_registrado, name='usuario-registrado'),
 ]
+ 
