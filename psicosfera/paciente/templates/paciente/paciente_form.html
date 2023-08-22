@@ -123,13 +123,11 @@ Psicosfera | Cuestionario de Registro
                         </div>
                     </section>
                 </div>
-                <button type="submit" class="btn btn-success">
-                    {% if accion == 'Nuevo' %}
-                        Agregar
-                    {% else %}
-                        Guardar
-                    {% endif %}        
-                </button>
+                {% if accion == 'Nuevo' %}
+                    <input type="submit" class="btn btn-success" value="Agregar" formaction="{% url 'usuario-registrado' %}">
+                {% else %}
+                <input type="submit" class="btn btn-success" value="Guardar" formaction="{% url 'usuario-registrado' %}">
+                {% endif %}
             </form>
         </div>
     </div>

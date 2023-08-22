@@ -17,16 +17,21 @@ def agregar_paciente(request):
     if not request.user.groups.filter(name='Pacientes').exists():
         paciente_group = Group.objects.get(name='Pacientes')
         request.user.groups.add(paciente_group)
-
-    return redirect('nuevo_paciente')  # Redirige a la página de perfil del paciente
+    return redirect('nuevo_paciente')  
 
 @login_required
 def agregar_psicologo(request):
     if not request.user.groups.filter(name='Psicologos').exists():
         psicologo_group = Group.objects.get(name='Psicologos')
         request.user.groups.add(psicologo_group)
+    return redirect('nuevo_psicologo') 
 
-    return redirect('nuevo_psicologo')  # Redirige a la página de inicio de sesión
+@login_required
+def usuario_registrado(request):
+    if not request.user.groups.filter(name='Usuario-Registrado').exists():
+        group = Group.objects.get(name='Usuario-Registrado')
+        request.user.groups.add(group)  
+    return redirect('home')  
 
 class VRegistro(View):
     def get(self, request):
