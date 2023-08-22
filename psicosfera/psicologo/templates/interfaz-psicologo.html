@@ -30,14 +30,12 @@
               <div class="carousel-item active">
                 <div class="services-list">
                   {% for paciente in pacientes %}
-                  {% if paciente.nombre == paciente_seleccionado.nombre %}
-                  <a href="{% url 'datos_paciente' paciente.id %}" id="" onclick="changeClass(this)" class="btn active" data-paciente-id="{{ paciente.id }}"><i class="bi bi-arrow-right-circle"></i><span>{{ paciente.nombre }}</span></a>
-                  {% else %}
-                        <a href="{% url 'datos_paciente' paciente.id %}" id="" onclick="changeClass(this)" class="btn" data-paciente-id="{{ paciente.id }}"><i class="bi bi-arrow-right-circle"></i><span>{{ paciente.nombre }}</span></a>
-                      {% endif %}
-                    {% endfor %} 
+                  {% csrf_token %}
+                  <a href="#datos-paciente" onclick="changeClass(this)" class="btn" data-id="{{ paciente.id }}"><i class="bi bi-arrow-right-circle"></i><span>{{ paciente.nombre }}</span></a>
+                  {% endfor %} 
+    
+                    </div>
                   </div>
-                </div>
               </div>
               <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -57,34 +55,30 @@
             </div>
           </div><!-- End Services List -->
         </div>
-        {% if paciente_seleccionado %}
         <div class="col-lg-8 ps-lg-5" data-aos="fade-up" data-aos-delay="200">
-          <div id="datos-paciente" class="service-box">
-            
-            <h2>{{ paciente_seleccionado.nombre }} {{ paciente_seleccionado.apaterno }} {{ paciente_seleccionado.amaterno }} </h2>
-            <p>Correo Electronico: {{ paciente_seleccionado.correo }}</p>
-            <p>Telefono: {{ paciente_seleccionado.telefono }}</p>
-            <p>Direccion: {{ paciente_seleccionado.direccion }}</p>
-            <!-- Agrega otros campos que desees mostrar -->
-            
-            <p>Edad: {{ paciente_seleccionado.edad }}</p>
-            <p>Sexo: {{ paciente_seleccionado.Sexo }}</p>
-            <p>Ocupacion: {{ paciente_seleccionado.Ocupacion }}</p>
-            <p>Fecha de nacimiento: {{ paciente_seleccionado.fecha_nacimiento }}</p>
-            <!-- Agrega otros campos que desees mostrar -->
-            {% if expediente %}
-            <div class="container">
-              <div class="swiper ">
-                <template class="swiper-config">
-                  {
-                    "speed" : 600,
-                    "slidesPerView": "auto",
-                    "pagination": {
-                  "el": ".swiper-pagination",
-                  "type": "bullets",
-                  "clickable": true
-                }
+          <div class="service-box">
+          <img src="" id="foto" alt="foto">
+          <h2 class="nombre"></h2>
+          <p class="fecha"></p>
+          <p class="edad"></p>
+          <p class="sexo"></p>
+          <p class="ocupacion"></p>
+          <p class="correo"></p>
+          <p class="telefono"></p>
+          <p class="direccion"></p>
+          <!-- Agrega otros campos que desees mostrar -->
+          <div class="container">
+            <div class="swiper ">
+              <template class="swiper-config">
+                {
+                  "speed" : 600,
+                  "slidesPerView": "auto",
+                  "pagination": {
+                "el": ".swiper-pagination",
+                "type": "bullets",
+                "clickable": true
               }
+            }
             </template>
             <div class="swiper-wrapper">
               <div class="swiper-slide">
@@ -94,13 +88,9 @@
                       <h5>Notas Personales</h5>
                     </div>
                   </div>
-                  <form action="{% url 'guardar_notas_personales' paciente_seleccionado.id %}" data-aos="fade-up" data-aos-delay="300" method="post">
+                  <form action="" id="form_personales" data-aos="fade-up" data-aos-delay="300" method="post">
                     {% csrf_token %}
-                    <textarea name="notas-personales" class="form-control" id="" cols="30" rows="10" >
-Observaciones:
-{{ expediente.observaciones }}
-
-                    </textarea>
+                    <textarea class="form-control" id="personales" cols="30" rows="10" ></textarea>
                     <input type="submit" class="btn btn-primary" value="Guardar nota"></input>
                   </form>
                 </div>
@@ -112,13 +102,9 @@ Observaciones:
                       <h5>Notas Compartidas</h5>
                     </div>
                   </div>
-                  <form action="{% url 'guardar_notas_compartidas' paciente_seleccionado.id %}" data-aos="fade-up" data-aos-delay="300" method="post">
+                  <form action="" id="form_compartidas" data-aos="fade-up" data-id="" data-aos-delay="300" method="post">
                     {% csrf_token %}
-                    <textarea name="notas-personales" class="form-control" id="" cols="30" rows="10" >
-Diagnostico:
-{{ expediente.diagnostico }}
-
-                    </textarea>
+                    <textarea  class="form-control" id="compartidas" cols="30" rows="10" ></textarea>
                     <input type="submit" class="btn btn-primary" value="Guardar nota"></input>
                   </form>
                 </div>
@@ -126,10 +112,8 @@ Diagnostico:
             </div>
             <br>
             <div class="swiper-pagination"></div>
-            {% endif %}
           </div>
         </div>
-        {% endif %} 
       </div>
     </div>
 </section>
@@ -243,7 +227,6 @@ Diagnostico:
   
   </script>
   <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
-  <!--
 
   <script>
     function changeClass(boton) { 
@@ -255,7 +238,88 @@ Diagnostico:
       
     }
   </script>
-  -->
+
+  <script>
+    $(document).ready(function() {
+        $('.btn').click(function() {
+            var paciente_id = $(this).data('id');
+
+            var foto = $(this).prevAll('.foto').first();
+            
+            $.ajax({
+                type: 'POST',
+                url: 'datos_paciente/',
+                data: { 
+                  'paciente_id': paciente_id,
+                  'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
+                },
+                dataType: 'json',
+                success: function(response) {
+                  var foto = response.foto;              
+                  var nombre = response.nombre;
+                  var edad = response.edad;
+                  var sexo = response.sexo;
+                  var ocupacion = response.ocupacion;
+                  var correo = response.correo;
+                  var telefono = response.telefono;
+                  var diagnostico = response.diagnostico;
+                  var tratamiento = response.tratamiento;
+                  var direccion = response.direccion;
+                  var fecha_nacimiento = response.fecha_nacimiento;
+                  $('h2[class="nombre"]').text(nombre);
+                  $('p[class="fecha"]').text("Fecha de nacimiento: "+fecha_nacimiento);
+                  $('p[class="edad"]').text("Edad: "+edad);
+                  $('p[class="sexo"]').text("Sexo: "+sexo);
+                  $('p[class="ocupacion"]').text("Ocupacion: "+ocupacion);
+                  $('p[class="correo"]').text("Correo: "+correo);
+                  $('p[class="telefono"]').text("Telefono: "+telefono);
+                  $('p[class="direccion"]').text("Direccion: "+direccion)
+                  if (diagnostico ) {
+                    $('#compartidas').val(diagnostico);
+                  }
+                  if (tratamiento) {
+                    $('#personales').val(tratamiento);
+                  }
+                  if (response.foto) {
+                    $('#foto').attr('src', 'data:image/jpeg;base64,' + response.foto);
+                  }
+                },
+                error: function(response) {
+                    console.log('Error:', response);
+                }
+            });
+        });
+    });
+</script>
+<script>
+  $(document).ready(function() {
+      $('#form_compartidas').submit(function(event) {
+          event.preventDefault(); 
+          
+          var textareaContent = $('#compartidas').val(); // Obtener el contenido del textarea
+          var paciente_id = $('.btn').data('id');
+          console.log(paciente_id); 
+          $.ajax({
+              type: 'POST',
+              url: 'guardar_compartidas',  
+              data: {
+                'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
+                'content': textareaContent,  // Enviar el contenido del textarea al servidor
+                'id': paciente_id
+              },
+              dataType: 'json',
+              success: function(response) {
+                  // Actualizar el contenido del textarea con la respuesta del servidor si es necesario
+                  $('#compartidas').val(response.diagnostico);
+                  $('.btn').toggleClass(paciente_id);
+              },
+              error: function(response) {
+                  console.log('Error:', response);
+              }
+          });
+      });
+  });
+</script>
 {% endblock %}
     
     
