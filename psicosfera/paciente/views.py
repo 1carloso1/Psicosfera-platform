@@ -4,6 +4,7 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, TemplateView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from psicosfera.utils import UsuarioRegistradoRequiredMixin
 from .models import Paciente
 from .forms import FormPaciente
 from django.contrib.auth.models import Group
@@ -19,13 +20,18 @@ class PacienteInterfazView(TemplateView):
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
-class NuevoPaciente(CreateView):
-    # permission_required = '' # Dar los permisos requeridos
+class NuevoPaciente(LoginRequiredMixin, CreateView):
     model = Paciente
     form_class = FormPaciente
-    # fields = '__all__'
-    #success_url = reverse_lazy('usuario-registrado') #Esta vista redirije a la view que agrega el usuario al grupo Usuarios-Registrados, la cual redirijira al home
     extra_context = {'accion': 'Nuevo'}
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.groups.filter(name='Usuario-Registrado').exists():
+            return redirect('home')  # Ajusta 'home' a la URL correcta
+        else:
+            return super().dispatch(request, *args, **kwargs)
+
+
     
       
  

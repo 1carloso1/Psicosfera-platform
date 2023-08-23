@@ -29,9 +29,9 @@ def agregar_psicologo(request):
 @login_required
 def usuario_registrado(request):
     if not request.user.groups.filter(name='Usuario-Registrado').exists():
-        group = Group.objects.get(name='Usuario-Registrado')
-        request.user.groups.add(group)  
-    return redirect('home')  
+        usuario_registrado_group = Group.objects.get(name='Usuario-Registrado')
+        request.user.groups.add(usuario_registrado_group)
+    return redirect('home') 
 
 class VRegistro(View):
     def get(self, request):
@@ -68,7 +68,10 @@ class VRegistro(View):
 class RegistroUsuarioView(TemplateView):
     template_name = 'registro/registroUsuario.html'
     def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
+        if request.user.groups.filter(name='Usuario-Registrado').exists():
+            return redirect('home')  # Ajusta 'home' a la URL correcta
+        else:
+            return super().dispatch(request, *args, **kwargs)
     
 
 
