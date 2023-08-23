@@ -8,11 +8,12 @@ Psicosfera | Contacta a un profesional
  
 
 {% block btns %}
-<li><a href="{% url 'home' %}#Nosotros">Nosotros</a></li>
+<li><a href="{% url 'home' %}#mision">Compartiendo una misión de Bienestar</a></li>
+<li><a href="{% url 'home' %}#trayectoria">Tu Trayectoria en Psicosfera</a></li>
 <li><a href="{% url 'home' %}#porque">¿Por qué usar psicosfera?</a></li>
 <li><a href="{% url 'home' %}#P&R">P&R</a></li>
 <li><a href="{% url 'home' %}#footer">Contacto</a></li>
-<li><a href="{% url 'paciente' %}">Buscar consulta</a></li>
+<li><a href="{% url 'interfaz' %}">Mi consultorio</a></li>
 <!--
   <li class="dropdown has-dropdown"><a href="#"><span>Dropdown</span> <i class="bi bi-chevron-down"></i></a>
     <ul class="dd-box-shadow">
@@ -42,74 +43,45 @@ Psicosfera | Contacta a un profesional
   <img src="{% static 'img/bienvenida.jpg' %}" alt="" data-aos="fade-in">
 
   <div class="container">
-      {% if not user.is_authenticated %}
       <div>
-        <h2 data-aos="fade-up" data-aos-delay="100">Bienvenido a Psicosfera.</h2>
+        <h2 data-aos="fade-up" data-aos-delay="100">¡Bienvenido a Psicosfera para psicólogos! </h2>
         <p data-aos="fade-up" data-aos-delay="200">Tu salud mental, nuestro compromiso total.</p>
       </div>
     
       <div class="section-psicosfera">
-        <p data-aos="fade-up" data-aos-delay="200" ><em>Bienvenido a Psicosfera - Donde tu viaje hacia el 
-          bienestar emocional y la excelencia profesional se entrelazan. Para aquellos en busca de apoyo, ofrecemos
-          un santuario digital de escucha y comprensión. Para los psicólogos, brindamos una plataforma innovadora que
-          amplifica su alcance y potencia su impacto. En este espacio, cada conversación cuenta, cada historia resuena y 
-          cada conexión transforma. Porque en Psicosfera, creemos que juntos podemos redefinir el futuro de la salud mental.
+        <p data-aos="fade-up" data-aos-delay="200" ><em>Descubre Tu Oportunidad de Hacer una Diferencia: Únete a Nuestro Equipo en Psicosfera. <br>
+            En Psicosfera, creemos que cada individuo merece acceso a un apoyo emocional de calidad. Si eres un psicólogo comprometido con la 
+            transformación positiva de vidas, te damos la bienvenida a explorar cómo puedes formar parte de nuestra familia en Psicosfera y llevar
+             tu pasión por la terapia a un nivel nacional.
+            
           </em>
         </p>
         </div>
 
         <div class=" d-flex justify-content-center align-items-center" >
           <form action="#" class="sign-up-form" data-aos="fade-up" data-aos-delay="300">
-            <input type="submit" class="btn btn-success btn-home" value="Iniciar sesión" formaction="{% url 'login' %}">
+            <input type="submit" class="btn btn-success btn-home" value="Ir a mi consultorio" formaction="{% url 'interfaz' %}">
           </form>
         </div>
-      {% else %}
-      <div>
-        <h2 data-aos="fade-up" data-aos-delay="100">Bienvenido a Psicosfera, {{user}}</h2>
-        <p data-aos="fade-up" data-aos-delay="200">Tu salud mental, nuestro compromiso total.</p>
-      </div>
-    
-      <div class="section-psicosfera">
-        <p data-aos="fade-up" data-aos-delay="200" ><em>Bienvenido a Psicosfera - Donde tu viaje hacia el 
-          bienestar emocional y la excelencia profesional se entrelazan. Para aquellos en busca de apoyo, ofrecemos
-          un santuario digital de escucha y comprensión. Para los psicólogos, brindamos una plataforma innovadora que
-          amplifica su alcance y potencia su impacto. En este espacio, cada conversación cuenta, cada historia resuena y 
-          cada conexión transforma. Porque en Psicosfera, creemos que juntos podemos redefinir el futuro de la salud mental.
-          </em>
-        </p>
-        </div>
-
-        <div class=" d-flex justify-content-center align-items-center" >
-          <form action="#" class="sign-up-form" data-aos="fade-up" data-aos-delay="300">
-            <input type="submit" class="btn btn-success btn-home" value="¡Comienza a buscar ahora!" formaction="{% url 'paciente' %}">
-          </form>
-        </div>
-        
-      {% endif %}
-    
   </div>
 
 </section><!-- End Hero Section -->
 
 <!--  Section - Home Page -->
-<section id="Nosotros" class="features">
+<section id="mision" class="features">
 
   <!--  Section Title -->
   <div class="container section-title" data-aos="fade-up">
-    <h2>Acerca de Nosotros</h2>
+    <h2>Compartiendo una misión de Bienestar</h2>
   </div><!-- End Section Title -->
 
   <div class="container section-content" data-aos="fade-up">
     <p>
-      En PsicoSfera, creemos en el poder de la conexión. 
-      Somos una empresa mexicana dedicada a transformar 
-      vidas al crear puentes entre profesionales de la salud 
-      mental y aquellos que buscan guía y apoyo. Nuestro 
-      compromiso con la calidad, integridad y bienestar de 
-      cada individuo nos ha posicionado con la visión de ser 
-      líderes en atención psicológica en línea. 
-      Imaginamos un mundo donde el acceso a la salud 
-      mental está al alcance de todos, sin barreras. 
+        En Psicosfera, nuestra misión es proporcionar un espacio en línea 
+        donde las personas puedan encontrar la ayuda que necesitan para vivir 
+        vidas más saludables y equilibradas. Si compartes nuestra creencia en el 
+        poder de la terapia para cambiar vidas, te invitamos a unirte a nosotros 
+        en este viaje hacia el bienestar emocional. 
     </p>
   </div>
   <div class="container">
@@ -176,29 +148,26 @@ Psicosfera | Contacta a un profesional
 </section><!-- End Features Section -->
 
 <!--  Section - Home Page -->
+
+<section id="trayectoria" class="features">
+
+    <div class="container section-title" data-aos="fade-up">
+      <h2>Tu Trayectoria en Psicosfera: Empatía, Crecimiento y Apoyo</h2>
+    </div>
+  
+    <div class="container section-content" data-aos="fade-up">
+      <p>Si decides unirte a Psicosfera, encontrarás un entorno que valora tu empatía y compromiso. 
+        No solo estarás brindando terapia en línea; estarás siendo parte de una comunidad que te respalda 
+        en tu crecimiento profesional. Te proporcionamos la flexibilidad para establecer tu horario y la 
+        plataforma para conectar con personas que necesitan tu ayuda.
+    </p>
+    </div>
+  </section><!-- End Features Section -->
+
 <section id="porque" class="features">
 
   <div class="container section-title" data-aos="fade-up">
-    {% if not user.is_authenticated %}
-      <h2>¿Por qué usar Psicosfera? (Para Pacientes)</h2>
-    {% else %}
-      <h2>¿Por qué usar Psicosfera?</h2>
-    {% endif %}
-  </div>
-
-  <div class="container section-content" data-aos="fade-up">
-    <p><strong>Conexiones Significativas:</strong> Creamos puentes entre profesionales de salud mental y quienes buscan guía y apoyo.</p>
-    <p><strong>Accesibilidad:</strong> Atención psicológica de calidad en línea, eliminando barreras geográficas y temporales.</p>
-    <p><strong>Variedad de Profesionales:</strong> Una amplia base de datos de psicólogos con detalles de especialidad y disponibilidad.</p>
-    <p><strong>Adaptable a tus Necesidades:</strong> Diferentes niveles de servicio, desde básicos hasta premium.</p>
-    <p><strong>Seguridad Garantizada:</strong> Comprometidos con la privacidad y protección de tu información.</p>
-    <p><strong>Comunicación Efectiva:</strong> Notificaciones y recordatorios que te mantienen al tanto de tus citas.</p>
-    <p><strong>Transacciones Confiables:</strong> Pagos en línea seguros y rápidos.</p>
-  </div>
-
-  {% if not user.is_authenticated %}
-  <div class="container section-title" data-aos="fade-up">
-    <h2>¿Por qué usar Psicosfera? (Para Psicologos)</h2>
+    <h2>¿Por qué usar Psicosfera?</h2>
   </div>
 
   <div class="container section-content" data-aos="fade-up">
@@ -210,8 +179,6 @@ Psicosfera | Contacta a un profesional
     <p><strong>Forma parte de una Comunidad:</strong> Interactúa y establece conexiones con otros profesionales de salud mental.</p>
     <p><strong>Pagos Rápidos y Seguros:</strong> Procesamiento confiable de transacciones en línea.</p>
   </div>
-  {% endif %}
-
 </section><!-- End Features Section -->
 
 <!--  Section - Home Page -->
@@ -273,7 +240,6 @@ Psicosfera | Contacta a un profesional
     </div>
   </div>
 </section><!-- End Features Section -->
-
 {% endblock %}
 
 {% block scripts %}

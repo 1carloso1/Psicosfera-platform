@@ -197,12 +197,29 @@ section {
   text-align: center;
   padding-bottom: 60px;
 }
+.section-content{
+  text-align: center;
+  padding-bottom: 60px;
+}
+
+.btn-home {
+  width: 100%; /* Ajusta el ancho según tus necesidades */
+  max-width: 100%; /* Asegura que el ancho no exceda el contenedor */
+}
 
 .section-title h2 {
   color: var(--color-secondary);
   font-size: 32px;
   font-weight: 700;
   position: relative;
+}
+
+.section-psicosfera{
+  padding-top: 50px;
+}
+
+.section-psicosfera em{
+  font-size: 25px;
 }
 
 .section-title h2:before,
@@ -954,6 +971,7 @@ section {
   -o-object-fit: cover;
   object-fit: cover;
   z-index: 1;
+  top: 60px; 
 }
 
 .hero:before {
@@ -970,19 +988,21 @@ section {
 }
 
 .hero h2 {
-  margin: 0;
-  font-size: 44px;
+  text-align: center;
+  font-size: 70px;
   font-weight: 700;
 }
 
 .hero p {
+  text-align: center;
   color: rgba(var(--color-default-rgb), 0.8);
   margin: 5px 0 0 0;
   font-size: 20px;
 }
 
 .hero .sign-up-form {
-  margin-top: 20px;
+  margin-top: 60px;
+  width: 400px;
   padding: 10px;
   border-radius: 7px;
   background: var(--color-box-background);
