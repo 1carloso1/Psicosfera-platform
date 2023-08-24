@@ -276,9 +276,13 @@
                   $('p[class="direccion"]').text("Direccion: "+direccion)
                   if (diagnostico ) {
                     $('#compartidas').val(diagnostico);
+                  }else{
+                    $('#compartidas').val("");
                   }
                   if (tratamiento) {
                     $('#personales').val(tratamiento);
+                  }else{
+                    $('#personales').val("");
                   }
                   if (response.foto) {
                     $('#foto').attr('src', 'data:image/jpeg;base64,' + response.foto);
@@ -293,31 +297,30 @@
 </script>
 <script>
   $(document).ready(function() {
-      $('#form_compartidas').submit(function(event) {
-          event.preventDefault(); 
-          
-          var textareaContent = $('#compartidas').val(); // Obtener el contenido del textarea
-          var paciente_id = $('.btn').data('id');
-          console.log(paciente_id); 
-          $.ajax({
-              type: 'POST',
-              url: 'guardar_compartidas',  
-              data: {
-                'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
-                'content': textareaContent,  // Enviar el contenido del textarea al servidor
-                'id': paciente_id
-              },
-              dataType: 'json',
-              success: function(response) {
-                  // Actualizar el contenido del textarea con la respuesta del servidor si es necesario
-                  $('#compartidas').val(response.diagnostico);
-                  $('.btn').toggleClass(paciente_id);
-              },
-              error: function(response) {
-                  console.log('Error:', response);
-              }
-          });
+    $('#form_compartidas').submit(function(event) {
+      event.preventDefault(); 
+      var textareaContent = $('#compartidas').val(); // Obtener el contenido del textarea
+      var paciente_id = $('.btn').data('id');
+      console.log(paciente_id); 
+      $.ajax({
+        type: 'POST',
+        url: 'guardar_compartidas',
+        data: {
+          'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
+          'content': textareaContent,  // Enviar el contenido del textarea al servidor
+          'id': paciente_id
+        },
+        dataType: 'json',
+        success: function(response) {
+          // Actualizar el contenido del textarea con la respuesta del servidor si es necesario
+          $('#compartidas').val(response.diagnostico);
+          $('.btn').toggleClass(paciente_id);
+        },
+        error: function(response) {
+          console.log('Error:', response);
+        }
       });
+    });
   });
 </script>
 {% endblock %}
