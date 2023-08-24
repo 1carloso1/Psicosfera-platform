@@ -23,7 +23,7 @@ class Paciente(models.Model):
     def __str__(self):
         return self.nombre +" "+self.apaterno+" "+self.amaterno 
 
-# Modelo de expedinte de un pacinte
+# Modelo de expediente de un paciente
 class Expediente(models.Model):
     paciente = models.ForeignKey('Paciente', on_delete=models.CASCADE)
     fecha_creacion = models.DateField(auto_now_add=True)

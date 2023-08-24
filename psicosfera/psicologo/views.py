@@ -103,7 +103,7 @@ def guardar_compartidas(request):
         paciente = Paciente.objects.get(id=paciente_id)
         expediente = Expediente.objects.get(paciente=paciente)
         expediente.diagnostico = notas_compartidas
-        
         return JsonResponse({'diagnostico': expediente.diagnostico })
+    
     HttpResponse("Metodo no valido.",status=405)
     
