@@ -48,6 +48,25 @@
 :root {
   scroll-behavior: smooth;
 }
+/*--------------------------------------------------------------
+# Header Icons
+--------------------------------------------------------------*/
+.notification-icon {
+  width: 40px;
+  height: 40px;
+  background-color: rgba(169, 169, 169, 0.5); /* Gris con transparencia */
+  border-radius: 50%; /* Hace que el área sea circular */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden; /* Recorta cualquier contenido fuera del círculo */
+  margin-right: 5px; /* Ajusta el valor de margen derecho */
+}
+
+.icon-img {
+  width: 50%; /* Asegura que la imagen cubra completamente el área circular */
+  height: auto; /* Ajusta la altura de la imagen proporcionalmente */
+}
 
 /*--------------------------------------------------------------
 # Google Maps

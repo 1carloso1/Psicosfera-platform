@@ -63,51 +63,50 @@
       <nav>
         {% if user.is_authenticated %}
         <div class="nav-item dropdown pe-3">
-          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-            <img src="{% static 'img/img-user/profile-img.jpg' %}" alt="Profile" class="rounded-circle" width="40" height="40">
-            <span class="d-none d-md-block dropdown-toggle ps-2">{{ user }}</span>
-          </a><!-- End Profile Image Icon -->
-  
-          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
-            <li class="dropdown-header">
-              <h6>{{ user }}</h6>
-              <!--<span>Web Designer</span>-->
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-  
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="{% url 'perfil-paciente' %}">
-                <i class="bi bi-person"></i>
-                <span>Mi Perfil</span>
-              </a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-  
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
-                <i class="bi bi-gear"></i>
-                <span>Ajustes de la cuenta</span>
-              </a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-  
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="#" data-toggle="modal" data-target="#logoutModal">
-                <i class="bi bi-box-arrow-right"></i>
-                <span>Cerrar Sesión</span>
-              </a>
-            </li>
-          </ul><!-- End Profile Dropdown Items -->
+          <div class="d-flex align-items-center">
+            
+            <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+              <img src="{% static 'img/img-user/profile-img.jpg' %}" alt="Profile" class="rounded-circle" width="40" height="40">
+              <span class="d-none d-md-block dropdown-toggle ps-2">{{ user }}</span>
+            </a><!-- End Profile Image Icon -->
+            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+              <li class="dropdown-header">
+                <h6>{{ user }}</h6>
+                <!--<span>Web Designer</span>-->
+              </li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+          
+              <li>
+                <a class="dropdown-item d-flex align-items-center" href="{% url 'perfil-paciente' %}">
+                  <i class="bi bi-person"></i>
+                  <span>Mi Perfil</span>
+                </a>
+              </li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+          
+              <li>
+                <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
+                  <i class="bi bi-gear"></i>
+                  <span>Ajustes de la cuenta</span>
+                </a>
+              </li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li>
+                <a class="dropdown-item d-flex align-items-center" href="#" data-toggle="modal" data-target="#logoutModal">
+                  <i class="bi bi-box-arrow-right"></i>
+                  <span>Cerrar Sesión</span>
+                </a>
+              </li>
+            </ul><!-- End Profile Dropdown Items -->
+          </div>
         </div><!-- End Profile Nav -->
+        
         {% else %}
         <a class="btn btn-getstarted" href="{% url 'registro' %}">Registrarse</a>
         <a class="btn btn-getstarted" href="{% url 'login' %}">Iniciar Sesión</a>
@@ -211,26 +210,37 @@
 
     </footer><!-- End Footer -->
 
-    <script src="{% static 'js/jquery.min.js' %}"></script>
-    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    <!-- Vendor JS Files -->
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'vendor/glightbox/js/glightbox.min.js' %}"></script>
+  
+  
 
-    <!-- Core plugin JavaScript-->
-    <script src="{% static 'js/jquery.easing.min.js' %}"></script>
+  <script src="{% static 'js/main.js' %}"></script>
+  <script src="{% static 'js/sb-admin-2.min.js' %}"></script>
 
-    <!-- Custom scripts for all pages-->
-    <script src="{% static 'js/sb-admin-2.min.js' %}"></script>
+  <!-- Bootstrap core JavaScript-->
+  <script src="{% static 'js/jquery.min.js' %}"></script>
+  <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
 
-    <!-- Page level plugins -->
-    <script src="{% static 'js/Chart.min.js' %}"></script>
+  <!-- Core plugin JavaScript-->
+  <script src="{% static 'js/jquery.easing.min.js' %}"></script>
 
-    <!-- Page level custom scripts -->
-    <script src="{% static 'js/chart-area-demo.js' %}"></script>
-    <script src="{% static 'js/chart-pie-demo.js' %}"></script>
+  <!-- Custom scripts for all pages-->
+  <script src="{% static 'js/sb-admin-2.min.js' %}"></script>
+
+  <!-- Page level plugins -->
+  <script src="{% static 'js/Chart.min.js' %}"></script>
+
+  <!-- Page level custom scripts -->
+  <script src="{% static 'js/chart-area-demo.js' %}"></script>
+  <script src="{% static 'js/chart-pie-demo.js' %}"></script>
+  <link href="{% static 'lightbox/js/lightbox.js' %}" rel="stylesheet">
 
     <!-- Custom scripts for all pages-->
     <script src="{% static 'js/carousel.js' %}"></script>
 
-         
+        
     
 
 </body>

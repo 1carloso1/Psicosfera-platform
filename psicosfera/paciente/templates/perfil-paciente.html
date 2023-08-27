@@ -5,7 +5,7 @@
 {% block titulo %}
     Psicosfera | Mi Perfil
 {% endblock %}
- 
+
 {% block links %}
   <link href="{% static 'css/style.css' %}" rel="stylesheet">
   <link href="{% static 'lightbox/css/lightbox.css' %}" rel="stylesheet">
@@ -71,45 +71,40 @@
               </div>
 
               <div class="row">
-                <div class="col-lg-3 col-md-4 label">Nombre</div>
-                <div class="col-lg-9 col-md-8">{{ nombre }}</div>
+                <div class="col-lg-3 col-md-4 label ">Nombre completo</div>
+                <div class="col-lg-9 col-md-8">{{ user.get_full_name }}</div>
               </div>
-          
+
               <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Fecha de Nacimiento</div>
-                  <div class="col-lg-9 col-md-8">{{ fecha_nacimiento }}</div>
+                <div class="col-lg-3 col-md-4 label">Compañia</div>
+                <div class="col-lg-9 col-md-8">Lueilwitz, Wisoky and Leuschke</div>
               </div>
-          
+
               <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Edad</div>
-                  <div class="col-lg-9 col-md-8">{{ edad }}</div>
+                <div class="col-lg-3 col-md-4 label">Puesto de trabajo</div>
+                <div class="col-lg-9 col-md-8">Web Designer</div>
               </div>
-          
+
               <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Sexo</div>
-                  <div class="col-lg-9 col-md-8">{{ sexo }}</div>
+                <div class="col-lg-3 col-md-4 label">País</div>
+                <div class="col-lg-9 col-md-8">USA</div>
               </div>
-          
+
               <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Ocupación</div>
-                  <div class="col-lg-9 col-md-8">{{ ocupacion }}</div>
+                <div class="col-lg-3 col-md-4 label">Domicilio</div>
+                <div class="col-lg-9 col-md-8">A108 Adam Street, New York, NY 535022</div>
               </div>
-          
+
               <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Correo electrónico</div>
-                  <div class="col-lg-9 col-md-8">{{ correo_electronico }}</div>
+                <div class="col-lg-3 col-md-4 label">Número de teléfono</div>
+                <div class="col-lg-9 col-md-8">(436) 486-3538 x29071</div>
               </div>
-          
+
               <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Número de teléfono</div>
-                  <div class="col-lg-9 col-md-8">{{ telefono }}</div>
+                <div class="col-lg-3 col-md-4 label">Correo electrónico</div>
+                <div class="col-lg-9 col-md-8">k.anderson@example.com</div>
               </div>
-          
-              <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Dirección</div>
-                  <div class="col-lg-9 col-md-8">{{ direccion }}</div>
-              </div>
-    
+
             </div>
 
             <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
