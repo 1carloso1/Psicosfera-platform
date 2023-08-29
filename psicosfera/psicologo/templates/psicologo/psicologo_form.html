@@ -12,16 +12,16 @@ Psicosfera | Cuestionario de Registro
 {% load bootstrap4 %}
 
 {% block links %}
-     <!-- Font-->
-     <link href="{% static 'css/montserrat-font.css' %}" rel="stylesheet">
-     <link href="{% static 'css/material-design-iconic-font.min.css' %}" rel="stylesheet">
- 
-     <!-- Main Style Css -->
-     <link href="{% static 'css/style2.css' %}" rel="stylesheet">
-     <!-- Custom styles for this template-->
-    <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
+<!-- Font-->
+<link href="{% static 'css/montserrat-font.css' %}" rel="stylesheet">
+<link href="{% static 'css/material-design-iconic-font.min.css' %}" rel="stylesheet">
+
+<!-- Main Style Css -->
+<link href="{% static 'css/style2.css' %}" rel="stylesheet">
+<!-- Custom styles for this template-->
+<link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
 {% endblock links %}
-   
+
 {% block contenido %}
 <section class="bg-gradient-primary">
     <div class="page-content">
@@ -64,7 +64,9 @@ Psicosfera | Cuestionario de Registro
                                 <div class="form-row">
                                     <div class="form-holder form-holder-2">
                                         {{ form.fecha_nacimiento.label_tag }}
-                                        <input type="date" class="form-control" id="{{ form.fecha_nacimiento.id_for_label }}" name="{{ form.fecha_nacimiento.name }}">
+                                        <input type="date" class="form-control"
+                                            id="{{ form.fecha_nacimiento.id_for_label }}"
+                                            name="{{ form.fecha_nacimiento.name }}">
                                     </div>
                                 </div>
                                 <div class="form-row">
@@ -81,42 +83,6 @@ Psicosfera | Cuestionario de Registro
                             <div class="inner">
                                 <div class="form-row">
                                     <div class="form-holder form-holder-2">
-                                        <label for="{{ form.correo.id_for_label }}">Correo Electrónico:</label>
-                                        <input type="email" class="form-control" id="{{ form.correo.id_for_label }}" name="{{ form.correo.name }}" pattern="[^@]+@[^@]+\.[a-zA-Z]{2,6}">
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-holder form-holder-2">
-                                        <label for="{{ form.telefono.id_for_label }}">Teléfono:</label>
-                                        <input type="tel" class="form-control" id="{{ form.telefono.id_for_label }}" name="{{ form.telefono.name }}" pattern="[0-9]{10,15}">
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-holder form-holder-2">
-                                        {{ form.ubicacion.label_tag }}
-                                        {{ form.ubicacion }}
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-holder form-holder-2">
-                                        {{ form.descripcion.label_tag }}
-                                        {{ form.descripcion }}
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
-                        <!-- SECTION 3 -->
-                        <h2>3</h2>
-                        <section class="trasparente">
-                            <div class="inner">
-                                <div class="form-row">
-                                    <div class="form-holder form-holder-2">
-                                        {{ form.direccion.label_tag }}
-                                        {{ form.direccion }}
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-holder form-holder-2">
                                         {{ form.sexo.label_tag }}
                                         {{ form.sexo }}
                                     </div>
@@ -127,6 +93,51 @@ Psicosfera | Cuestionario de Registro
                                         {{ form.especialidad }}
                                     </div>
                                 </div>
+                                <div class="form-row">
+                                    <div class="form-holder form-holder-2">
+                                        <label for="{{ form.correo.id_for_label }}">Correo Electrónico:</label>
+                                        <input type="email" class="form-control" id="{{ form.correo.id_for_label }}"
+                                            name="{{ form.correo.name }}" pattern="[^@]+@[^@]+\.[a-zA-Z]{2,6}">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-holder form-holder-2">
+                                        <label for="{{ form.telefono.id_for_label }}">Teléfono:</label>
+                                        <input type="tel" class="form-control" id="{{ form.telefono.id_for_label }}"
+                                            name="{{ form.telefono.name }}" pattern="[0-9]{10,15}">
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <!-- SECTION 3 -->
+                        <h2>3</h2>
+                        <section class="trasparente">
+                            <div class="inner">
+                                <div class="form-row">
+                                    <div class="form-holder form-holder-2">
+                                        <label for="{{ form.certificado.id_for_label }}">Certificado:</label>
+                                        <input type="file" class="form-control" id="{{ form.certificado.id_for_label }}"
+                                            name="{{ form.certificado.name }}">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-holder form-holder-2">
+                                        {{ form.institucion_otorgamiento.label_tag }}
+                                        {{ form.institucion_otorgamiento }}
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-holder form-holder-2">
+                                        {{ form.anio_obtencion.label_tag }}
+                                        {{ form.anio_obtencion }}
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-holder form-holder-2">
+                                        {{ form.metodo_pago.label_tag }}
+                                        {{ form.metodo_pago }}
+                                    </div>
+                                </div>
                             </div>
                         </section>
                         <!-- SECTION 4 -->
@@ -135,26 +146,63 @@ Psicosfera | Cuestionario de Registro
                             <div class="inner">
                                 <div class="form-row">
                                     <div class="form-holder form-holder-2">
+                                        {{ form.enlace_pagina_web.label_tag }}
+                                        <input type="url" class="form-control"
+                                            id="{{ form.enlace_pagina_web.id_for_label }}"
+                                            name="{{ form.enlace_pagina_web.name }}">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-holder form-holder-2">
+                                        {{ form.enlace_facebook.label_tag }}
+                                        <input type="url" class="form-control"
+                                            id="{{ form.enlace_facebook.id_for_label }}"
+                                            name="{{ form.enlace_facebook.name }}">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-holder form-holder-2">
+                                        {{ form.enlace_instagram.label_tag }}
+                                        <input type="url" class="form-control"
+                                            id="{{ form.enlace_instagram.id_for_label }}"
+                                            name="{{ form.enlace_instagram.name }}">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-holder form-holder-2">
+                                        {{ form.enlace_linkedin.label_tag }}
+                                        <input type="url" class="form-control"
+                                            id="{{ form.enlace_linkedin.id_for_label }}"
+                                            name="{{ form.enlace_linkedin.name }}">
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <!-- SECTION 5 -->
+                        <h2>5</h2>
+                        <section class="trasparente">
+                            <div class="inner">
+                                <div class="form-row">
+                                    <div class="form-holder form-holder-2">
                                         <label for="{{ form.foto_perfil.id_for_label }}">Foto de Perfil:</label>
-                                        <input type="file" class="form-control" id="{{ form.foto_perfil.id_for_label }}" name="{{ form.foto_perfil.name }}">
+                                        <input type="file" class="form-control" id="{{ form.foto_perfil.id_for_label }}"
+                                            name="{{ form.foto_perfil.name }}">
                                     </div>
                                 </div>
                                 <div class="form-row">
                                     <div class="form-holder form-holder-2">
-                                        <label for="{{ form.certificado.id_for_label }}">Certificado:</label>
-                                        <input type="file" class="form-control" id="{{ form.certificado.id_for_label }}" name="{{ form.certificado.name }}">
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-holder form-holder-2">
-                                        <label for="{{ form.identificacion_oficial.id_for_label }}">Identificación Oficial:</label>
-                                        <input type="file" class="form-control" id="{{ form.identificacion_oficial.id_for_label }}" name="{{ form.identificacion_oficial.name }}">
+                                        <label for="{{ form.identificacion_oficial.id_for_label }}">Identificación
+                                            Oficial:</label>
+                                        <input type="file" class="form-control"
+                                            id="{{ form.identificacion_oficial.id_for_label }}"
+                                            name="{{ form.identificacion_oficial.name }}">
                                     </div>
                                 </div>
                                 <div class="form-row">
                                     <div class="form-holder form-holder-2">
                                         <label for="{{ form.curriculum.id_for_label }}">Curriculum Vitae:</label>
-                                        <input type="file" class="form-control" id="{{ form.curriculum.id_for_label }}" name="{{ form.curriculum.name }}">
+                                        <input type="file" class="form-control" id="{{ form.curriculum.id_for_label }}"
+                                            name="{{ form.curriculum.name }}">
                                     </div>
                                 </div>
                             </div>
@@ -162,10 +210,10 @@ Psicosfera | Cuestionario de Registro
                     </div>
                     <button type="submit" class="btn btn-success">
                         {% if accion == 'Nuevo' %}
-                            Agregar
+                        Agregar
                         {% else %}
-                            Guardar
-                        {% endif %}        
+                        Guardar
+                        {% endif %}
                     </button>
                 </form>
             </div>
@@ -175,7 +223,7 @@ Psicosfera | Cuestionario de Registro
 {% endblock %}
 
 ¿{% block scripts %}
-    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
-    <script src="{% static 'js/jquery.steps.js' %}"></script>
-    <script src="{% static 'js/main2.js' %}"></script>
+<script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+<script src="{% static 'js/jquery.steps.js' %}"></script>
+<script src="{% static 'js/main2.js' %}"></script>
 {% endblock %}
