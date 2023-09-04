@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 import os
 from pathlib import Path
+from os.path import join
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -38,13 +39,16 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'bootstrap4',
-    'crispy_bootstrap4',
-    'crispy_forms',
+    'django_private_chat2',
+    'channels',
+    'django_extensions',
     'home',
     'login',
     'psicologo',
     'paciente',
     'cita',
+    'chat',
+
 ]
 
 MIDDLEWARE = [
@@ -76,6 +80,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'psicosfera.wsgi.application'
+ASGI_APPLICATION = 'psicosfera.routing.application'
 
 
 # Database
@@ -137,6 +142,12 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static/'),
 )
 
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer'
+    }
+}
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
@@ -149,3 +160,34 @@ SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 SESSION_COOKIE_SECURE = True  # Solo si estás utilizando HTTPS
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 SESSION_COOKIE_HTTPONLY = True
+
+# Collect static files here
+STATIC_ROOT = join(BASE_DIR, 'run', 'static_root')
+
+# Collect media files here
+MEDIA_ROOT = join(BASE_DIR, 'run', 'media_root')
+MEDIA_URL = '/media/'
+
+ALLOWED_HOSTS = ['*']
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django.db.backends': {
+            'level': 'DEBUG',
+            'handlers': ['console'],
+        }
+    },
+    # Uncomment this to view django_private_chat2's logs
+
+    # 'root': {
+    #     'handlers': ['console'],
+    #     'level': 'INFO',
+    # },
+}
