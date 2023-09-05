@@ -20,16 +20,6 @@ class PacienteInterfazView(TemplateView):
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
-class NuevoPaciente(LoginRequiredMixin, CreateView):
-    model = Paciente
-    form_class = FormPaciente
-    extra_context = {'accion': 'Nuevo'}
-
-    def dispatch(self, request, *args, **kwargs):
-        if request.user.groups.filter(name='Usuario-Registrado').exists():
-            return redirect('home')  # Ajusta 'home' a la URL correcta
-        else:
-            return super().dispatch(request, *args, **kwargs)
 
 
     

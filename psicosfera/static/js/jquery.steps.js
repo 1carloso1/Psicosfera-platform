@@ -821,7 +821,7 @@ function refreshPagination(wizard, options, state)
 {
     if (options.enablePagination)
     {
-        var finish = wizard.find(".actions a[href$='#finish']").parent(),
+        var finish = wizard.find(".actions button[type$=submit]").parent(),
             next = wizard.find(".actions a[href$='#next']").parent();
 
         if (!options.forceMoveForward)
@@ -1056,6 +1056,7 @@ function renderPagination(wizard, options, state)
     {
         var pagination = "<{0} class=\"actions {1}\"><ul role=\"menu\" aria-label=\"{2}\">{3}</ul></{0}>",
             buttonTemplate = "<li><a href=\"#{0}\" role=\"menuitem\">{1}</a></li>",
+            buttonTemplateFinish = "<li><button type=submit role=\"menuitem\" >{0}</button></li>",
             buttons = "";
 
         if (!options.forceMoveForward)
@@ -1067,7 +1068,7 @@ function renderPagination(wizard, options, state)
 
         if (options.enableFinishButton)
         {
-            buttons += buttonTemplate.format("finish", options.labels.finish);
+            buttons += buttonTemplateFinish.format(options.labels.finish);
         }
 
         if (options.enableCancelButton)

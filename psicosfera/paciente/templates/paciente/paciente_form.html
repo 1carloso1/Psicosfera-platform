@@ -37,21 +37,8 @@ Psicosfera | Cuestionario de Registro
                     <section class="trasparente">
                         <div class="inner">
                             <div class="form-row">
-                                <div class="form-holder form-holder-2">
-                                    {{ form.nombre.label_tag }}
-                                    {{ form.nombre }}
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-holder form-holder-2">
-                                    {{ form.apaterno.label_tag }}
-                                    {{ form.apaterno }}
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-holder form-holder-2">
-                                    {{ form.amaterno.label_tag }}
-                                    {{ form.amaterno }}
+                                <div class="hidden">
+                                    {{ form.user }}
                                 </div>
                             </div>
                             <div class="form-row">
@@ -123,11 +110,6 @@ Psicosfera | Cuestionario de Registro
                         </div>
                     </section>
                 </div>
-                {% if accion == 'Nuevo' %}
-                    <input type="submit" class="btn btn-success" value="Agregar" formaction="{% url 'usuario-registrado' %}">
-                {% else %}
-                <input type="submit" class="btn btn-success" value="Guardar" formaction="{% url 'usuario-registrado' %}">
-                {% endif %}
             </form>
         </div>
     </div>

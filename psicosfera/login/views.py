@@ -3,35 +3,97 @@ from django.views.generic import View
 from django.contrib.auth import login,logout, authenticate
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
- 
+from django.urls import reverse_lazy
+from django.views.generic.edit import CreateView
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .forms import *
 
 from django.views.generic import TemplateView
 
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import User, Group, Permission
+from psicologo.models import Psicologo
+from paciente.models import Paciente
+from psicologo.forms import FormPsicologo
+from paciente.forms import FormPaciente
 from django.db.models.signals import post_save
 
-@login_required
-def agregar_paciente(request):
-    if not request.user.groups.filter(name='Pacientes').exists():
-        paciente_group = Group.objects.get(name='Pacientes')
-        request.user.groups.add(paciente_group)
-    return redirect('nuevo_paciente')  
 
-@login_required
-def agregar_psicologo(request):
-    if not request.user.groups.filter(name='Psicologos').exists():
-        psicologo_group = Group.objects.get(name='Psicologos')
-        request.user.groups.add(psicologo_group)
-    return redirect('nuevo_psicologo') 
+# @login_required
+# def agregar_paciente(request):
+#     if not request.user.groups.filter(name='Pacientes').exists():
+#         paciente_group = Group.objects.get(name='Pacientes')
+#         request.user.groups.add(paciente_group)
+#     return redirect('nuevo_paciente')  
 
-@login_required
-def usuario_registrado(request):
-    if not request.user.groups.filter(name='Usuario-Registrado').exists():
-        usuario_registrado_group = Group.objects.get(name='Usuario-Registrado')
-        request.user.groups.add(usuario_registrado_group)
-    return redirect('home') 
+# @login_required
+# def agregar_psicologo(request):
+#     print(request)
+#     if not request.user.groups.filter(name='Psicologos').exists():
+#         psicologo_group = Group.objects.get(name='Psicologos')
+#         request.user.groups.add(psicologo_group)
+#     return redirect('nuevo_psicologo') 
+
+# @login_required
+# def usuario_registrado(request):
+#     if not request.user.groups.filter(name='Usuario-Registrado').exists():
+#         usuario_registrado_group = Group.objects.get(name='Usuario-Registrado')
+#         request.user.groups.add(usuario_registrado_group)
+#     return redirect('home') 
+
+class NuevoPsicologo(View):
+    def get(self, request):
+        form = FormPsicologo(initial={'user': self.request.user})
+        print(form)
+        return render(request, 'psicologo/psicologo_form.html', {'form': form})
+    def post(self, request):
+        form = FormPsicologo(request.POST)
+        print(request.POST)
+        print(self.request.user)
+
+        if form.is_valid():
+            nuevo_grupo, creado = Group.objects.get_or_create(name='Psicologos')
+            # if creado:
+            #     permiso = Permission.objects.get(codename='change_blogpost')  
+            #     nuevo_grupo.permissions.add(permiso)        
+            usuario = User.objects.get(username=self.request.user)
+            usuario.groups.add(nuevo_grupo)    
+            form.save()
+            return redirect('home')
+        else:
+            # No necesitas iterar sobre form.error_messages
+            for field, errors in form.errors.items():
+                message = f"{field.capitalize()}: {errors[0]}"  # Obtén el primer error
+                messages.error(request, message)
+                print(message)
+            return render(request, 'psicologo/psicologo_form.html', {'form': form})
+    
+class NuevoPaciente(CreateView):
+    def get(self, request):
+        form = FormPaciente(initial={'user': self.request.user})
+        print(form)
+        return render(request, 'paciente/paciente_form.html', {'form': form})
+    def post(self, request):
+        form = FormPaciente(request.POST)
+        print(request.POST)
+        print(self.request.user)
+
+        if form.is_valid():
+            nuevo_grupo, creado = Group.objects.get_or_create(name='Pacientes')
+            # if creado:
+            #     permiso = Permission.objects.get(codename='change_blogpost')  
+            #     nuevo_grupo.permissions.add(permiso)        
+            usuario = User.objects.get(username=self.request.user)
+            usuario.groups.add(nuevo_grupo)    
+            form.save()
+            return redirect('home')
+        else:
+            # No necesitas iterar sobre form.error_messages
+            for field, errors in form.errors.items():
+                message = f"{field.capitalize()}: {errors[0]}"  # Obtén el primer error
+                messages.error(request, message)
+                print(message)
+            return render(request, 'paciente/paciente_form.html', {'form': form})
+
 
 class VRegistro(View):
     def get(self, request):
