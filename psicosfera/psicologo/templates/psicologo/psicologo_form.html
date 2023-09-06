@@ -37,28 +37,15 @@ Psicosfera | Cuestionario de Registro
                         <h2>1</h2>
                         <section class="trasparente">
                             <div class="inner">
+                                <div class="hidden">
+                                    <div class="form-holder form-holder-2">
+                                        {{ form.user }}
+                                    </div>
+                                </div>
                                 <div class="form-row">
                                     <div class="form-holder form-holder-2">
                                         {{ form.cedula.label_tag }}
                                         {{ form.cedula }}
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-holder form-holder-2">
-                                        {{ form.nombre.label_tag }}
-                                        {{ form.nombre }}
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-holder form-holder-2">
-                                        {{ form.apaterno.label_tag }}
-                                        {{ form.apaterno }}
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-holder form-holder-2">
-                                        {{ form.amaterno.label_tag }}
-                                        {{ form.amaterno }}
                                     </div>
                                 </div>
                                 <div class="form-row">
@@ -94,11 +81,6 @@ Psicosfera | Cuestionario de Registro
                                     </div>
                                 </div>
                                 <div class="form-row">
-                                    <div class="form-holder form-holder-2">
-                                        <label for="{{ form.correo.id_for_label }}">Correo Electrónico:</label>
-                                        <input type="email" class="form-control" id="{{ form.correo.id_for_label }}"
-                                            name="{{ form.correo.name }}" pattern="[^@]+@[^@]+\.[a-zA-Z]{2,6}">
-                                    </div>
                                 </div>
                                 <div class="form-row">
                                     <div class="form-holder form-holder-2">
@@ -208,13 +190,6 @@ Psicosfera | Cuestionario de Registro
                             </div>
                         </section>
                     </div>
-                    <button type="submit" class="btn btn-success">
-                        {% if accion == 'Nuevo' %}
-                        Agregar
-                        {% else %}
-                        Guardar
-                        {% endif %}
-                    </button>
                 </form>
             </div>
         </div>

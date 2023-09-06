@@ -21,20 +21,19 @@
     </div><!-- End Section Title -->
     <div class="row gy-5">
       <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
+        <div class="container section-title" data-aos="fade-up">
+          <h2>Pacientes</h2>
+        </div><!-- End Section Title -->
         <div class="service-box">
-          <div class="container section-title" data-aos="fade-up">
-            <h2>Pacientes</h2>
-          </div><!-- End Section Title -->
-          <div id="myCarousel" class="carousel slide" >
+          <div id="myCarousel" class="carousel align-top" >
             <div class="carousel-inner">
               <div class="carousel-item active">
                 <div class="services-list">
-                  {% for paciente in pacientes %}
+                  {% for cita in citas %}
                   {% csrf_token %}
-                  <a href="#datos-paciente" onclick="changeClass(this)" class="btn" data-id="{{ paciente.id }}"><i class="bi bi-arrow-right-circle"></i><span>{{ paciente.nombre }}</span></a>
+                  <a href="#datos-paciente" onclick="changeClass(this)" class="btn" data-id="{{ cita.paciente.id }}"><i class="bi bi-arrow-right-circle"></i><span>{{ cita }}</span></a>
                   {% endfor %} 
-    
-                    </div>
+                </div>
                   </div>
               </div>
               <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">

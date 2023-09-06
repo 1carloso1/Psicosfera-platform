@@ -8,17 +8,8 @@ class FormPaciente(forms.ModelForm):
         model = Paciente
         fields = '__all__'
         
-        # widgets = {
-        #     'nombre': forms.TextInput(
-        #         attrs={'class':'form-control','placeholder':'Nombre'}
-        #     ),
-        #     'clave': forms.TextInput(
-        #         attrs={'class':'form-control','placeholder':'Clave materia'}
-        #     ),'semestre': forms.Select(
-        #         attrs={'class':'form-control','placeholder':'Semestre'}
-        #     ),
-        #     # 'optativa': forms.CheckboxInput(attrs={'class':'form-control'),
-        #     'creditos': forms.NumberInput(
-        #         attrs={'class':'form-control','placeholder':'Créditos'}
-        #     ),
-        # }
+        widgets = {
+            'user': forms.TextInput(
+                attrs={'class':'form-control'}
+            ),
+        }

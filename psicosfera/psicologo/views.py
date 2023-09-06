@@ -5,37 +5,69 @@ from django.views.generic import TemplateView, ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Psicologo
+from cita.models import Cita
+
 from paciente.models import Paciente, Expediente
 from .forms import FormPsicologo
 from django.http import HttpResponse, JsonResponse
 import base64
 
 # Create your views here.
-class Interfaz(ListView):
-    model = Paciente  # Establece el modelo al que quieres acceder
-    template_name = 'interfaz-psicologo.html'
-    context_object_name = 'pacientes'  # Define el nombre de la variable
+# class Interfaz(ListView):
+#     model = Paciente  # Establece el modelo al que quieres acceder
+#     template_name = 'interfaz-psicologo.html'
+#     context_object_name = 'pacientes'  # Define el nombre de la variable
 
     
-class PerfilPsicologoView(TemplateView):
-    template_name = 'perfil-psicologo.html'
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
+# class PerfilPsicologoView(TemplateView):
+#     template_name = 'perfil-psicologo.html'
+#     def dispatch(self, request, *args, **kwargs):
+#         return super().dispatch(request, *args, **kwargs)
+
+def interfaz_psicologo(request):
+    print(request)
+    psicologo = Psicologo.objects.get(user=request.user)
+    citas = Cita.objects.all()
+    citasPsicologo = []
+    for cita in citas:
+        print("ID:"+str(cita.paciente.id))
+        if cita.psicologo == psicologo:
+            print(cita)
+            citasPsicologo.append(cita)
+    datos = {
+        "citas": citasPsicologo
+    }
+    return render(request, 'interfaz-psicologo.html', context=datos)
+
+
+def perfil_psicologo(request):
+
+    psicologo = Psicologo.objects.get(user=request.user)
+    if psicologo.foto_perfil:
+        with psicologo.foto_perfil.open('rb') as image_file:
+            image_data = image_file.read()
+            foto = base64.b64encode(image_data).decode('utf-8')
+    else:
+        foto = None
+    datos = {
+        'nombre': psicologo.user.first_name + ' ' + psicologo.user.last_name,
+        'edad': psicologo.edad,
+        'foto': foto,
+        'correo': psicologo.user.email,
+        'numero': psicologo.telefono,
+    }
+    return render(request, 'perfil-psicologo.html', context=datos)
     
-class NuevoPsicologo(CreateView):
-    # permission_required = '' # Dar los permisos requeridos
-    model = Psicologo
-    form_class = FormPsicologo
-    # fields = '__all__'
-    success_url = reverse_lazy('home') # Modificar la url cuando este la interfaz de usuario 
     
+
 def datos_paciente(request):
     if request.method == 'POST':   
         print(request)     
+        
         paciente_id = request.POST.get('paciente_id')
         paciente = Paciente.objects.get(id=paciente_id)
-        nombre = str(paciente.nombre) +" "+str(paciente.apaterno) +" "+ str(paciente.amaterno)
-        correo_electronico = paciente.correo
+        nombre = str(paciente.user.last_name) +" "+str(paciente.user.first_name)
+        correo_electronico = paciente.user.email
         telefono = paciente.telefono
         direccion = paciente.direccion
         edad = paciente.edad

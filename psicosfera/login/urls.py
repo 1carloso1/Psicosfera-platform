@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from .views import *
 
 urlpatterns = [
@@ -7,11 +7,14 @@ urlpatterns = [
     path('reestablecer-contraseña', reestablecer_contraseña, name = "reestablecer_contra"),
     path('registro', VRegistro.as_view(), name = "registro"),
     path('registro-usuario', RegistroUsuarioView.as_view(), name = "registro-usuario"),
-    # URL para agregar usuario a grupo "Pacientes"
-    path('agregar-paciente', agregar_paciente, name='agregar-paciente'),
-    # URL para agregar usuario a grupo "Psicólogos"
-    path('agregar-psicologo', agregar_psicologo, name='agregar-psicologo'),
-    # URL para agregar usuario a grupo "Usuarios-Registrados"
-    path('usuario-registrado', usuario_registrado, name='usuario-registrado'),
+    path('nuevo-psicologo', NuevoPsicologo.as_view(), name = "nuevo-psicologo"),
+    path('nuevo-paciente', NuevoPaciente.as_view(), name = "nuevo-paciente"),
+    
+    # # URL para agregar usuario a grupo "Pacientes"
+    # path('agregar-paciente', agregar_paciente, name='agregar-paciente'),
+    # # URL para agregar usuario a grupo "Psicólogos"
+    # path('agregar-psicologo', agregar_psicologo, name='agregar-psicologo'),
+    # # URL para agregar usuario a grupo "Usuarios-Registrados"
+    # path('usuario-registrado', usuario_registrado, name='usuario-registrado'),
 ]
  
