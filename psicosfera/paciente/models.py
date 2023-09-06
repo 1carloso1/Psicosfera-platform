@@ -21,7 +21,7 @@ class Paciente(models.Model):
     foto_perfil = models.ImageField(upload_to='pacientes_foto_perfil/', blank=True, null=True)
 
     def __str__(self):
-        return self.user
+        return f"{self.user}"
 
 # Modelo de expediente de un paciente
 class Expediente(models.Model):

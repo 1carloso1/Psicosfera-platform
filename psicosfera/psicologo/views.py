@@ -25,6 +25,7 @@ import base64
 #         return super().dispatch(request, *args, **kwargs)
 
 def interfaz_psicologo(request):
+    print(request)
     psicologo = Psicologo.objects.get(user=request.user)
     citas = Cita.objects.all()
     citasPsicologo = []
@@ -49,10 +50,10 @@ def perfil_psicologo(request):
     else:
         foto = None
     datos = {
-        'nombre': psicologo.nombre,
+        'nombre': psicologo.user.first_name + ' ' + psicologo.user.last_name,
         'edad': psicologo.edad,
         'foto': foto,
-        'correo': psicologo.correo,
+        'correo': psicologo.user.email,
         'numero': psicologo.telefono,
     }
     return render(request, 'perfil-psicologo.html', context=datos)
@@ -65,8 +66,8 @@ def datos_paciente(request):
         
         paciente_id = request.POST.get('paciente_id')
         paciente = Paciente.objects.get(id=paciente_id)
-        nombre = str(paciente.nombre) +" "+str(paciente.apaterno) +" "+ str(paciente.amaterno)
-        correo_electronico = paciente.correo
+        nombre = str(paciente.user.last_name) +" "+str(paciente.user.first_name)
+        correo_electronico = paciente.user.email
         telefono = paciente.telefono
         direccion = paciente.direccion
         edad = paciente.edad
