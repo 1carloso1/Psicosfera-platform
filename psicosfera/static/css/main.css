@@ -117,6 +117,67 @@
 }
 
 /*--------------------------------------------------------------
+# Estilo para barra autocompletado
+--------------------------------------------------------------*/
+
+/* Estilo para la lista de autocompletado */
+.autocomplete-results-esp {
+  width: 24%;
+  padding: 4px;
+  border-radius: 4px;
+  background-color: white;
+  color: var(--color-default);
+    position: absolute;
+    max-height: 150px; /* Altura máxima deseada */
+    display: none; /* Ocultar inicialmente la lista de autocompletado */
+    border: 1px solid #ccc; /* Borde gris */
+    max-height: 150px; /* Altura máxima de la lista */
+    overflow-y: auto; /* Habilitar desplazamiento vertical si la lista es larga */
+}
+
+.autocomplete-results-loc{
+  width: 24%;
+  padding: 4px;
+  border-radius: 4px;
+  background-color: white;
+  color: var(--color-default);
+    position: absolute;
+    max-height: 150px; /* Altura máxima deseada */
+    display: none; /* Ocultar inicialmente la lista de autocompletado */
+    border: 1px solid #ccc; /* Borde gris */
+    max-height: 150px; /* Altura máxima de la lista */
+    overflow-y: auto; /* Habilitar desplazamiento vertical si la lista es larga */
+}
+
+/* Estilo para resaltar las sugerencias coincidentes en negritas */
+.autocomplete-results-item {
+    padding: 8px 10px;
+    cursor: pointer;
+}
+
+.autocomplete-results-item:hover {
+    background-color: #f0f0f0; /* Color de fondo al pasar el cursor */
+    font-weight: bold; /* Aplicar negritas a las sugerencias coincidentes */
+}
+
+/* Estilo para las opciones del autocompletado */
+.autocomplete-item {
+  padding: 8px 10px;
+  cursor: pointer;
+  transition: background-color 0.2s ease; /* Transición para el color de fondo */
+}
+
+/* Estilo para la animación al hacer clic */
+.autocomplete-item.clicked {
+  background-color: #f0f0f0; /* Cambia el color de fondo al hacer clic */
+}
+
+/* Estilo para la animación al pasar el cursor */
+.autocomplete-item:hover {
+  background-color: #ddd; /* Cambia el color de fondo al pasar el cursor */
+}
+
+/*--------------------------------------------------------------
 # Botones de terapia
 --------------------------------------------------------------*/
 .bg-terapia-individual {

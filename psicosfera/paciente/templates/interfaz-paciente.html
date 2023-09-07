@@ -14,24 +14,26 @@
     </div>
     
     <div id="search-form" class="row align-items-end">
-        <div class="col-md-3">
-            <label>¿Qué necesitas?</label>
-            <input type="text" placeholder="Especialidad médica, especialista" id="specialty-input" class="form-control">
-        </div>
-        <div class="col-md-2">
-            <label>¿En dónde?</label>
-            <div class="input-group">
-                <input type="text" placeholder="Cerca de mí" id="location-input" class="form-control">
-                <button title="Cerca de mí" onclick="getLocation()" class="btn btn-primary">&#9679;</button>
-            </div>
-        </div>
-        <div class="col-md-2">
-            <div class="d-grid">
-                <button  class="btn btn-primary btn-search">Buscar</button>
-            </div>
-        </div>
-    </div>
 
+      <div class="col-md-3">
+          <label>¿Qué necesitas?</label>
+          <input type="text" placeholder="Especialidad médica, especialista" id="specialty-input" class="form-control" list="autocomplete-results">
+          <div id="autocomplete-results-specialty" class="autocomplete-results-esp"></div>
+      </div>
+
+      <div class="col-md-3">
+          <label>¿En dónde?</label>
+              <input type="text" placeholder="Ubicación" id="location-input" class="form-control" list="autocomplete-results">
+              <div id="autocomplete-results-location" class="autocomplete-results-loc"></div>
+          
+      </div>
+      <div class="col-md-2">
+          <div class="d-grid">
+              <button class="btn btn-primary btn-search">Buscar</button>
+          </div>
+      </div>
+  </div>
+<!--
     <div class="titulo-terapia">
       <h3>¿Qué tipo de terapia buscas?</h3>
     </div>
@@ -70,7 +72,7 @@
         <div class="contenedor-mapa">
           <div class="divisor-2 mapa">
             <div id="map" class="divisor-2"></div>
-              <!-- Aquí puedes agregar más contenido debajo del mapa si es necesario -->
+              
           </div>
           <div class="divisor-2">
             <div class="card card-small ">
@@ -121,7 +123,7 @@
           </div>
         </div>
     </div>
-
+  -->
   <div class="titulo-terapia">
     <h4>¿Eres un profesional y buscas ser parte de la comunidad de Psicosfera?</h4>
   </div>
@@ -142,4 +144,6 @@
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDaeWicvigtP9xPv919E-RNoxfvC-Hqik&callback=iniciarMap"></script>
   <script src="{% static 'js/seleccionarOpcion.js' %}" ></script>
   <script src="{% static 'js/expandirPagina.js' %}" ></script>
+  <script src="{% static 'js/busqueda-autocompletado.js' %}" ></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 {% endblock %}
