@@ -3191,3 +3191,7 @@ section {
   color: var(--color-inverse);
   background-color: rgba(var(--color-primary-rgb), 0.8);
 }
+
+#hidden{
+  display: none;
+}

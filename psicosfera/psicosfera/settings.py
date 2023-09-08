@@ -46,8 +46,8 @@ INSTALLED_APPS = [
     'login',
     'psicologo',
     'paciente',
-    'cita',
     'chat',
+    'evento',
 
 ]
 

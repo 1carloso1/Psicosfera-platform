@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from psicologo.models import Psicologo
 
 
 
@@ -26,13 +27,13 @@ class Paciente(models.Model):
 # Modelo de expediente de un paciente
 class Expediente(models.Model):
     paciente = models.ForeignKey('Paciente', on_delete=models.CASCADE)
+    psicologo = models.ForeignKey(Psicologo, on_delete=models.CASCADE)
     fecha_creacion = models.DateField(auto_now_add=True)
-    antecedentes_medicos = models.TextField(blank=True)
-    diagnostico = models.TextField(blank=True)
-    tratamiento = models.TextField(blank=True)
-    observaciones = models.TextField(blank=True)
+    notas_personales = models.TextField(blank=True)
+    notas_compartidas = models.TextField(blank=True)
+
 
     def __str__(self):
-        return f"Expediente #{self.id} - Paciente: {self.paciente.nombre}"
+        return f"Expediente #{self.id} - Paciente: {self.paciente.user.last_name} {self.paciente.user.first_name}"
 
     
