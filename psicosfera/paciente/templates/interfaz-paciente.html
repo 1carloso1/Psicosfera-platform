@@ -29,11 +29,11 @@
       </div>
       <div class="col-md-2">
           <div class="d-grid">
-              <button class="btn btn-primary btn-search">Buscar</button>
+              <button class="btn btn-primary btn-search" onclick="mostrar_contenido()">Buscar</button>
           </div>
       </div>
   </div>
-<!--
+
     <div class="titulo-terapia">
       <h3>¿Qué tipo de terapia buscas?</h3>
     </div>
@@ -72,7 +72,6 @@
         <div class="contenedor-mapa">
           <div class="divisor-2 mapa">
             <div id="map" class="divisor-2"></div>
-              
           </div>
           <div class="divisor-2">
             <div class="card card-small ">
@@ -140,8 +139,9 @@
 {% endblock %}
 
 {% block scripts %}
-  <script src="{% static 'js/googleMaps.js' %}" ></script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDaeWicvigtP9xPv919E-RNoxfvC-Hqik&callback=iniciarMap"></script>
+  <script src="{% static 'js/googleMapsAPI.js' %}" ></script>
+  <script src="{% static 'js/ConsultarMapa.js' %}" ></script>
+  <script src="{% static 'js/ConsultarPsicologo.js' %}" ></script>
   <script src="{% static 'js/seleccionarOpcion.js' %}" ></script>
   <script src="{% static 'js/expandirPagina.js' %}" ></script>
   <script src="{% static 'js/busqueda-autocompletado.js' %}" ></script>

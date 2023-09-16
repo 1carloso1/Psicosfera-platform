@@ -1,32 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import User
+from psicologo.especialidades import ESPECIALIDADES_CHOICES_2
+
 
 SEXO_CHOICES = (
     ('M', 'Masculino'),
     ('F', 'Femenino'),
-)
-
-ESPECIALIDADES_CHOICES = (
-    ('clinica', 'Psicología Clínica'),
-    ('educativa', 'Psicología Educativa'),
-    ('deporte', 'Psicología del Deporte'),
-    ('organizacional', 'Psicología Organizacional'),
-    ('forense', 'Psicología Forense'),
-    ('salud_mental', 'Salud Mental'),
-    ('terapia_familiar', 'Terapia Familiar'),
-    ('neuropsicologia', 'Neuropsicología'),
-    ('psicologia_infantil', 'Psicología Infantil'),
-    ('psicoterapia', 'Psicoterapia'),
-    ('psicologia_social', 'Psicología Social'),
-    ('gerontologia', 'Gerontología'),
-    ('psicologia_rehabilitacion', 'Psicología de la Rehabilitación'),
-    ('psicologia_educacional', 'Psicología Educacional'),
-    ('psicologia_legal', 'Psicología Legal'),
-    ('orientacion_vocacional', 'Orientación Vocacional'),
-    ('terapia_sexual', 'Terapia Sexual'),
-    ('terapia_pareja', 'Terapia de Pareja'),
-    ('psicologia_transpersonal', 'Psicología Transpersonal'),
-    # Agrega más especialidaes si es necesario
 )
 
 METODOS_PAGO_CHOICES = (
@@ -45,7 +24,7 @@ class Psicologo(models.Model):
     edad = models.PositiveIntegerField()
     sexo = models.CharField(max_length=1, choices=SEXO_CHOICES)
     fecha_nacimiento = models.DateField(null=True, verbose_name="Fecha de nacimiento")
-    especialidad = models.CharField(max_length=100, choices=ESPECIALIDADES_CHOICES)
+    especialidad = models.CharField(max_length=100, choices=ESPECIALIDADES_CHOICES_2)
     telefono = models.CharField(max_length=10, null=True)
     institucion_otorgamiento = models.CharField(max_length=200, blank=True, null=True, verbose_name="Institución de otorgamiento")
     anio_obtencion = models.PositiveIntegerField(null=True, verbose_name="Año de obtención")
