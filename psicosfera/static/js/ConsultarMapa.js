@@ -20,7 +20,7 @@ function buscar() {
             console.log('Coordenadas:', coord.lat, coord.lng);
 
             var map = new google.maps.Map(mapElement, {
-                zoom: 13,
+                zoom: 11,
                 center: coord
             });
             var marker = new google.maps.Marker({

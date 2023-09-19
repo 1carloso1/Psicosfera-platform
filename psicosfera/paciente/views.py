@@ -72,7 +72,7 @@ def psicologos_por_especialidad_nombre(request):
                         break  # Terminamos el bucle cuando encontramos una coincidencia
                 if especialidad == inputText: #verifica si la especialidad del usuario es la que se esta solicitando
                     nombre_usuario = psicologo.user.first_name + " "  +  psicologo.user.last_name # Accede al nombre de usuario del usuario asociado al psicólogo
-                    lista_nombres.append(nombre_usuario)  # Agrega el nombre de usuario a la lista
+                    lista_nombres.append((nombre_usuario,especialidad))  # Agrega el nombre de usuario a la lista
             return JsonResponse(lista_nombres, safe=False)
         
         elif inputText not in ESPECIALIDADES_CHOICES:
