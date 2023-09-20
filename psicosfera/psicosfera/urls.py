@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path, re_path, include
-from home.views import Home
+from home.views import *
 from django.views.generic import TemplateView
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
@@ -9,7 +9,8 @@ from chat.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', Home.as_view(), name = 'home'),
+    # path('', Home.as_view(), name = 'home'),
+    path('', include('home.urls')),
     path('psicologo/', include('psicologo.urls')),
     path('login/', include('login.urls')),
     path('paciente/', include('paciente.urls')),

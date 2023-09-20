@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
 
-
 {% block titulo %}
 Psicosfera | Contacta a un profesional
 {% endblock %}
@@ -11,7 +10,8 @@ Psicosfera | Contacta a un profesional
 <li><a href="{% url 'home' %}#Nosotros">Nosotros</a></li>
 <li><a href="{% url 'home' %}#porque">¿Por qué usar psicosfera?</a></li>
 <li><a href="{% url 'home' %}#P&R">P&R</a></li>
-<li><a href="{% url 'home' %}#footer">Contacto</a></li>
+<li><a href="{% url 'contacto' %}">Contacto</a></li>
+<!-- <li><a href="#" id="abrirModal">Contacto</a></li> -->
 <li><a href="{% url 'paciente' %}">Buscar consulta</a></li>
 <!--
   <li class="dropdown has-dropdown"><a href="#"><span>Dropdown</span> <i class="bi bi-chevron-down"></i></a>
@@ -274,9 +274,6 @@ Psicosfera | Contacta a un profesional
   </div>
 </section><!-- End Features Section -->
 
-<!-- Agrega esto donde quieras que aparezca el enlace "Contacto" -->
-<a href="#" id="abrirModal">Contacto</a>
-
 <!-- Define el modal -->
 <div id="miModal" class="modal">
   <!-- Contenido del modal -->
@@ -285,7 +282,17 @@ Psicosfera | Contacta a un profesional
     <span class="cerrarModal" id="cerrarModal">&times;</span>
     <!-- Agrega el formulario de contacto aquí -->
     <h2>Formulario de Contacto</h2>
-    <form id="formularioContacto" action="#" method="POST">
+    <form id="formularioContacto" action="{% url 'contacto_datos' %}" method="POST">
+      {% csrf_token %}
+
+      {% if message %}
+        {% for message in message %}
+          <div class="alert alert-success" role="alert">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+
       <div class="form-group">
         <label for="nombre">Nombre:</label>
         <input type="text" id="nombre" name="nombre" required>
@@ -295,6 +302,10 @@ Psicosfera | Contacta a un profesional
         <input type="email" id="correo" name="correo" required>
       </div>
       <div class="form-group">
+        <label for="asunto">Asunto:</label>
+        <input type="text" id="asunto" name="asunto" required>
+      </div>
+      <div class="form-group">
         <label for="mensaje">Mensaje:</label>
         <textarea id="mensaje" name="mensaje" rows="4" required></textarea>
       </div>
@@ -302,6 +313,7 @@ Psicosfera | Contacta a un profesional
         <button type="submit">Enviar</button>
       </div>
     </form>
+    
   </div>
   
   <style>

@@ -193,12 +193,10 @@ LOGGING = {
     # },
 }
 
-
 # Para el envio del correo de contacto
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'tucorreo@gmail.com'  # Tu dirección de correo Gmail
-EMAIL_HOST_PASSWORD = 'tucontraseña'   # La contraseña de tu cuenta Gmail
-
+EMAIL_HOST_USER = 'chalaca23ff@gmail.com'  # Tu dirección de correo Gmail
+EMAIL_HOST_PASSWORD = 'xgiadvzqnoqmnrcj'   # La contraseña de tu cuenta Gmail
