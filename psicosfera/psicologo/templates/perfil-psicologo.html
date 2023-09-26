@@ -18,15 +18,15 @@
 
       <div class="card  mt-5">
         <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
-          <img src="{{ foto }}" alt="Profile" class="rounded-circle">
+          <img id="foto" src="" alt="Profile" class="rounded-circle">
           <br>
-          <h2>{{user}}</h2>
+          <h2 id="user"></h2>
           <h3>Web Designer</h3>
           <div class="social-links mt-2">
-            <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
-            <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
-            <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
-            <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+            <a href="#" id="twitter"><i class="bi bi-twitter"></i></a>
+            <a href="#" id="facebook"><i class="bi bi-facebook"></i></a>
+            <a href="#" id="instagram"><i class="bi bi-instagram"></i></a>
+            <a href="#" id="linkedin"><i class="bi bi-linkedin"></i></a>
           </div>
         </div>
       </div>
@@ -67,17 +67,12 @@
 
               <div class="row">
                 <div class="col-lg-3 col-md-4 label ">Nombre de usuario</div>
-                <div class="col-lg-9 col-md-8">{{ user }}</div>
+                <p class="col-lg-9 col-md-8" id="user2"></p>
               </div>
 
               <div class="row">
                 <div class="col-lg-3 col-md-4 label ">Nombre completo</div>
-                <div class="col-lg-9 col-md-8">{{ nombre }}</div>
-              </div>
-
-              <div class="row">
-                <div class="col-lg-3 col-md-4 label">Compañia</div>
-                <div class="col-lg-9 col-md-8">Lueilwitz, Wisoky and Leuschke</div>
+                <p class="col-lg-9 col-md-8" id="nombre"></p>
               </div>
 
               <div class="row">
@@ -97,12 +92,12 @@
 
               <div class="row">
                 <div class="col-lg-3 col-md-4 label">Número de teléfono</div>
-                <div class="col-lg-9 col-md-8">{{ numero }}</div>
+                <p class="col-lg-9 col-md-8" id="numero" ></p>
               </div>
 
               <div class="row">
                 <div class="col-lg-3 col-md-4 label">Correo electrónico</div>
-                <div class="col-lg-9 col-md-8">{{ correo }}</div>
+                <p class="col-lg-9 col-md-8" id="correo"></p>
               </div>
 
             </div>
@@ -110,11 +105,12 @@
             <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
 
               <!-- Profile Edit Form -->
-              <form>
+              <form id="actualizar" method="post" action=""> 
+                {% csrf_token %}
                 <div class="row mb-3">
                   <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Imágen de perfil</label>
                   <div class="col-md-8 col-lg-9">
-                    <img src="{% static 'img/img-user/profile-img.jpg' %}" alt="Profile">
+                    <img src="" id="foto2" alt="Profile">
                     <div class="pt-2">
                       <a href="#" class="btn btn-primary btn-sm" title="Upload new profile image"><i class="bi bi-upload"></i></a>
                       <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a>
@@ -125,7 +121,7 @@
                 <div class="row mb-3">
                   <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Nombre completo</label>
                   <div class="col-md-8 col-lg-9">
-                    <input name="fullName" type="text" class="form-control" id="fullName" value="Kevin Anderson">
+                    <input name="fullName" type="text" class="form-control" id="fullName">
                   </div>
                 </div>
 
@@ -133,13 +129,6 @@
                   <label for="about" class="col-md-4 col-lg-3 col-form-label">Sobre mí</label>
                   <div class="col-md-8 col-lg-9">
                     <textarea name="about" class="form-control" id="about" style="height: 100px">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor. Ut sunt iure rerum quae quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea saepe at unde.</textarea>
-                  </div>
-                </div>
-
-                <div class="row mb-3">
-                  <label for="company" class="col-md-4 col-lg-3 col-form-label">Compañia</label>
-                  <div class="col-md-8 col-lg-9">
-                    <input name="company" type="text" class="form-control" id="company" value="Lueilwitz, Wisoky and Leuschke">
                   </div>
                 </div>
 
@@ -160,49 +149,49 @@
                 <div class="row mb-3">
                   <label for="Address" class="col-md-4 col-lg-3 col-form-label">Domicilio</label>
                   <div class="col-md-8 col-lg-9">
-                    <input name="address" type="text" class="form-control" id="Address" value="A108 Adam Street, New York, NY 535022">
+                    <input name="address" type="text" class="form-control" id="Address" >
                   </div>
                 </div>
 
                 <div class="row mb-3">
                   <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Número de teléfono</label>
                   <div class="col-md-8 col-lg-9">
-                    <input name="phone" type="text" class="form-control" id="Phone" value="(436) 486-3538 x29071">
+                    <input name="phone" type="text" class="form-control" id="Phone">
                   </div>
                 </div>
 
                 <div class="row mb-3">
                   <label for="Email" class="col-md-4 col-lg-3 col-form-label">Correo</label>
                   <div class="col-md-8 col-lg-9">
-                    <input name="email" type="email" class="form-control" id="Email" value="k.anderson@example.com">
+                    <input name="email" type="email" class="form-control" id="Email" >
                   </div>
                 </div>
 
                 <div class="row mb-3">
                   <label for="Twitter" class="col-md-4 col-lg-3 col-form-label">Perfil de Twitter</label>
                   <div class="col-md-8 col-lg-9">
-                    <input name="twitter" type="text" class="form-control" id="Twitter" value="https://twitter.com/#">
+                    <input name="twitter" type="text" class="form-control" id="Twitter" >
                   </div>
                 </div>
 
                 <div class="row mb-3">
                   <label for="Facebook" class="col-md-4 col-lg-3 col-form-label">Perfil de  Facebook</label>
                   <div class="col-md-8 col-lg-9">
-                    <input name="facebook" type="text" class="form-control" id="Facebook" value="https://facebook.com/#">
+                    <input name="facebook" type="text" class="form-control" id="Facebook" >
                   </div>
                 </div>
 
                 <div class="row mb-3">
                   <label for="Instagram" class="col-md-4 col-lg-3 col-form-label">Perfil de Instagram</label>
                   <div class="col-md-8 col-lg-9">
-                    <input name="instagram" type="text" class="form-control" id="Instagram" value="https://instagram.com/#">
+                    <input name="instagram" type="text" class="form-control" id="Instagram" >
                   </div>
                 </div>
 
                 <div class="row mb-3">
                   <label for="Linkedin" class="col-md-4 col-lg-3 col-form-label">Perfil de Linkedin</label>
                   <div class="col-md-8 col-lg-9">
-                    <input name="linkedin" type="text" class="form-control" id="Linkedin" value="https://linkedin.com/#">
+                    <input name="linkedin" type="text" class="form-control" id="Linkedin" >
                   </div>
                 </div>
 
@@ -299,4 +288,77 @@
 
 {% block scripts %}
   <link href="{% static 'lightbox/js/lightbox.js' %}" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+      $(document).ready(function() {
+          // Hacer la solicitud AJAX al cargar la página
+          $.ajax({
+              url: '{% url "datos_psicologo" %}',
+              type: 'GET',
+
+              dataType: 'json',
+              success: function(data) {
+                  if (data.foto) {
+                    $('#foto').attr('src', 'data:image/jpeg;base64,' + data.foto);
+                  }else{
+                    $('#foto').hide();
+                  }
+                  $('#user').text(data.user);
+                  $('#user2').text(data.user);
+                  $('#nombre').text(data.nombre);
+                  $('#edad').text(data.edad);
+                  $('#correo').text(data.correo);
+                  $('#numero').text(data.numero);
+                  $('#facebook').attr('href', data.facebook);
+                  $('#instagram').attr('href', data.instagram);
+                  $('#linkedin').attr('href', data.linkedin);
+                  $('#twitter').attr('href', data.twitter);
+                  if (data.foto) {
+                    $('#foto2').attr('src', 'data:image/jpeg;base64,' + data.foto);
+                  }else{
+                    $('#foto2').hide();
+                  }
+                  $("#fullName").val(data.nombre);
+                  $("#Phone").val(data.numero);
+                  $("#Email").val(data.correo);
+                  $("#Facebook").val(data.facebook);
+                  $("#Instagram").val(data.instagram);
+                  $("#Linkedin").val(data.linkedin);
+                  $("#Twitter").val(data.twitter);
+
+              },
+              error: function(error) {
+                  console.log(error);
+              }
+          });
+      });
+  </script>
+  <script>
+    $(document).ready(function() {
+      $('#actualizadas').submit(function(event) {
+        event.preventDefault();
+        $.ajax({
+          type: 'POST',
+          url: 'guardar_psicologo/',
+          data: {
+            'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
+            "nombre": $("#fullName").val(data.nombre),
+            "numero" : $("#Phone").val(data.numero),
+            "correo" : $("#Email").val(data.correo),
+            "facebook" : $("#Facebook").val(data.facebook),
+            "instagram" : $("#Instagram").val(data.instagram),
+            "linkedin" : $("#Linkedin").val(data.linkedin),
+            "twitter": $("#Twitter").val(data.twitter),
+          },
+          dataType: 'json',
+          success: function(response) {
+            alert(response.mensaje);
+          },
+          error: function(response) {
+            console.log('Error:', response);
+          }
+        });
+      });
+    });
+  </script>
 {% endblock %}

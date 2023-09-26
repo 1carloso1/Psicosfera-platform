@@ -129,31 +129,33 @@
             selectable: true,
             select: function(arg) {
                 var title = prompt('Titulo de la cita:');
-                var paciente = prompt('Nombre paciente:');
                 if (title) {
-                  // Obtén el token CSRF del elemento <input> con name="csrfmiddlewaretoken"
-                  var csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+                  var paciente = prompt('Nombre paciente:');
+                  if (paciente) {
+                    var csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
                     $.ajax({
-                        url: 'guardar_cita/',
-                        type: 'POST',
-                        headers: {
-                          'X-CSRFToken': csrfToken  
-                        },
-                        data: {
-                            titulo: title, 
-                            start: arg.startStr,
-                            end: arg.endStr,
-                            paciente: paciente
-                        },
-                        success: function(response) {
-                          alert(response.mensaje);
-                          calendar.refetchEvents(); 
-                          obtenerCitas();
-                        },
-                        error: function(xhr, status, error) {
-                            console.error('Error al guardar el evento:', error);
-                        }
+                      url: 'guardar_cita/',
+                      type: 'POST',
+                      headers: {
+                        'X-CSRFToken': csrfToken  
+                      },
+                      data: {
+                          titulo: title, 
+                          start: arg.startStr,
+                          end: arg.endStr,
+                          paciente: paciente
+                      },
+                      success: function(response) {
+                        alert(response.mensaje);
+                        calendar.refetchEvents(); 
+                        obtenerCitas();
+                      },
+                      error: function(xhr, status, error) {
+                          console.error('Error al guardar el evento:', error);
+                      }
                     });
+                  }
+
                 }
                 calendar.unselect();
             },
@@ -172,6 +174,7 @@
                         success: function(response) {
                             alert(response.mensaje);
                             arg.event.remove();
+                            $('#datos-paciente').attr('id', 'hidden');
                             obtenerCitas();
                         },
                         error: function(xhr, status, error) {
@@ -211,7 +214,7 @@
             $.each(response, function(index, cita) {
                 console.log(cita)
                 contenidoHTML += `<li><a href="#foto" onclick="changeClass(this)" class="btn" data-id="${cita.id_paciente }"><i class="bi bi-arrow-right-circle"></i><span>${cita.nombre_paciente} | Prox. cita: ${cita.fecha_inicio} ${cita.hora_inicio}</span></a></li>`;
-                // Agrega más campos según tus necesidades
+
             });
             contenidoHTML += '</ul>';
 
@@ -224,7 +227,7 @@
     });
   }
   $(document).ready(function() {
-    // Realiza una solicitud AJAX para obtener los datos de todos los pacientes
+    // Realiza una solicitud AJAX para obtener las citas de todos los pacientes
     obtenerCitas();
   });
   </script>
@@ -232,7 +235,6 @@
     $(document).ready(function() {
         $('#pacientes').on('click', 'a.btn', function(e) {
             var paciente_id = $(this).data('id');
-            var foto = $(this).prevAll('.foto').first();
             
             $.ajax({
                 type: 'POST',
@@ -263,7 +265,7 @@
                   $('p[class="ocupacion"]').text("Ocupacion: "+ocupacion);
                   $('p[class="correo"]').text("Correo: "+correo);
                   $('p[class="telefono"]').text("Telefono: "+telefono);
-                  $('p[class="direccion"]').text("Direccion: "+direccion)
+                  $('p[class="direccion"]').text("Direccion: "+direccion);
                   if (notas_compartidas) {
                     $('#compartidas').val(notas_compartidas);
                   }else{
@@ -274,6 +276,7 @@
                   }else{
                     $('#personales').val("");
                   }
+
                   if (response.foto) {
                     $('#foto').attr('src', 'data:image/jpeg;base64,' + response.foto);
                   }else{
@@ -290,6 +293,7 @@
 <script>
   $(document).ready(function() {
     $('#form_compartidas').submit(function(event) {
+      event.preventDefault();
       var contenidoCompartidas = $('#compartidas').val(); // Obtener el contenido del textarea
       var contenidoPersonales = $('#personales').val(); // Obtener el contenido del textarea
       var paciente_id = $('.btn').data('id');
@@ -304,7 +308,7 @@
         },
         dataType: 'json',
         success: function(response) {
-          obtenerCitas();
+          alert(response.mensaje);
         },
         error: function(response) {
           console.log('Error:', response);

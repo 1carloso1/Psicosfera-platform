@@ -21,13 +21,12 @@ def guardar_cita(request):
         pacientes = Paciente.objects.all()
         for paciente in pacientes:
             if paciente.user == request.POST.get('paciente'):
+                titulo = request.POST.get('titulo')
+                fecha_inicio = request.POST.get('start').replace('-06:00',"")
+                fecha_fin = request.POST.get('end').replace('-06:00',"")
+                cita = Evento(paciente=paciente,psicologo=psicologo,titulo=titulo, fecha_inicio=fecha_inicio, fecha_fin=fecha_fin)
+                cita.save()
                 break
-        titulo = request.POST.get('titulo')
-        fecha_inicio = request.POST.get('start').replace('-06:00',"")
-        fecha_fin = request.POST.get('end').replace('-06:00',"")
-        cita = Evento(paciente=paciente,psicologo=psicologo,titulo=titulo, fecha_inicio=fecha_inicio, fecha_fin=fecha_fin)
-        cita.save()
-
         return JsonResponse({'mensaje': 'Cita guardado con éxito'})
     else:
         return JsonResponse({'mensaje': 'Método no permitido'}, status=405)
@@ -62,9 +61,9 @@ def obtener_citas(request):
     return JsonResponse(citasPsicologo, safe=False)
 
 
-def perfil_psicologo(request):
-
+def datos_psicologo(request):
     psicologo = Psicologo.objects.get(user=request.user)
+    
     if psicologo.foto_perfil:
         with psicologo.foto_perfil.open('rb') as image_file:
             image_data = image_file.read()
@@ -77,8 +76,17 @@ def perfil_psicologo(request):
         'foto': foto,
         'correo': psicologo.user.email,
         'numero': psicologo.telefono,
+        'user': psicologo.user.username,
+        'facebook': psicologo.enlace_facebook,
+        'linkedin': psicologo.enlace_linkedin,
+        'instagram': psicologo.enlace_instagram,
+        'twitter':psicologo.enlace_pagina_web,   
     }
-    return render(request, 'perfil-psicologo.html', context=datos)
+    return JsonResponse(datos, safe=False)
+    
+    
+def perfil_psicologo(request):
+    return render(request, 'perfil-psicologo.html')
     
     
 
@@ -134,6 +142,23 @@ def datos_paciente(request):
             })
     HttpResponse("Metodo no valido.",status=405)
 
+def guardar_psicologo(request):
+
+    if request.method == 'POST':
+        psicologo = Psicologo.objects.get(user=request.user)
+        psicologo.user.first_name = request.POST.get('nombre', None)
+        psicologo.telefono = request.POST.get('numero', None)
+        psicologo.user.email = request.POST.get('correo', None)
+        psicologo.enlace_facebook = request.POST.get('facebook', None)
+        psicologo.enlace_linkedin = request.POST.get('linkedin', None)
+        psicologo.enlace_instagram = request.POST.get('instagram', None)
+        psicologo.enlace_pagina_web = request.POST.get('twitter', None)
+        psicologo.save()
+        return JsonResponse({'mensaje': 'Datos guardados con exito'})
+    else:
+        return JsonResponse({'mensaje': 'Método no permitido'}, status=405)
+        
+
 def guardar_notas(request):
     if request.method == 'POST':
         notas_compartidas = request.POST.get('contenidoCompartidas', None)
@@ -154,7 +179,10 @@ def guardar_notas(request):
             psicologo = Psicologo.objects.get(user=request.user)
             expediente = Expediente(paciente=paciente,psicologo = psicologo,notas_compartidas = notas_compartidas,notas_personales = notas_personales)
             expediente.save()
-        return JsonResponse({'notas_personales': expediente.notas_personales, 'notas_compartidas': expediente.notas_compartidas})
+        
+        return JsonResponse({'mensaje': 'Expediente guardado con éxito'})
+    else:
+        return JsonResponse({'mensaje': 'Método no permitido'}, status=405)
     
-    HttpResponse("Metodo no valido.",status=405)
+
     
