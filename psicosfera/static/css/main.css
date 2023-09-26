@@ -83,14 +83,20 @@
 .mapa{
   display: flex;
   flex-direction: column;
+  min-height: auto;
 }
 
 .contenedor-mapa {
   padding: 20px 0;
   display: block;
-  max-height: 0;
+  height: 690px;
   overflow: hidden;
   transition: max-height 0.3s ease-in-out;
+}
+
+#zona-especialista {
+  overflow-y: auto; /* Añade un scrollbar vertical cuando sea necesario */
+  
 }
 
 .expandir {
