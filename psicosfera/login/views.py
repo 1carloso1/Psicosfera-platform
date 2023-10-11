@@ -13,7 +13,7 @@ from django.views.generic import TemplateView
 from django.contrib.auth.models import User, Group, Permission
 from psicologo.models import Psicologo
 from paciente.models import Paciente
-from psicologo.forms import FormPsicologo
+from psicologo.forms import FormPsicologo, FormConsultorio
 from paciente.forms import FormPaciente
 from django.db.models.signals import post_save
 
@@ -49,9 +49,36 @@ class NuevoPsicologo(View):
         form = FormPsicologo(request.POST)
         print(request.POST)
         print(self.request.user)
-
+  
         if form.is_valid():
             nuevo_grupo, creado = Group.objects.get_or_create(name='Psicologos')
+            # if creado:
+            #     permiso = Permission.objects.get(codename='change_blogpost')  
+            #     nuevo_grupo.permissions.add(permiso)        
+            usuario = User.objects.get(username=self.request.user)
+            usuario.groups.add(nuevo_grupo)    
+            form.save()
+            return redirect('nuevo-consultorio')
+        else:
+            # No necesitas iterar sobre form.error_messages
+            for field, errors in form.errors.items():
+                message = f"{field.capitalize()}: {errors[0]}"  # Obtén el primer error
+                messages.error(request, message)
+                print(message)
+            return render(request, 'psicologo/psicologo_form.html', {'form': form})
+        
+class NuevoConsultorio(View):
+    def get(self, request):
+        form = FormConsultorio(initial={'user': self.request.user})
+        print(form)
+        return render(request, 'consultorio/consultorio_form.html', {'form': form})
+    def post(self, request):
+        form = FormConsultorio(request.POST)
+        print(request.POST)
+        print(self.request.user)
+ 
+        if form.is_valid():
+            nuevo_grupo, creado = Group.objects.get_or_create(name='Consultorios')
             # if creado:
             #     permiso = Permission.objects.get(codename='change_blogpost')  
             #     nuevo_grupo.permissions.add(permiso)        
@@ -65,8 +92,8 @@ class NuevoPsicologo(View):
                 message = f"{field.capitalize()}: {errors[0]}"  # Obtén el primer error
                 messages.error(request, message)
                 print(message)
-            return render(request, 'psicologo/psicologo_form.html', {'form': form})
-    
+            return render(request, 'consultorio/consultorio_form.html', {'form': form})
+
 class NuevoPaciente(CreateView):
     def get(self, request):
         form = FormPaciente(initial={'user': self.request.user})

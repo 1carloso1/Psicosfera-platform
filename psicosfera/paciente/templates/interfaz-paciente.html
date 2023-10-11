@@ -18,13 +18,13 @@
       <div class="col-md-3">
           <label>¿Qué necesitas?</label>
           <input type="text" placeholder="Especialidad médica, especialista" id="specialty-input" class="form-control" list="autocomplete-results">
-          <div id="autocomplete-results-specialty" class="autocomplete-results-esp"></div>
+          <div id="autocomplete-results-specialty" class="autocomplete-results-interfaz"></div>
       </div>
 
       <div class="col-md-3">
           <label>¿En dónde?</label>
               <input type="text" placeholder="Ubicación" id="location-input" class="form-control" list="autocomplete-results">
-              <div id="autocomplete-results-location" class="autocomplete-results-loc"></div>
+              <div id="autocomplete-results-location" class="autocomplete-results-interfaz"></div>
           
       </div>
       <div class="col-md-2">
@@ -71,5 +71,4 @@
   <script src="{% static 'js/seleccionarOpcion.js' %}" ></script>
   <script src="{% static 'js/expandirPagina.js' %}" ></script>
   <script src="{% static 'js/busqueda-autocompletado.js' %}" ></script>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 {% endblock %}

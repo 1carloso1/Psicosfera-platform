@@ -113,6 +113,18 @@
   margin-top: 20px;
 }
 
+.cartaIcono_nombre {
+  text-align: center;
+  font-size: 16px; 
+  font-weight: bold;
+}
+
+.cartaIcono_especialidad {
+  text-align: center;
+  font-size: 12px; 
+  font-weight: bold;
+}
+
 /*--------------------------------------------------------------
 # Tarjetas de a lado del mapa
 --------------------------------------------------------------*/
@@ -127,32 +139,34 @@
 --------------------------------------------------------------*/
 
 /* Estilo para la lista de autocompletado */
-.autocomplete-results-esp {
+.autocomplete-results-interfaz {
   width: 24%;
   padding: 4px;
   border-radius: 4px;
   background-color: white;
   color: var(--color-default);
-    position: absolute;
-    max-height: 150px; /* Altura máxima deseada */
-    display: none; /* Ocultar inicialmente la lista de autocompletado */
-    border: 1px solid #ccc; /* Borde gris */
-    max-height: 150px; /* Altura máxima de la lista */
-    overflow-y: auto; /* Habilitar desplazamiento vertical si la lista es larga */
+  position: absolute;    max-height: 150px; /* Altura máxima deseada */
+  display: none; /* Ocultar inicialmente la lista de autocompletado */
+  border: 1px solid #ccc; /* Borde gris */
+  max-height: 170px; /* Altura máxima de la lista */
+  overflow-y: auto; /* Habilitar desplazamiento vertical si la lista es larga */
+  z-index: 1000;
 }
 
-.autocomplete-results-loc{
-  width: 24%;
+
+.autocomplete-results-form{
+  width: 96%;
   padding: 4px;
   border-radius: 4px;
   background-color: white;
   color: var(--color-default);
-    position: absolute;
-    max-height: 150px; /* Altura máxima deseada */
-    display: none; /* Ocultar inicialmente la lista de autocompletado */
-    border: 1px solid #ccc; /* Borde gris */
-    max-height: 150px; /* Altura máxima de la lista */
-    overflow-y: auto; /* Habilitar desplazamiento vertical si la lista es larga */
+  position: absolute;
+  max-height: 120px; /* Altura máxima deseada */
+  display: none; /* Ocultar inicialmente la lista de autocompletado */
+  border: 1px solid #ccc; /* Borde gris */
+  max-height: 150px; /* Altura máxima de la lista */
+  overflow-y: auto; /* Habilitar desplazamiento vertical si la lista es larga */
+  z-index: 1000;
 }
 
 /* Estilo para resaltar las sugerencias coincidentes en negritas */

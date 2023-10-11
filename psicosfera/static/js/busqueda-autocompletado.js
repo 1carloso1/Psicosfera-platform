@@ -45,3 +45,9 @@ setupAutocomplete($('#specialty-input'), $('#autocomplete-results-specialty'), '
 
 // Configurar la funcionalidad de autocompletado para la barra de búsqueda de ubicaciones
 setupAutocomplete($('#location-input'), $('#autocomplete-results-location'), 'autocompletar-ubicaciones/');
+
+// Configurar la funcionalidad de autocompletado para la barra de direccion del consultorio
+setupAutocomplete($('#direccion-input'), $('#autocomplete-results-location'), '/../paciente/autocompletar-ubicaciones/');
+
+// Configurar la funcionalidad de autocompletado para la barra de búsqueda de especialidades en el form
+setupAutocomplete($('#especialidad-input'), $('#autocomplete-results-specialty'), '/../paciente/autocompletar-especialidades/');
