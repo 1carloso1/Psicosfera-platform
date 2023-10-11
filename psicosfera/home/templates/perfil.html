@@ -21,7 +21,7 @@
           <img id="foto" src="" alt="Profile" class="rounded-circle">
           <br>
           <h2 id="user"></h2>
-          <h3 id="profesion">Web Designer</h3>
+          <h3 id="especialidad2"></h3>
           <div class="social-links mt-2">
             <a href="#" id="twitter"><i class="bi bi-twitter"></i></a>
             <a href="#" id="facebook"><i class="bi bi-facebook"></i></a>
@@ -76,18 +76,18 @@
               </div>
 
               <div class="row">
-                <div class="col-lg-3 col-md-4 label">Puesto de trabajo</div>
-                <div class="col-lg-9 col-md-8">Web Designer</div>
+                <div class="col-lg-3 col-md-4 label ">Edad</div>
+                <p class="col-lg-9 col-md-8" id="edad"></p>
               </div>
 
               <div class="row">
-                <div class="col-lg-3 col-md-4 label">País</div>
-                <div class="col-lg-9 col-md-8">USA</div>
+                <div class="col-lg-3 col-md-4 label">Especialidad</div>
+                <p class="col-lg-9 col-md-8" id="especialidad"></p>
               </div>
 
               <div class="row">
-                <div class="col-lg-3 col-md-4 label">Domicilio</div>
-                <div class="col-lg-9 col-md-8">A108 Adam Street, New York, NY 535022</div>
+                <div class="col-lg-3 col-md-4 label">Dirección del Consultorio</div>
+                <p class="col-lg-9 col-md-8" id="direccion"></p>
               </div>
 
               <div class="row">
@@ -126,6 +126,13 @@
                 </div>
 
                 <div class="row mb-3">
+                  <label for="age" class="col-md-4 col-lg-3 col-form-label">Edad</label>
+                  <div class="col-md-8 col-lg-9">
+                    <input name="age" type="text" class="form-control" id="age">
+                  </div>
+                </div>
+
+                <div class="row mb-3">
                   <label for="about" class="col-md-4 col-lg-3 col-form-label">Sobre mí</label>
                   <div class="col-md-8 col-lg-9">
                     <textarea name="about" class="form-control" id="about" style="height: 100px">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor. Ut sunt iure rerum quae quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea saepe at unde.</textarea>
@@ -133,16 +140,16 @@
                 </div>
 
                 <div class="row mb-3">
-                  <label for="Job" class="col-md-4 col-lg-3 col-form-label">Puesto de trabajo</label>
+                  <label for="especiality" class="col-md-4 col-lg-3 col-form-label">Especialidad</label>
                   <div class="col-md-8 col-lg-9">
-                    <input name="job" type="text" class="form-control" id="Job" value="Web Designer">
+                    <input name="especiality" type="text" class="form-control" id="especiality">
                   </div>
                 </div>
 
                 <div class="row mb-3">
-                  <label for="Address" class="col-md-4 col-lg-3 col-form-label">Domicilio</label>
+                  <label for="address" class="col-md-4 col-lg-3 col-form-label">Dirección del Consultorio</label>
                   <div class="col-md-8 col-lg-9">
-                    <input name="address" type="text" class="form-control" id="Address" >
+                    <input name="address" type="text" class="form-control" id="address" >
                   </div>
                 </div>
 
@@ -301,7 +308,13 @@
                 $('#user2').text(data.user);
                 $('#nombre').text(data.nombre);
                 $("#fullName").val(data.nombre);
+                $('#especialidad').text(data.especialidad);
+                $('#especialidad2').text(data.especialidad);
+                $('#especiality').val(data.especialidad);
+                $('#direccion').text(data.direccion);
+                $('#address').val(data.direccion);
                 $('#edad').text(data.edad);
+                $('#age').val(data.edad);
                 $('#correo').text(data.correo);
                 $("#Email").val(data.correo);
                 $('#numero').text(data.telefono);
