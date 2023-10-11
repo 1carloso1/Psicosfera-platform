@@ -7,10 +7,16 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Psicologo, User
 from evento.models import Evento
 
+from django.http import FileResponse
+from django.shortcuts import render
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
+from io import BytesIO
 from paciente.models import Paciente, Expediente
 from .forms import FormPsicologo
-from django.http import HttpResponse, JsonResponse
+from django.http import  JsonResponse
 import base64
+
 
 def interfaz_psicologo(request):
     return render(request, 'interfaz-psicologo.html')
@@ -19,15 +25,16 @@ def guardar_cita(request):
     if request.method == 'POST':
         psicologo = Psicologo.objects.get(user=request.user)
         pacientes = Paciente.objects.all()
+        
         for paciente in pacientes:
-            if paciente.user == request.POST.get('paciente'):
+            if paciente.user.username == request.POST.get('paciente'):
                 titulo = request.POST.get('titulo')
                 fecha_inicio = request.POST.get('start').replace('-06:00',"")
                 fecha_fin = request.POST.get('end').replace('-06:00',"")
                 cita = Evento(paciente=paciente,psicologo=psicologo,titulo=titulo, fecha_inicio=fecha_inicio, fecha_fin=fecha_fin)
                 cita.save()
-                break
-        return JsonResponse({'mensaje': 'Cita guardado con éxito'})
+                return JsonResponse({'mensaje': 'Cita guardado con éxito'})
+        return JsonResponse({'mensaje': 'Nombre de usuario del paciente invalido'})
     else:
         return JsonResponse({'mensaje': 'Método no permitido'}, status=405)
 
@@ -59,7 +66,7 @@ def obtener_citas(request):
                 'hora_inicio': cita.fecha_inicio.strftime('%H:%M:%S'),  # Formato ISO8601
             })
     return JsonResponse(citasPsicologo, safe=False)
-
+ 
 
 def datos_psicologo(request):
     psicologo = Psicologo.objects.get(user=request.user)
@@ -71,12 +78,15 @@ def datos_psicologo(request):
     else:
         foto = None
     datos = {
-        'nombre': psicologo.user.first_name + ' ' + psicologo.user.last_name,
-        'edad': psicologo.edad,
         'foto': foto,
+        'nombre': psicologo.user.first_name + ' ' + psicologo.user.last_name,
         'correo': psicologo.user.email,
-        'numero': psicologo.telefono,
+        'telefono': psicologo.telefono,
+        #"direccion" : direccion,
+        'edad': psicologo.edad,
+        'sexo': psicologo.sexo,
         'user': psicologo.user.username,
+        "psicologo": 1,
         'facebook': psicologo.enlace_facebook,
         'linkedin': psicologo.enlace_linkedin,
         'instagram': psicologo.enlace_instagram,
@@ -84,65 +94,7 @@ def datos_psicologo(request):
     }
     return JsonResponse(datos, safe=False)
     
-    
-def perfil_psicologo(request):
-    return render(request, 'perfil-psicologo.html')
-    
-    
-
-def datos_paciente(request):
-    if request.method == 'POST':   
-        
-        paciente_id = request.POST.get('paciente_id')
-        paciente = Paciente.objects.get(id=paciente_id)
-        nombre = str(paciente.user.last_name) +" "+str(paciente.user.first_name)
-        correo_electronico = paciente.user.email
-        telefono = paciente.telefono
-        direccion = paciente.direccion
-        edad = paciente.edad
-        sexo = paciente.sexo
-        ocupacion = paciente.ocupacion
-        fecha_nacimiento = paciente.fecha_nacimiento
-        if paciente.foto_perfil:
-            with paciente.foto_perfil.open('rb') as image_file:
-                image_data = image_file.read()
-                foto = base64.b64encode(image_data).decode('utf-8')
-        else:
-            foto = None
-            
-        try:
-            expediente = Expediente.objects.get(paciente=paciente)
-            notas_compartidas = expediente.notas_compartidas
-            notas_personales = expediente.notas_personales
-            return JsonResponse({
-                "foto": foto,
-                "nombre" : nombre,
-                "correo_electronico" : correo_electronico,
-                "telefono" : telefono,
-                "direccion" : direccion,
-                "edad" : edad,
-                "sexo" : sexo,
-                "ocupacion" : ocupacion,
-                "fecha_nacimiento" : fecha_nacimiento,
-                "notas_compartidas" : notas_compartidas,
-                "notas_personales": notas_personales,
-            })
-        except:
-            print("No hay expediente.")
-            return JsonResponse({
-                "foto": foto,
-                "nombre" : nombre,
-                "correo_electronico" : correo_electronico,
-                "telefono" : telefono,
-                "direccion" : direccion,
-                "edad" : edad,
-                "sexo" : sexo,
-                "ocupacion" : ocupacion,
-                "fecha_nacimiento" : fecha_nacimiento,
-            })
-    HttpResponse("Metodo no valido.",status=405)
-
-def guardar_psicologo(request):
+def actualizar_psicologo(request):
 
     if request.method == 'POST':
         psicologo = Psicologo.objects.get(user=request.user)
@@ -185,4 +137,25 @@ def guardar_notas(request):
         return JsonResponse({'mensaje': 'Método no permitido'}, status=405)
     
 
+def paciente_pdf(request):
+    # Crear un objeto BytesIO para almacenar el PDF generado en memoria
+    buffer = BytesIO()
     
+    # Crear el objeto PDF
+    p = canvas.Canvas(buffer)
+    
+    # Dibujar contenido en el PDF
+    p.drawString(100, 750, "¡Hola, mundo!")
+    
+    # Finalizar el PDF
+    p.showPage()
+    p.save()
+    
+    # Establecer el puntero del búfer en el inicio
+    buffer.seek(0)
+    
+    # Crear una respuesta HTTP con el contenido del PDF
+    response = FileResponse(buffer, content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="mi_pdf.pdf"'
+    
+    return response

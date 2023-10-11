@@ -13,4 +13,6 @@ channels>=3.0.3,<4.0
 
 django_private_chat2==1.0.2
 googlemaps==4.10.0
+reportlab==3.6.1
+
 #docker compose up -d --build

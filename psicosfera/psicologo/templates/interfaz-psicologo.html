@@ -38,7 +38,7 @@
         <div class="service-box">
           <h4>Descargar detalles</h4>
           <div class="download-catalog">
-            <a href="#"><i class="bi bi-filetype-pdf"></i><span>Catalog PDF</span></a>
+            <a href="#" data-id="1" id="pdf"><i class="bi bi-filetype-pdf"></i><span>Generar PDF</span></a>
             <a href="#"><i class="bi bi-file-earmark-word"></i><span>Catalog DOC</span></a>
           </div>
         </div><!-- End Services List -->
@@ -47,10 +47,8 @@
           <div class="service-box datos-paciente" id="hidden">
           <img src="" id="foto" alt="foto" >
           <h2 class="nombre"></h2>
-          <p class="fecha"></p>
           <p class="edad"></p>
           <p class="sexo"></p>
-          <p class="ocupacion"></p>
           <p class="correo"></p>
           <p class="telefono"></p>
           <p class="direccion"></p>
@@ -212,7 +210,6 @@
             // Maneja la respuesta y construye el contenido HTML para mostrar todos los pacientes
             var contenidoHTML = '<ul>';
             $.each(response, function(index, cita) {
-                console.log(cita)
                 contenidoHTML += `<li><a href="#foto" onclick="changeClass(this)" class="btn" data-id="${cita.id_paciente }"><i class="bi bi-arrow-right-circle"></i><span>${cita.nombre_paciente} | Prox. cita: ${cita.fecha_inicio} ${cita.hora_inicio}</span></a></li>`;
 
             });
@@ -259,10 +256,8 @@
                   $('#hidden').removeAttr('id');
 
                   $('h2[class="nombre"]').text(nombre);
-                  $('p[class="fecha"]').text("Fecha de nacimiento: "+fecha_nacimiento);
                   $('p[class="edad"]').text("Edad: "+edad);
                   $('p[class="sexo"]').text("Sexo: "+sexo);
-                  $('p[class="ocupacion"]').text("Ocupacion: "+ocupacion);
                   $('p[class="correo"]').text("Correo: "+correo);
                   $('p[class="telefono"]').text("Telefono: "+telefono);
                   $('p[class="direccion"]').text("Direccion: "+direccion);
@@ -282,6 +277,7 @@
                   }else{
                     $('#foto').hide();
                   }
+                  $('#pdf').attr('data-id',paciente_id);
                 },
                 error: function(response) {
                     console.log('Error:', response);
@@ -289,6 +285,34 @@
             });
         });
     });
+</script>
+
+<script>
+  $(document).ready(function() {
+      $("#pdf").click(function(event) {
+          event.preventDefault(); // Evita el comportamiento predeterminado del enlace
+
+          var paciente_id = $('#pdf').attr('data-id'); // Obtén el ID desde el atributo data-id del enlace
+          console.log(paciente_id); 
+          // Realiza la solicitud AJAX
+          $.ajax({
+              url: 'paciente_pdf/', // Reemplaza con la URL de destino en tu aplicación
+              type: 'POST',
+              data: {
+                'paciente_id': paciente_id,
+                'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
+
+              }, 
+              dataType: 'json',
+              success: function(data) {
+                  console.log(data);
+              },
+              error: function(error) {
+                  console.log(error);
+              }
+          });
+      });
+  });
 </script>
 <script>
   $(document).ready(function() {

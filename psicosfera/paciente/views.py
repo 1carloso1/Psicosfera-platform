@@ -5,11 +5,78 @@ from django.conf import settings
 from psicologo.models import Psicologo
 from psicologo.especialidades import ESPECIALIDADES_CHOICES,ESPECIALIDADES_CHOICES_2
 from django.db.models import F, Value, CharField
+from django.shortcuts import render
+from django.http import HttpResponse
+from paciente.models import Paciente, Expediente
+import base64
 
-class PerfilView(TemplateView):
-    template_name = 'perfil-paciente.html'
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
+
+def datos_paciente(request):
+    try:
+        paciente_id = request.POST.get('paciente_id')
+        paciente = Paciente.objects.get(id=paciente_id)
+    except:
+        paciente = Paciente.objects.get(user=request.user)
+    nombre = str(paciente.user.last_name) +" "+str(paciente.user.first_name)
+    correo_electronico = paciente.user.email
+    telefono = paciente.telefono
+    direccion = paciente.direccion
+    edad = paciente.edad
+    sexo = paciente.sexo
+    if paciente.foto_perfil:
+        with paciente.foto_perfil.open('rb') as image_file:
+            image_data = image_file.read()
+            foto = base64.b64encode(image_data).decode('utf-8')
+    else:
+        foto = None
+        
+    try:
+        expediente = Expediente.objects.get(paciente=paciente)
+        notas_compartidas = expediente.notas_compartidas
+        notas_personales = expediente.notas_personales
+        data ={
+            "foto": foto,
+            "nombre" : nombre,
+            "correo" : correo_electronico,
+            "telefono" : telefono,
+            "direccion" : direccion,
+            "edad" : edad,
+            "sexo" : sexo,
+            "user": paciente.user.username,
+            "psicologo": 0,
+            
+            "notas_compartidas" : notas_compartidas,
+            "notas_personales": notas_personales,
+        }
+    except:
+        print("No hay expediente.")
+        data ={
+            "foto": foto,
+            "nombre" : nombre,
+            "correo_electronico" : correo_electronico,
+            "telefono" : telefono,
+            "direccion" : direccion,
+            "edad" : edad,
+            "sexo" : sexo,
+            "user": paciente.user.username,
+            "psicologo": 0,
+            
+        }
+    return JsonResponse(data, safe=False)
+
+def actualizar_paciente(request):
+
+    if request.method == 'POST':
+        paciente = Paciente.objects.get(user=request.user)
+        paciente.user.first_name = request.POST.get('nombre', None)
+        paciente.telefono = request.POST.get('numero', None)
+        paciente.user.email = request.POST.get('correo', None)
+        paciente.save()
+        return JsonResponse({'mensaje': 'Datos guardados con exito'})
+    else:
+        return JsonResponse({'mensaje': 'Método no permitido'}, status=405)
+        
+
     
 class PacienteInterfazView(TemplateView):
     template_name = 'interfaz-paciente.html'

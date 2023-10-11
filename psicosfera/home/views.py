@@ -4,6 +4,18 @@ from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 from django.conf import settings
 from django.contrib import messages
+from django.http import HttpResponse, JsonResponse
+from paciente.views import datos_paciente, actualizar_paciente
+from psicologo.views import datos_psicologo, actualizar_psicologo
+
+def guardar_datos(request):
+    if request.method == 'POST':
+        esPsicologo = request.POST.get("psicologo")
+        if esPsicologo == "1":
+            return actualizar_psicologo(request)
+        else:
+            return actualizar_paciente(request)
+
 
 class Home(TemplateView):
     def get_template_names(self):
@@ -17,6 +29,18 @@ class Home(TemplateView):
 
 def contacto(request):
     return render(request, 'contacto.html')
+    
+def perfil(request):
+    return render(request, 'perfil.html') 
+
+def datos(request):
+    try:
+        return datos_psicologo(request)
+    except:
+        return datos_paciente(request)
+    
+
+
 
 def procesar_formulario(request):
     if request.method == 'POST':
