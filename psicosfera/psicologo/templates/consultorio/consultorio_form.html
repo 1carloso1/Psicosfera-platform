@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block titulo %}
+Psicosfera | Cuestionario de Registro
+{% endblock %}
+
+{% block btns %}
+
+{% endblock %}
+
+{% load bootstrap4 %}
+
+{% block links %}
+<!-- Font-->
+<link href="{% static 'css/montserrat-font.css' %}" rel="stylesheet">
+<link href="{% static 'css/material-design-iconic-font.min.css' %}" rel="stylesheet">
+
+<!-- Main Style Css -->
+<link href="{% static 'css/style2.css' %}" rel="stylesheet">
+<!-- Custom styles for this template-->
+<link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
+{% endblock links %}
+
+{% block contenido %}
+<section class="bg-gradient-primary">
+    <div class="page-content">
+        <div class="wizard-v10-content">
+            <div class="wizard-form">
+                <div class="wizard-header">
+                    <h3>Datos del Consultorio</h3>
+                </div>
+                <form class="form-register" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div id="form-total">
+                        <!-- SECTION 1 -->
+                        <section class="trasparente">
+                            <div class="inner">
+                                <div class="hidden">
+                                    <div class="form-holder form-holder-2">
+                                        {{ form.user }}
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-holder form-holder-2">
+                                        {{ form.direccion.label_tag }}
+                                        {{ form.direccion }}
+                                        <div id="autocomplete-results-location" class="autocomplete-results-form"></div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-holder form-holder-2">
+                                        {{ form.horario_atencion.label_tag }}
+                                        {{ form.horario_atencion }}
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+¿{% block scripts %}
+<script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+<script src="{% static 'js/jquery.steps.js' %}"></script>
+<script src="{% static 'js/main2.js' %}"></script>
+<script src="{% static 'js/busqueda-autocompletado.js' %}" ></script>
+{% endblock %}

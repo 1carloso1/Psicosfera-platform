@@ -8,6 +8,7 @@ urlpatterns = [
     path('registro', VRegistro.as_view(), name = "registro"),
     path('registro-usuario', RegistroUsuarioView.as_view(), name = "registro-usuario"),
     path('nuevo-psicologo', NuevoPsicologo.as_view(), name = "nuevo-psicologo"),
+    path('nuevo-consultorio', NuevoConsultorio.as_view(), name = "nuevo-consultorio"),
     path('nuevo-paciente', NuevoPaciente.as_view(), name = "nuevo-paciente"),
     
     # # URL para agregar usuario a grupo "Pacientes"

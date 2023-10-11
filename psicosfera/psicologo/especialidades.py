@@ -40,5 +40,6 @@ ESPECIALIDADES_CHOICES_2 = (
     ('terapia_sexual', 'Terapia Sexual'),
     ('terapia_pareja', 'Terapia de Pareja'),
     ('psicologia_transpersonal', 'Psicología Transpersonal'),
+    ('otra_especialidad', 'Otra Especialidad'),
     # Agrega más especialidaes si es necesario
 )

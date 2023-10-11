@@ -2,7 +2,7 @@ from django.views.generic import ListView, TemplateView
 from django.http import JsonResponse
 import googlemaps
 from django.conf import settings
-from psicologo.models import Psicologo
+from psicologo.models import Psicologo, Consultorio
 from psicologo.especialidades import ESPECIALIDADES_CHOICES,ESPECIALIDADES_CHOICES_2
 from django.db.models import F, Value, CharField
 
@@ -71,8 +71,12 @@ def psicologos_por_especialidad_nombre(request):
                         especialidad = nombre
                         break  # Terminamos el bucle cuando encontramos una coincidencia
                 if especialidad == inputText: #verifica si la especialidad del usuario es la que se esta solicitando
+                    #Ya que sabemos que tiene la esp solicitada, buscaremos su respectivo consultorio
+                    consultorio = Consultorio.objects.get(psicologo=psicologo)
+                    direccion_consultorio = consultorio.direccion
+                    direccion_consultorio = direccion_consultorio.replace(',', '-')
                     nombre_usuario = psicologo.user.first_name + " "  +  psicologo.user.last_name # Accede al nombre de usuario del usuario asociado al psicólogo
-                    lista_nombres.append((nombre_usuario,especialidad))  # Agrega el nombre de usuario a la lista
+                    lista_nombres.append((nombre_usuario,especialidad, direccion_consultorio))  # Agrega el nombre de usuario a la lista
             return JsonResponse(lista_nombres, safe=False)
         
         elif inputText not in ESPECIALIDADES_CHOICES:
@@ -86,7 +90,11 @@ def psicologos_por_especialidad_nombre(request):
                         especialidad = esp
                         break  # Terminamos el bucle cuando encontramos una coincidencia
                 if nombre ==  inputText:
-                    lista_nombres.append((nombre,especialidad))  # Agrega el nombre de usuario a la lista
+                    #Ya que sabemos que tiene la esp solicitada, buscaremos su respectivo consultorio
+                    consultorio = Consultorio.objects.get(psicologo=psicologo)
+                    direccion_consultorio = consultorio.direccion
+                    direccion_consultorio = direccion_consultorio.replace(',', '-')
+                    lista_nombres.append((nombre,especialidad,direccion_consultorio))  # Agrega el nombre de usuario a la lista
             return JsonResponse(lista_nombres, safe=False)
         
         else:
