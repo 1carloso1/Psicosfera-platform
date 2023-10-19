@@ -38,7 +38,7 @@
         <div class="service-box">
           <h4>Descargar detalles</h4>
           <div class="download-catalog">
-            <a href="#" data-id="1" id="pdf"><i class="bi bi-filetype-pdf"></i><span>Generar PDF</span></a>
+            <a href="#" id="pdf"><i class="bi bi-filetype-pdf"></i><span>Generar PDF</span></a>
             <a href="#"><i class="bi bi-file-earmark-word"></i><span>Catalog DOC</span></a>
           </div>
         </div><!-- End Services List -->
@@ -277,7 +277,7 @@
                   }else{
                     $('#foto').hide();
                   }
-                  $('#pdf').attr('data-id',paciente_id);
+                  $('#pdf').attr('href', '{% url "paciente_pdf" 0 %}'.replace('0', paciente_id));
                 },
                 error: function(response) {
                     console.log('Error:', response);
@@ -287,33 +287,6 @@
     });
 </script>
 
-<script>
-  $(document).ready(function() {
-      $("#pdf").click(function(event) {
-          event.preventDefault(); // Evita el comportamiento predeterminado del enlace
-
-          var paciente_id = $('#pdf').attr('data-id'); // Obtén el ID desde el atributo data-id del enlace
-          console.log(paciente_id); 
-          // Realiza la solicitud AJAX
-          $.ajax({
-              url: 'paciente_pdf/', // Reemplaza con la URL de destino en tu aplicación
-              type: 'POST',
-              data: {
-                'paciente_id': paciente_id,
-                'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
-
-              }, 
-              dataType: 'json',
-              success: function(data) {
-                  console.log(data);
-              },
-              error: function(error) {
-                  console.log(error);
-              }
-          });
-      });
-  });
-</script>
 <script>
   $(document).ready(function() {
     $('#form_compartidas').submit(function(event) {

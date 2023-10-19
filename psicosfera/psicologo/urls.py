@@ -11,5 +11,5 @@ urlpatterns = [
     path('guardar_cita/', guardar_cita, name='guardar_cita'),
     path('obtener_citas/', obtener_citas, name='obtener_citas'),
     path('eliminar_cita/', eliminar_cita, name='eliminar_cita'),
-    path('paciente_pdf/', paciente_pdf, name='paciente_pdf'),
+    path('paciente_pdf/<int:paciente_id>', paciente_pdf, name='paciente_pdf'),
 ]
