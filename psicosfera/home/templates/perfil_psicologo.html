@@ -3,7 +3,7 @@
 
 
 {% block titulo %}
-    Psicosfera | Mi Perfil
+    Perfil | {{usuario.user}}
 {% endblock %}
 
 {% block links %}
@@ -66,10 +66,6 @@
                 <p class="col-lg-9 col-md-8" id="especialidad">{{usuario.especialidad}}</p>
               </div>
 
-              <div class="row">
-                <div class="col-lg-3 col-md-4 label">Dirección del Consultorio</div>
-                <p class="col-lg-9 col-md-8" id="direccion">{{usuario.direccion}}</p>
-              </div>
 
               <div class="row">
                 <div class="col-lg-3 col-md-4 label">Número de teléfono</div>
@@ -81,6 +77,19 @@
                 <p class="col-lg-9 col-md-8" id="correo">{{usuario.correo}}</p>
               </div>
 
+              <div class="row">
+                <div class="col-lg-3 col-md-4 label">Dirección del Consultorio</div>
+                <p class="col-lg-9 col-md-8" id="direccion">{{usuario.direccion}}</p>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-3 col-md-4 label">Horario de Atención</div>
+                <p class="col-lg-9 col-md-8" id="direccion">{{usuario.horario}}</p>
+              </div>
+
+              <div class="row">
+                <div class="contenedor-mapa-perfil" id="map1"></div>
+              </div>
             </div>
           </div><!-- End Bordered Tabs -->
 
@@ -95,4 +104,13 @@
 {% block scripts %}
   <link href="{% static 'lightbox/js/lightbox.js' %}" rel="stylesheet">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="{% static 'js/googleMapsAPI.js' %}" ></script>
+  <script src="{% static 'js/mostrarMapa.js' %}" ></script>
+  <script>
+    // Espera a que la página se cargue completamente
+    document.addEventListener("DOMContentLoaded", function () {
+      // Llama a mostrarMapa con la dirección del usuario
+      mostrarMapa("{{usuario.direccion}}");
+    });
+  </script>
 {% endblock %}

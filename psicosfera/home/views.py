@@ -52,6 +52,7 @@ def perfilPublico(request, username):
         'telefono': psicologo.telefono,
         'especialidad' : codigoANombre(especialidad),
         'direccion' : consultorio.direccion,
+        'horario' : consultorio.horario_atencion,
         'edad': psicologo.edad,
         'sexo': psicologo.sexo,
         'user': psicologo.user.username,

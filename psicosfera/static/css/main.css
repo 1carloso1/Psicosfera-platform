@@ -94,6 +94,13 @@
   transition: max-height 0.3s ease-in-out;
 }
 
+.contenedor-mapa-perfil {
+  padding: 20px 0;
+  display: block;
+  height: 250px;
+  transition: max-height 0.3s ease-in-out;
+}
+
 #zona-especialista {
   overflow-y: auto; /* Añade un scrollbar vertical cuando sea necesario */
   
