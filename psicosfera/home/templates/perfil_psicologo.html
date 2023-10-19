@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block titulo %}
+    Psicosfera | Mi Perfil
+{% endblock %}
+
+{% block links %}
+  <link href="{% static 'css/style.css' %}" rel="stylesheet">
+  <link href="{% static 'lightbox/css/lightbox.css' %}" rel="stylesheet">
+{% endblock links %}
+
+{% block contenido %}
+<section class="section profile">
+  <div class="row">
+    <div class="col-xl-4">
+
+      <div class="card  mt-5">
+        <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+          <img id="foto" src="" alt="Profile" class="rounded-circle">
+          <br>
+          <h2 id="user"></h2>
+          <h3 id="especialidad2"></h3>
+          <div class="social-links mt-2">
+            <a href="{{usuario.twitter}}" id="twitter"><i class="bi bi-twitter"></i></a>
+            <a href="{{usuario.facebook}}" id="facebook"><i class="bi bi-facebook"></i></a>
+            <a href="{{usuario.instagram}}" id="instagram"><i class="bi bi-instagram"></i></a>
+            <a href="{{usuario.linkedin}}" id="linkedin"><i class="bi bi-linkedin"></i></a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="col-xl-8">
+
+      <div class="card mt-5">
+        <div class="card-body pt-3">
+          <!-- Bordered Tabs -->
+          <div class="tab-content pt-2">
+
+            <div class="tab-pane fade show active profile-overview" id="profile-overview">
+              <h5 class="card-title">Sobre mí</h5>
+              <p class="small fst-italic">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor. Ut sunt iure rerum quae quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea saepe at unde.</p>
+
+              <h5 class="card-title">Detalles de la cuenta</h5>
+
+              <div class="row">
+                <div class="col-lg-3 col-md-4 label ">Nombre de usuario</div>
+                <p class="col-lg-9 col-md-8" id="user2">{{usuario.user}}</p>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-3 col-md-4 label ">Nombre completo</div>
+                <p class="col-lg-9 col-md-8" id="nombre">{{usuario.nombre}}</p>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-3 col-md-4 label ">Edad</div>
+                <p class="col-lg-9 col-md-8" id="edad">{{usuario.edad}}</p>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-3 col-md-4 label">Especialidad</div>
+                <p class="col-lg-9 col-md-8" id="especialidad">{{usuario.especialidad}}</p>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-3 col-md-4 label">Dirección del Consultorio</div>
+                <p class="col-lg-9 col-md-8" id="direccion">{{usuario.direccion}}</p>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-3 col-md-4 label">Número de teléfono</div>
+                <p class="col-lg-9 col-md-8" id="numero" >{{usuario.telefono}}</p>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-3 col-md-4 label">Correo electrónico</div>
+                <p class="col-lg-9 col-md-8" id="correo">{{usuario.correo}}</p>
+              </div>
+
+            </div>
+          </div><!-- End Bordered Tabs -->
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+{% endblock %}
+ 
+{% block scripts %}
+  <link href="{% static 'lightbox/js/lightbox.js' %}" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+{% endblock %}

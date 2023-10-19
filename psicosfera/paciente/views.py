@@ -143,7 +143,8 @@ def psicologos_por_especialidad_nombre(request):
                     direccion_consultorio = consultorio.direccion
                     direccion_consultorio = direccion_consultorio.replace(',', '-')
                     nombre_usuario = psicologo.user.first_name + " "  +  psicologo.user.last_name # Accede al nombre de usuario del usuario asociado al psicólogo
-                    lista_nombres.append((nombre_usuario,especialidad, direccion_consultorio))  # Agrega el nombre de usuario a la lista
+                    username = psicologo.user.username
+                    lista_nombres.append((nombre_usuario,especialidad, direccion_consultorio, username))  # Agrega el nombre de usuario a la lista
             return JsonResponse(lista_nombres, safe=False)
         
         elif inputText not in ESPECIALIDADES_CHOICES:
@@ -161,7 +162,8 @@ def psicologos_por_especialidad_nombre(request):
                     consultorio = Consultorio.objects.get(psicologo=psicologo)
                     direccion_consultorio = consultorio.direccion
                     direccion_consultorio = direccion_consultorio.replace(',', '-')
-                    lista_nombres.append((nombre,especialidad,direccion_consultorio))  # Agrega el nombre de usuario a la lista
+                    username = psicologo.user.username
+                    lista_nombres.append((nombre,especialidad,direccion_consultorio, username))  # Agrega el nombre de usuario a la lista
             return JsonResponse(lista_nombres, safe=False)
         
         else:
