@@ -4,7 +4,9 @@ from django.urls import reverse_lazy
 from django.views.generic import TemplateView, ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from .models import Psicologo, User
+
+from psicologo.especialidades import ESPECIALIDADES_CHOICES_2
+from .models import Consultorio, Psicologo, User
 from evento.models import Evento
 
 from django.http import FileResponse
@@ -75,6 +77,9 @@ def obtener_citas(request):
 
 def datos_psicologo(request):
     psicologo = Psicologo.objects.get(user=request.user)
+    consultorio = Consultorio.objects.get(psicologo=psicologo)
+    especialidad = psicologo.especialidad
+
     
     if psicologo.foto_perfil:
         with psicologo.foto_perfil.open('rb') as image_file:
@@ -82,12 +87,14 @@ def datos_psicologo(request):
             foto = base64.b64encode(image_data).decode('utf-8')
     else:
         foto = None
+    
     datos = {
         'foto': foto,
         'nombre': psicologo.user.first_name + ' ' + psicologo.user.last_name,
         'correo': psicologo.user.email,
         'telefono': psicologo.telefono,
-        #"direccion" : direccion,
+        'especialidad' : codigoANombre(especialidad),
+        'direccion' : consultorio.direccion,
         'edad': psicologo.edad,
         'sexo': psicologo.sexo,
         'user': psicologo.user.username,
@@ -98,6 +105,12 @@ def datos_psicologo(request):
         'twitter':psicologo.enlace_pagina_web,   
     }
     return JsonResponse(datos, safe=False)
+
+def codigoANombre(especialidad):
+    for codigo, nombre in ESPECIALIDADES_CHOICES_2: #transforma el id en el nombre de la especialidad
+    	if especialidad == codigo:
+            return nombre
+
     
 def actualizar_psicologo(request):
 
