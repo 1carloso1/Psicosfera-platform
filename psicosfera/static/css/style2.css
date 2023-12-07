@@ -35,6 +35,23 @@ body {
 	background-color: rgba(255, 255, 255, 0.0);
 }
 
+.foto_perfil {
+	display: block;
+	margin: 0 auto;
+	margin-bottom: 20px;
+	width: 250px; /* Ancho deseado */
+    height: 250px; /* Alto deseado */
+    object-fit: cover; /* Mantener la proporción y cortar la imagen si es necesario */
+	border-radius: 50%;
+}
+
+/* En tu archivo de estilos CSS */
+.descripcion_input {
+    width: 100%; /* Ancho completo */
+    min-height: 100px; /* Altura mínima para mostrar múltiples líneas */
+    resize: vertical; /* Permitir ajuste vertical */
+}
+
 .wizard-v10-content   {
 	background: rgba(255, 255, 255, 0.5);
 	width: 850px;
@@ -166,6 +183,11 @@ body {
 }
 .form-register .content h2 {
 	display: none;
+}
+
+.error-message {
+    color: red; /* Esto cambiará el color del mensaje de error a rojo */
+    /* Otras propiedades si es necesario */
 }
 
 

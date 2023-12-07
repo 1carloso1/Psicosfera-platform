@@ -35,59 +35,100 @@ Psicosfera | Cuestionario de Registro
                     <div id="form-total">
                         <!-- SECTION 1 -->
                         <h2>1</h2>
-                        <section class="trasparente">
-                            <div class="inner">
+                    <section class="trasparente">
+                        <div class="inner">
+                            <div class="form-row">
                                 <div class="hidden">
-                                    <div class="form-holder form-holder-2">
-                                        {{ form.user }}
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-holder form-holder-2">
-                                        {{ form.cedula.label_tag }}
-                                        {{ form.cedula }}
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-holder form-holder-2">
-                                        {{ form.fecha_nacimiento.label_tag }}
-                                        <input type="date" class="form-control"
-                                            id="{{ form.fecha_nacimiento.id_for_label }}"
-                                            name="{{ form.fecha_nacimiento.name }}">
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-holder form-holder-2">
-                                        {{ form.edad.label_tag }}
-                                        {{ form.edad }}
-                                    </div>
+                                    {{ form.user }}
                                 </div>
                             </div>
-                        </section>
+                            <div class="form-row">
+                                <div class="form-holder form-holder-2">
+                                    <img id="preview" src="{% static 'img/usuario.png' %}" alt="Vista previa de la imagen" class="foto_perfil">
+                                    {% if error_message %}
+                                    <div class="error-message">{{ error_message }}</div>
+                                    {% endif %}
+                                    <label for="id_foto_perfil">Foto de Perfil:</label>
+                                    <input type="file" class="form-control" id="id_foto_perfil" name="foto_perfil" onchange="previewImage(event)">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-holder form-holder-2">
+                                    <label for="{{ form.descripcion.id_for_label }}">Descripción de mi:</label>
+                                    <textarea class="form-control descripcion_input" id="{{ form.descripcion.id_for_label }}" name="{{ form.descripcion.name }}"></textarea>
+                                    {% for error in form.descripcion.errors %}
+                                        <span class="error-message">{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-holder form-holder-2">
+                                    <label for="{{ form.fecha_nacimiento.id_for_label }}">Fecha de Nacimiento:</label>
+                                    <input type="date" class="form-control" id="id_fecha_nacimiento" name="{{ form.fecha_nacimiento.name }}">
+                                    {% for error in form.fecha_nacimiento.errors %}
+                                        <span class="error-message">{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-holder form-holder-2">
+                                    <label for="id_edad">Edad:</label>
+                                    <input type="text" class="form-control" id="id_edad" name="{{ form.edad.name }}" readonly>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-holder form-holder-2">
+                                    <label for="{{ form.sexo.id_for_label }}">Genero:</label>
+                                    {{ form.sexo }}
+                                    {% for error in form.sexo.errors %}
+                                        <span class="error-message">{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </section>
                         <!-- SECTION 2 -->
                         <h2>2</h2>
                         <section class="trasparente">
                             <div class="inner">
                                 <div class="form-row">
                                     <div class="form-holder form-holder-2">
-                                        {{ form.sexo.label_tag }}
-                                        {{ form.sexo }}
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-holder form-holder-2">
-                                        {{ form.especialidad.label_tag }}
+                                        <label for="{{ form.especialidad.id_for_label }}">Área de especialización:</label>
                                         {{ form.especialidad }}
-                                        <div id="autocomplete-results-specialty" class="autocomplete-results-form"></div>
+                                        {% for error in form.especialidad.errors %}
+                                        <span class="error-message">{{ error }}</span>
+                                        {% endfor %}
                                     </div>
                                 </div>
                                 <div class="form-row">
+                                    <div class="form-holder form-holder-2">
+                                        <label for="{{ form.telefono.id_for_label }}">Teléfono de Contacto:</label>
+                                        <input type="tel" class="form-control" id="{{ form.telefono.id_for_label }}" name="{{ form.telefono.name }}" pattern="[0-9]{10,15}">
+                                        {% for error in form.telefono.errors %}
+                                        <span class="error-message">{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
                                 </div>
                                 <div class="form-row">
                                     <div class="form-holder form-holder-2">
-                                        <label for="{{ form.telefono.id_for_label }}">Teléfono:</label>
-                                        <input type="tel" class="form-control" id="{{ form.telefono.id_for_label }}"
-                                            name="{{ form.telefono.name }}" pattern="[0-9]{10,15}">
+                                        <label for="{{ form.identificacion_oficial.id_for_label }}">Identificación
+                                            Oficial:</label>
+                                        <input type="file" class="form-control"
+                                            id="{{ form.identificacion_oficial.id_for_label }}"
+                                            name="identificacion">
+                                            {% for error in form.identificacion_oficial.errors %}
+                                            <span class="error-message">{{ error }}</span>
+                                            {% endfor %}
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-holder form-holder-2">
+                                        <label for="{{ form.curriculum.id_for_label }}">Curriculum Vitae:</label>
+                                        <input type="file" class="form-control" id="{{ form.curriculum.id_for_label }}"
+                                        name="curriculum">
+                                            {% for error in form.curriculum.errors %}
+                                            <span class="error-message">{{ error }}</span>
+                                            {% endfor %}
                                     </div>
                                 </div>
                             </div>
@@ -98,27 +139,39 @@ Psicosfera | Cuestionario de Registro
                             <div class="inner">
                                 <div class="form-row">
                                     <div class="form-holder form-holder-2">
-                                        <label for="{{ form.certificado.id_for_label }}">Certificado:</label>
+                                        <label for="{{ form.cedula.id_for_label }}">Cédula Profesional:</label>
+                                        <input type="text" class="form-control" id="{{ form.cedula.id_for_label }}" name="{{ form.cedula.name }}">
+                                        {% for error in form.cedula.errors %}
+                                            <span class="error-message">{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-holder form-holder-2">
+                                        <label for="{{ form.certificado.id_for_label }}">Título Académico:</label>
                                         <input type="file" class="form-control" id="{{ form.certificado.id_for_label }}"
-                                            name="{{ form.certificado.name }}">
+                                        name="certificado">
+                                        {% for error in form.certificado.errors %}
+                                        <span class="error-message">{{ error }}</span>
+                                        {% endfor %}
                                     </div>
                                 </div>
                                 <div class="form-row">
                                     <div class="form-holder form-holder-2">
-                                        {{ form.institucion_otorgamiento.label_tag }}
-                                        {{ form.institucion_otorgamiento }}
+                                        <label for="{{ form.certificado.id_for_label }}">Institución de Otorgamiento:</label>
+                                        <input type="text" class="form-control" id="{{ form.institucion_otorgamiento.id_for_label }}" name="{{ form.institucion_otorgamiento.name }}">
+                                        {% for error in form.institucion_otorgamiento.errors %}
+                                            <span class="error-message">{{ error }}</span>
+                                        {% endfor %}
                                     </div>
                                 </div>
                                 <div class="form-row">
                                     <div class="form-holder form-holder-2">
-                                        {{ form.anio_obtencion.label_tag }}
-                                        {{ form.anio_obtencion }}
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-holder form-holder-2">
-                                        {{ form.metodo_pago.label_tag }}
-                                        {{ form.metodo_pago }}
+                                        <label for="{{ form.certificado.id_for_label }}">Fecha de Obtención del titulo profesional:</label>
+                                        <input type="date" class="form-control" id="id_anio_obtencion" name="{{ form.anio_obtencion.name }}">
+                                        {% for error in form.anio_obtencion.errors %}
+                                            <span class="error-message">{{ error }}</span>
+                                        {% endfor %}
                                     </div>
                                 </div>
                             </div>
@@ -129,7 +182,7 @@ Psicosfera | Cuestionario de Registro
                             <div class="inner">
                                 <div class="form-row">
                                     <div class="form-holder form-holder-2">
-                                        {{ form.enlace_pagina_web.label_tag }}
+                                        <label for="{{ form.enlace_pagina_web.id_for_label }}">Enlace de Pagina Web</label>
                                         <input type="url" class="form-control"
                                             id="{{ form.enlace_pagina_web.id_for_label }}"
                                             name="{{ form.enlace_pagina_web.name }}">
@@ -137,7 +190,7 @@ Psicosfera | Cuestionario de Registro
                                 </div>
                                 <div class="form-row">
                                     <div class="form-holder form-holder-2">
-                                        {{ form.enlace_facebook.label_tag }}
+                                        <label for="{{ form.enlace_facebook.id_for_label }}">Enlace de Pagina de Facebook</label>
                                         <input type="url" class="form-control"
                                             id="{{ form.enlace_facebook.id_for_label }}"
                                             name="{{ form.enlace_facebook.name }}">
@@ -145,7 +198,7 @@ Psicosfera | Cuestionario de Registro
                                 </div>
                                 <div class="form-row">
                                     <div class="form-holder form-holder-2">
-                                        {{ form.enlace_instagram.label_tag }}
+                                        <label for="{{ form.enlace_instagram.id_for_label }}">Enlace de Pagina de Instagram</label>
                                         <input type="url" class="form-control"
                                             id="{{ form.enlace_instagram.id_for_label }}"
                                             name="{{ form.enlace_instagram.name }}">
@@ -153,39 +206,10 @@ Psicosfera | Cuestionario de Registro
                                 </div>
                                 <div class="form-row">
                                     <div class="form-holder form-holder-2">
-                                        {{ form.enlace_linkedin.label_tag }}
+                                        <label for="{{ form.enlace_linkedin.id_for_label }}">Enlace de Pagina de Linkedin/label>
                                         <input type="url" class="form-control"
                                             id="{{ form.enlace_linkedin.id_for_label }}"
                                             name="{{ form.enlace_linkedin.name }}">
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
-                        <!-- SECTION 5 -->
-                        <h2>5</h2>
-                        <section class="trasparente">
-                            <div class="inner">
-                                <div class="form-row">
-                                    <div class="form-holder form-holder-2">
-                                        <label for="{{ form.foto_perfil.id_for_label }}">Foto de Perfil:</label>
-                                        <input type="file" class="form-control" id="{{ form.foto_perfil.id_for_label }}"
-                                            name="{{ form.foto_perfil.name }}">
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-holder form-holder-2">
-                                        <label for="{{ form.identificacion_oficial.id_for_label }}">Identificación
-                                            Oficial:</label>
-                                        <input type="file" class="form-control"
-                                            id="{{ form.identificacion_oficial.id_for_label }}"
-                                            name="{{ form.identificacion_oficial.name }}">
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-holder form-holder-2">
-                                        <label for="{{ form.curriculum.id_for_label }}">Curriculum Vitae:</label>
-                                        <input type="file" class="form-control" id="{{ form.curriculum.id_for_label }}"
-                                            name="{{ form.curriculum.name }}">
                                     </div>
                                 </div>
                             </div>
@@ -203,4 +227,9 @@ Psicosfera | Cuestionario de Registro
 <script src="{% static 'js/jquery.steps.js' %}"></script>
 <script src="{% static 'js/main2.js' %}"></script>
 <script src="{% static 'js/busqueda-autocompletado.js' %}" ></script>
+<script src="{% static 'js/foto_perfil_registro.js' %}"></script>
+<script src="{% static 'js/CalcularEdad.js' %}"></script>
+<script>
+    const calcularEdadUrl = "{% url 'calcular_edad' %}";
+</script>
 {% endblock %}

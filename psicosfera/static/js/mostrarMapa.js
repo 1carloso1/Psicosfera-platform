@@ -13,8 +13,8 @@ function mostrarMapa(ubicacion) {
             // Almacena las coordenadas en la variable coordenadas
             var coordenadas = { lat: lat, lng: lng };
 
-            console.log('Coordenadas:', coordenadas.lat, coordenadas.lng);
-            console.log('Ubi:', location);
+            //console.log('Coordenadas:', coordenadas.lat, coordenadas.lng);
+            //console.log('Ubi:', location);
 
             var panorama = new google.maps.StreetViewPanorama(mapElement, {
                 position: coordenadas,

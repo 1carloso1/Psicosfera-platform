@@ -1,3 +1,8 @@
+from datetime import datetime
+import os
+from django.templatetags.static import static
+from django.conf import settings
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.views.generic import View
 from django.contrib.auth import login,logout, authenticate
@@ -7,6 +12,7 @@ from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .forms import *
+from django.core.files.base import ContentFile
 
 from django.views.generic import TemplateView
 
@@ -46,7 +52,7 @@ class NuevoPsicologo(View):
         print(form)
         return render(request, 'psicologo/psicologo_form.html', {'form': form})
     def post(self, request):
-        form = FormPsicologo(request.POST)
+        form = FormPsicologo(request.POST, request.FILES)
         print(request.POST)
         print(self.request.user)
   
@@ -57,15 +63,41 @@ class NuevoPsicologo(View):
             #     nuevo_grupo.permissions.add(permiso)        
             usuario = User.objects.get(username=self.request.user)
             usuario.groups.add(nuevo_grupo)    
-            form.save()
+            #form.save()
+            #return redirect('nuevo-consultorio')
+            nuevo_psicologo = form.save(commit=False)  # No guardes inmediatamente en la base de datos
+            # Verificar si se cargó una imagen en el formulario
+            if 'foto_perfil' in request.FILES:
+                nuevo_psicologo.foto_perfil = request.FILES['foto_perfil']
+
+            if 'foto_perfil' not in request.FILES:
+                ruta_imagen_por_defecto = os.path.join(settings.BASE_DIR, 'static', 'img', 'usuario.png')
+                with open(ruta_imagen_por_defecto, 'rb') as imagen_por_defecto:
+                    nuevo_psicologo.foto_perfil.save('usuario.png', ContentFile(imagen_por_defecto.read()), save=True)
+
+            # Verificar si se cargó una identificación en el formulario
+            if 'identificacion' in request.FILES:
+                nuevo_psicologo.identificacion_oficial = request.FILES['identificacion']
+
+            # Verificar si se cargó un curriculum en el formulario
+            if 'curriculum' in request.FILES:
+                nuevo_psicologo.curriculum = request.FILES['curriculum']
+
+            # Verificar si se cargó un certificado en el formulario
+            if 'certificado' in request.FILES:
+                nuevo_psicologo.certificado = request.FILES['certificado']
+            
+            nuevo_psicologo.save()
             return redirect('nuevo-consultorio')
+
         else:
             # No necesitas iterar sobre form.error_messages
             for field, errors in form.errors.items():
                 message = f"{field.capitalize()}: {errors[0]}"  # Obtén el primer error
                 messages.error(request, message)
                 print(message)
-            return render(request, 'psicologo/psicologo_form.html', {'form': form})
+            error_message = "Información incorrecta. Corrige tus datos e intenta de nuevo." 
+            return render(request, 'psicologo/psicologo_form.html', {'form': form, 'error_message': error_message})
         
 class NuevoConsultorio(View):
     def get(self, request):
@@ -100,7 +132,7 @@ class NuevoPaciente(CreateView):
         print(form)
         return render(request, 'paciente/paciente_form.html', {'form': form})
     def post(self, request):
-        form = FormPaciente(request.POST)
+        form = FormPaciente(request.POST, request.FILES)
         print(request.POST)
         print(self.request.user)
 
@@ -111,15 +143,28 @@ class NuevoPaciente(CreateView):
             #     nuevo_grupo.permissions.add(permiso)        
             usuario = User.objects.get(username=self.request.user)
             usuario.groups.add(nuevo_grupo)    
-            form.save()
+            #form.save()
+            #return redirect('home')
+            nuevo_paciente = form.save(commit=False)  # No guardes inmediatamente en la base de datos
+            # Verificar si se cargó una imagen en el formulario
+            if 'foto_perfil' in request.FILES:
+                nuevo_paciente.foto_perfil = request.FILES['foto_perfil']
+
+            if 'foto_perfil' not in request.FILES:
+                ruta_imagen_por_defecto = os.path.join(settings.BASE_DIR, 'static', 'img', 'usuario.png')
+                with open(ruta_imagen_por_defecto, 'rb') as imagen_por_defecto:
+                    nuevo_paciente.foto_perfil.save('usuario.png', ContentFile(imagen_por_defecto.read()), save=True)
+            
+            nuevo_paciente.save()
             return redirect('home')
+        
         else:
             # No necesitas iterar sobre form.error_messages
             for field, errors in form.errors.items():
                 message = f"{field.capitalize()}: {errors[0]}"  # Obtén el primer error
-                messages.error(request, message)
-                print(message)
-            return render(request, 'paciente/paciente_form.html', {'form': form})
+                messages.error(request, message, extra_tags='form_error')
+            error_message = "Información incorrecta. Corrige tus datos e intenta de nuevo."    
+            return render(request, 'paciente/paciente_form.html', {'form': form, 'error_message': error_message})
 
 
 class VRegistro(View):
@@ -150,7 +195,7 @@ class VRegistro(View):
             # No necesitas iterar sobre form.error_messages
             for field, errors in form.errors.items():
                 message = f"{field.capitalize()}: {errors[0]}"  # Obtén el primer error
-                messages.error(request, message)
+                messages.error(request, message, extra_tags='registro_error')
             return render(request, "registro/registro.html", {'form': form})
         
 
@@ -162,8 +207,14 @@ class RegistroUsuarioView(TemplateView):
         else:
             return super().dispatch(request, *args, **kwargs)
     
-
-
+def calcular_edad(request):
+    fecha_nacimiento_str = request.GET.get('fecha_nacimiento')
+    fecha_nacimiento = datetime.strptime(fecha_nacimiento_str, '%Y-%m-%d').date()
+    
+    hoy = datetime.now().date()
+    edad = hoy.year - fecha_nacimiento.year - ((hoy.month, hoy.day) < (fecha_nacimiento.month, fecha_nacimiento.day))
+    
+    return JsonResponse({'edad': edad})
  
 def loguear(request):
     if request.method == "POST":
@@ -176,9 +227,9 @@ def loguear(request):
                 login(request, usuario)
                 return redirect('home')
             else:
-                messages.error(request, "Usuario no válido.", extra_tags='error')  # Agrega este mensaje de error con etiqueta 'error'
+                messages.error(request, "Usuario no válido.",  extra_tags='login_error')  # Agrega este mensaje de error con etiqueta 'error'
         else:
-            messages.error(request, "Información incorrecta.", extra_tags='error')  # Agrega este mensaje de error con etiqueta 'error'
+            messages.error(request, "Contraseña o Usuario inválidos.",  extra_tags='login_error')  # Agrega este mensaje de error con etiqueta 'error'
     else:
         form = AuthenticationForm()
         form.fields['username'].widget.attrs['placeholder'] = 'Nombre de usuario'
