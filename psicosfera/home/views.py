@@ -35,7 +35,11 @@ def contacto(request):
     return render(request, 'contacto.html')
     
 def perfil(request):
-    return render(request, 'perfil.html') 
+    if request.user.groups.filter(name='Psicologos').exists():
+        return render(request, 'perfil_psicologo_privado.html')
+    else:
+        return render(request, 'perfil_paciente.html')
+
 
 def perfilPublico(request, username):
     # Obtener el usuario basado en el username

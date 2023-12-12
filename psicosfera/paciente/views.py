@@ -17,8 +17,9 @@ def datos_paciente(request):
         paciente = Paciente.objects.get(id=paciente_id)
     except:
         paciente = Paciente.objects.get(user=request.user)
-    nombre = str(paciente.user.last_name) +" "+str(paciente.user.first_name)
+    nombre = str(paciente.user.first_name) +" "+ str(paciente.user.last_name)
     correo_electronico = paciente.user.email
+    descripcion = paciente.descripcion
     telefono = paciente.telefono
     direccion = paciente.direccion
     edad = paciente.edad
@@ -38,6 +39,7 @@ def datos_paciente(request):
             "foto": foto,
             "nombre" : nombre,
             "correo" : correo_electronico,
+            'descripcion': descripcion,
             "telefono" : telefono,
             "direccion" : direccion,
             "edad" : edad,
@@ -53,7 +55,8 @@ def datos_paciente(request):
         data ={
             "foto": foto,
             "nombre" : nombre,
-            "correo_electronico" : correo_electronico,
+            "correo" : correo_electronico,
+            'descripcion': descripcion,
             "telefono" : telefono,
             "direccion" : direccion,
             "edad" : edad,

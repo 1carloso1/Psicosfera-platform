@@ -203,6 +203,23 @@
 .autocomplete-item:hover {
   background-color: #ddd; /* Cambia el color de fondo al pasar el cursor */
 }
+/*--------------------------------------------------------------
+# Perfil
+--------------------------------------------------------------*/
+.fotoPerfil{
+  display: block;
+	width: 400px; /* Ancho deseado */
+  height: 400px; /* Alto deseado */
+  object-fit: cover; /* Mantener la proporción y cortar la imagen si es necesario */
+	border-radius: 50%;
+}
+.fotoPerfilDiminuta{
+  display: block;
+	width: 40px; /* Ancho deseado */
+  height: 40px; /* Alto deseado */
+  object-fit: cover; /* Mantener la proporción y cortar la imagen si es necesario */
+	border-radius: 50%;
+}
 
 /*--------------------------------------------------------------
 # Botones de terapia

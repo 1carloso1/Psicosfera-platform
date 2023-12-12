@@ -28,7 +28,7 @@ class Paciente(models.Model):
 # Modelo de expediente de un paciente
 class Expediente(models.Model):
     paciente = models.ForeignKey('Paciente', on_delete=models.CASCADE)
-    psicologo = models.ForeignKey(Psicologo, on_delete=models.CASCADE)
+    psicologo = models.ForeignKey(Psicologo, on_delete=models.CASCADE, null=False, blank=False)
     fecha_creacion = models.DateField(auto_now_add=True)
     notas_personales = models.TextField(blank=True)
     notas_compartidas = models.TextField(blank=True)

@@ -61,7 +61,7 @@
 
             <div class="tab-pane fade show active profile-overview" id="profile-overview">
               <h5 class="card-title">Sobre mí</h5>
-              <p class="small fst-italic">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor. Ut sunt iure rerum quae quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea saepe at unde.</p>
+              <p class="small fst-italic" id="descripcion"></p>
 
               <h5 class="card-title">Detalles de la cuenta</h5>
 
@@ -78,11 +78,6 @@
               <div class="row">
                 <div class="col-lg-3 col-md-4 label ">Edad</div>
                 <p class="col-lg-9 col-md-8" id="edad"></p>
-              </div>
-
-              <div class="row">
-                <div class="col-lg-3 col-md-4 label">Especialidad</div>
-                <p class="col-lg-9 col-md-8" id="especialidad"></p>
               </div>
 
               <div class="row">
@@ -135,14 +130,7 @@
                 <div class="row mb-3">
                   <label for="about" class="col-md-4 col-lg-3 col-form-label">Sobre mí</label>
                   <div class="col-md-8 col-lg-9">
-                    <textarea name="about" class="form-control" id="about" style="height: 100px">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor. Ut sunt iure rerum quae quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea saepe at unde.</textarea>
-                  </div>
-                </div>
-
-                <div class="row mb-3">
-                  <label for="especiality" class="col-md-4 col-lg-3 col-form-label">Especialidad</label>
-                  <div class="col-md-8 col-lg-9">
-                    <input name="especiality" type="text" class="form-control" id="especiality">
+                    <textarea class="form-control" id="descripcion2" style="height: 100px"></textarea>
                   </div>
                 </div>
 
@@ -310,6 +298,8 @@
                 $("#fullName").val(data.nombre);
                 $('#especialidad').text(data.especialidad);
                 $('#especialidad2').text(data.especialidad);
+                $('#descripcion').text(data.descripcion);
+                $('#descripcion2').text(data.descripcion);
                 $('#especiality').val(data.especialidad);
                 $('#direccion').text(data.direccion);
                 $('#address').val(data.direccion);

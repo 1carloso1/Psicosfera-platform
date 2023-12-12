@@ -50,6 +50,9 @@ Psicosfera | Cuestionario de Registro
                                     {% endif %}
                                     <label for="id_foto_perfil">Foto de Perfil:</label>
                                     <input type="file" class="form-control" id="id_foto_perfil" name="foto_perfil" onchange="previewImage(event)">
+                                    {% for error in form.foto_perfil.errors %}
+                                        <span class="error-message">{{ error }}</span>
+                                    {% endfor %}
                                 </div>
                             </div>
                             <div class="form-row">
