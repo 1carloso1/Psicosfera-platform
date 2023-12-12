@@ -30,7 +30,9 @@
     {% if messages %}
         <ul class="messages">
             {% for message in messages %}
-                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% if 'login_error' in message.tags %}
+                    <li class="{{ message.tags }}">{{ message }}</li> <!--Solo se muestran los errores de el login-->
+                {% endif %}
             {% endfor %}
         </ul>
     {% endif %}

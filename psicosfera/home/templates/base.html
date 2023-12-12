@@ -96,7 +96,8 @@
             </ul><!-- End Notification Dropdown Items -->
             
             <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-              <img src="{% static 'img/img-user/profile-img.jpg' %}" alt="Profile" class="rounded-circle" width="40" height="40">
+              <img id="foto3" src="" alt="user" class="fotoPerfilDiminuta">
+
               <span class="d-none d-md-block dropdown-toggle ps-2">{{ user }}</span>
             </a><!-- End Profile Image Icon -->
             <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
@@ -255,10 +256,12 @@
   <script src="{% static 'js/chart-area-demo.js' %}"></script>
   <script src="{% static 'js/chart-pie-demo.js' %}"></script>
   <link href="{% static 'lightbox/js/lightbox.js' %}" rel="stylesheet">
-  
+  <script>
+    const UrlDatos = "{% url 'datos' %}"; //es la ruta de los datos en general que se pasara al js
+  </script>
+  <script src="{% static 'js/datosPerfil.js' %}"></script>
   
   {% block scripts %}
-    
   {% endblock scripts %}
     
 

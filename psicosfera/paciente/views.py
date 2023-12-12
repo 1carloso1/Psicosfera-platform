@@ -17,8 +17,9 @@ def datos_paciente(request):
         paciente = Paciente.objects.get(id=paciente_id)
     except:
         paciente = Paciente.objects.get(user=request.user)
-    nombre = str(paciente.user.last_name) +" "+str(paciente.user.first_name)
+    nombre = str(paciente.user.first_name) +" "+ str(paciente.user.last_name)
     correo_electronico = paciente.user.email
+    descripcion = paciente.descripcion
     telefono = paciente.telefono
     direccion = paciente.direccion
     edad = paciente.edad
@@ -38,6 +39,7 @@ def datos_paciente(request):
             "foto": foto,
             "nombre" : nombre,
             "correo" : correo_electronico,
+            'descripcion': descripcion,
             "telefono" : telefono,
             "direccion" : direccion,
             "edad" : edad,
@@ -53,7 +55,8 @@ def datos_paciente(request):
         data ={
             "foto": foto,
             "nombre" : nombre,
-            "correo_electronico" : correo_electronico,
+            "correo" : correo_electronico,
+            'descripcion': descripcion,
             "telefono" : telefono,
             "direccion" : direccion,
             "edad" : edad,
@@ -143,7 +146,8 @@ def psicologos_por_especialidad_nombre(request):
                     direccion_consultorio = consultorio.direccion
                     direccion_consultorio = direccion_consultorio.replace(',', '-')
                     nombre_usuario = psicologo.user.first_name + " "  +  psicologo.user.last_name # Accede al nombre de usuario del usuario asociado al psicólogo
-                    lista_nombres.append((nombre_usuario,especialidad, direccion_consultorio))  # Agrega el nombre de usuario a la lista
+                    username = psicologo.user.username
+                    lista_nombres.append((nombre_usuario,especialidad, direccion_consultorio, username))  # Agrega el nombre de usuario a la lista
             return JsonResponse(lista_nombres, safe=False)
         
         elif inputText not in ESPECIALIDADES_CHOICES:
@@ -161,7 +165,8 @@ def psicologos_por_especialidad_nombre(request):
                     consultorio = Consultorio.objects.get(psicologo=psicologo)
                     direccion_consultorio = consultorio.direccion
                     direccion_consultorio = direccion_consultorio.replace(',', '-')
-                    lista_nombres.append((nombre,especialidad,direccion_consultorio))  # Agrega el nombre de usuario a la lista
+                    username = psicologo.user.username
+                    lista_nombres.append((nombre,especialidad,direccion_consultorio, username))  # Agrega el nombre de usuario a la lista
             return JsonResponse(lista_nombres, safe=False)
         
         else:

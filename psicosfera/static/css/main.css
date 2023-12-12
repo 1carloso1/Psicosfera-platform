@@ -94,6 +94,13 @@
   transition: max-height 0.3s ease-in-out;
 }
 
+.contenedor-mapa-perfil {
+  padding: 20px 0;
+  display: block;
+  height: 250px;
+  transition: max-height 0.3s ease-in-out;
+}
+
 #zona-especialista {
   overflow-y: auto; /* Añade un scrollbar vertical cuando sea necesario */
   
@@ -195,6 +202,23 @@
 /* Estilo para la animación al pasar el cursor */
 .autocomplete-item:hover {
   background-color: #ddd; /* Cambia el color de fondo al pasar el cursor */
+}
+/*--------------------------------------------------------------
+# Perfil
+--------------------------------------------------------------*/
+.fotoPerfil{
+  display: block;
+	width: 400px; /* Ancho deseado */
+  height: 400px; /* Alto deseado */
+  object-fit: cover; /* Mantener la proporción y cortar la imagen si es necesario */
+	border-radius: 50%;
+}
+.fotoPerfilDiminuta{
+  display: block;
+	width: 40px; /* Ancho deseado */
+  height: 40px; /* Alto deseado */
+  object-fit: cover; /* Mantener la proporción y cortar la imagen si es necesario */
+	border-radius: 50%;
 }
 
 /*--------------------------------------------------------------

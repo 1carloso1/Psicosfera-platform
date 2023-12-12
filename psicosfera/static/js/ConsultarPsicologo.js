@@ -1,6 +1,7 @@
 var nombre_psicologo;
 var especialidad_psicologo;
 var direccion_psicologo;
+var usuario;
 function mostrar_contenido() {
     var especialidad = document.getElementById("specialty-input").value;
     var location = document.getElementById("location-input").value;
@@ -48,6 +49,7 @@ function mostrar_contenido() {
                     nombre_psicologo = userParts[0];
                     especialidad_psicologo = userParts[1];
                     direccion_psicologo = userParts[2];
+                    usuario = userParts[3];
 
                     //console.log("Nombre: " + userParts[0]);
                     //console.log('Especialidad: ' + userParts[1]);
@@ -62,15 +64,17 @@ function mostrar_contenido() {
                     console.log('validacion: ' + consultorioCercaDelRango);
                     if (consultorioCercaDelRango == true){
                         var userCard = `
-                        <div class="card card-small">
-                            <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
-                                <img src="../static/img/img-user/profile-img.jpg" alt="Profile" class="rounded-circle">
-                                <br>
-                                <h2>${userParts[0]}</h2>
-                                <h3>${userParts[1]}</h3>
-                                <h5>${userParts[2]}</h5>
+                        <a href="../perfil/${userParts[3]}">
+                            <div class="card card-small">
+                                <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+                                    <img src="../static/img/img-user/profile-img.jpg" alt="Profile" class="rounded-circle">
+                                    <br>
+                                    <h2>${userParts[0]}</h2>
+                                    <h3>${userParts[1]}</h3>
+                                    <h5>${userParts[2]}</h5>
+                                </div>
                             </div>
-                        </div>
+                        </a>
                     `;
 
                     // Agregar la tarjeta de usuario al contenedor
