@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+from ckeditor.fields import RichTextField
 SEXO_CHOICES = (
     ('M', 'Masculino'),
     ('F', 'Femenino'),
@@ -28,7 +28,8 @@ class Psicologo(models.Model):
     enlace_instagram = models.URLField(blank=True, null=True)
     enlace_linkedin = models.URLField(blank=True, null=True)
     fecha_registro = models.DateTimeField(auto_now_add=True)
-
+    diario_personal = RichTextField()
+    
     def __str__(self):
         return f"{self.user}"
 

@@ -72,7 +72,10 @@ def obtener_citas(request):
                 'hora_fin': cita.fecha_fin.strftime('%H:%M:%S'),  # Formato ISO8601
                 'hora_inicio': cita.fecha_inicio.strftime('%H:%M:%S'),  # Formato ISO8601
             })
-    return JsonResponse(citasPsicologo, safe=False)
+    try:
+        return JsonResponse(citasPsicologo, safe=False)
+    except Evento.DoesNotExist:
+        return JsonResponse({'mensaje': 'No existen'}, status=404)
  
 
 def datos_psicologo(request):
@@ -103,6 +106,7 @@ def datos_psicologo(request):
         'linkedin': psicologo.enlace_linkedin,
         'instagram': psicologo.enlace_instagram,
         'twitter':psicologo.enlace_pagina_web,   
+        'diario': psicologo.diario
     }
     return JsonResponse(datos, safe=False)
 
@@ -127,28 +131,16 @@ def actualizar_psicologo(request):
         return JsonResponse({'mensaje': 'Datos guardados con exito'})
     else:
         return JsonResponse({'mensaje': 'Método no permitido'}, status=405)
-        
 
-def guardar_notas(request):
+
+def guardar_personales(request):
     if request.method == 'POST':
-        notas_compartidas = request.POST.get('contenidoCompartidas', None)
-        if(not notas_compartidas):
-            notas_compartidas = ""
-        notas_personales = request.POST.get('contenidoPersonales', None)
-        if(not notas_personales):
-            notas_personales = ""
-        paciente_id = request.POST.get('id', None)
-        
-        paciente = Paciente.objects.get(id=paciente_id)
-        try:
-            expediente = Expediente.objects.get(paciente=paciente)
-            expediente.notas_personales = notas_personales
-            expediente.notas_compartidas = notas_compartidas
-            expediente.save()
-        except:
-            psicologo = Psicologo.objects.get(user=request.user)
-            expediente = Expediente(paciente=paciente,psicologo = psicologo,notas_compartidas = notas_compartidas,notas_personales = notas_personales)
-            expediente.save()
+        notas_personales= request.POST.get('contenido', None)
+        psicologo = Psicologo.objects.get(id=request.user)
+        print('psicologo:', psicologo.user.username)
+        psicologo.diario_personal = notas_personales
+        psicologo.save()
+
         
         return JsonResponse({'mensaje': 'Expediente guardado con éxito'})
     else:

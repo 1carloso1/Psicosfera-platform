@@ -48,8 +48,19 @@ INSTALLED_APPS = [
     'paciente',
     'chat',
     'evento',
+    'ckeditor'
 
 ]
+
+CKEDITOR_UPLOAD_PATH = "uploads/"
+CKEDITOR_JQUERY_URL = "https://code.jquery.com/jquery-3.6.0.min.js"  # Opcional, si no estás usando jQuery
+CKEDITOR_CONFIGS = {
+    "default": {
+        "toolbar": "Full",
+        "height": 300,
+        "width": 800,
+    },
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
