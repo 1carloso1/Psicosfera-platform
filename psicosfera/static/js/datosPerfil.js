@@ -5,6 +5,12 @@ $(document).ready(function() {
         type: 'GET',
         dataType: 'json',
         success: function(data) {
+        
+        if (data.usuario == "default"){
+          $('#foto3').attr('src', UrlImagenDefault);
+        }
+
+        if (data.usuario == "registrado"){
           if (data.foto) {
             $('#foto').attr('src', 'data:image/jpeg;base64,' + data.foto);
             $('#foto2').attr('src', 'data:image/jpeg;base64,' + data.foto);
@@ -12,6 +18,7 @@ $(document).ready(function() {
           }else{
             $('#foto').hide();
             $('#foto2').hide();
+            $('#foto3').hide();
           }
           $('#user').text(data.user);
           $('#user2').text(data.user);
@@ -19,18 +26,17 @@ $(document).ready(function() {
           $("#fullName").val(data.nombre);
           $('#especialidad').text(data.especialidad);
           $('#especialidad2').text(data.especialidad);
+          
           $('#descripcion').text(data.descripcion);
           $('#descripcion2').text(data.descripcion);
           $('#especiality').val(data.especialidad);
-          $('#direccion').text(data.direccion);
-          $('#address').val(data.direccion);
+          
           $('#edad').text(data.edad);
           $('#age').val(data.edad);
           $('#correo').text(data.correo);
           $("#Email").val(data.correo);
           $('#numero').text(data.telefono);
           $("#Phone").val(data.telefono);
-          
           if(data.psicologo == 1){
             $('#facebook').attr('href', data.facebook);
             $("#Facebook").val(data.facebook);
@@ -53,6 +59,22 @@ $(document).ready(function() {
             $("#Twitter").hide();
             $(".hide").hide();
           }
+          if(data.cons_registrado == 1){
+            $('#direccion').text(data.direccion);
+            $('#address').val(data.direccion);
+            $('#cierre').text(data.cierre);
+            $('#apertura').text(data.apertura);
+            $('#horario').text(data.apertura + ' - ' + data.cierre);
+          }
+          else{
+            $('#direccion').hide();
+            $('#address').hide();
+            $('#cierre').hide();
+            $('#apertura').hide();
+            $('#horario').hide();
+          }
+
+        }
         },
         error: function(error) {
             console.log(error);

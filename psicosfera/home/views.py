@@ -1,3 +1,4 @@
+import os
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
 from django.core.mail import EmailMessage
@@ -11,6 +12,8 @@ from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.models import User
 from psicologo.models import Consultorio, Psicologo
 from paciente.models import Paciente
+from django.templatetags.static import static
+import base64
 
 def guardar_datos(request):
     if request.method == 'POST':
@@ -56,7 +59,8 @@ def perfilPublico(request, username):
         'telefono': psicologo.telefono,
         'especialidad' : codigoANombre(especialidad),
         'direccion' : consultorio.direccion,
-        'horario' : consultorio.horario_atencion,
+        'apertura' : consultorio.horario_apertura,
+        'cierre' : consultorio.horario_cierre,
         'edad': psicologo.edad,
         'sexo': psicologo.sexo,
         'user': psicologo.user.username,
@@ -82,11 +86,20 @@ def perfilPublico(request, username):
     return render(request, 'perfil_no_encontrado.html', {'usuario': username}) 
 
 def datos(request):
-    try:
+    if request.user.groups.filter(name='Psicologos').exists():
         return datos_psicologo(request)
-    except:
+    elif request.user.groups.filter(name='Pacientes').exists():
         return datos_paciente(request)
-    
+    else:
+        return datos_default(request)
+
+
+def datos_default(request):
+    usuario = "default"
+    data ={
+        'usuario':usuario,
+    }
+    return JsonResponse(data, safe=False)
 
 
 

@@ -8,5 +8,6 @@ urlpatterns = [
     path('perfil/', perfil, name = 'perfil'),
     path('perfil/<str:username>/', perfilPublico, name = 'ver_perfil'),
     path('datos/', datos, name = 'datos'),
+    path('datos_default/', datos_default, name = 'datos_default'),
     path('guardar_datos/', guardar_datos, name = 'guardar_datos'),
 ]

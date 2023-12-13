@@ -34,28 +34,41 @@ Psicosfera | Cuestionario de Registro
                     {% csrf_token %}
                     <div id="form-total">
                         <!-- SECTION 1 -->
+                        <h2>1</h2>
                         <section class="trasparente">
                             <div class="inner">
-                                <div class="hidden">
-                                    <div class="form-holder form-holder-2">
+                                <div class="form-row">
+                                    <div class="hidden">
                                         {{ form.user }}
                                     </div>
                                 </div>
                                 <div class="form-row">
                                     <div class="form-holder form-holder-2">
-                                        {{ form.direccion.label_tag }}
-                                        {{ form.direccion }}
+                                        <label for="{{ form.direccion.id_for_label }}">Dirección del Consultorio</label>
+                                        <input type="text" class="form-control" id="{{ form.direccion.id_for_label }}" name="{{ form.direccion.name }}">
                                         <div id="autocomplete-results-location" class="autocomplete-results-form"></div>
+                                        {% for error in form.direccion.errors %}
+                                            <span class="error-message">{{ error }}</span>
+                                        {% endfor %}
                                     </div>
                                 </div>
                                 <div class="form-row">
                                     <div class="form-holder form-holder-2">
-                                        {{ form.horario_atencion.label_tag }}
-                                        {{ form.horario_atencion }}
+                                        <label for="{{ form.horario_apertura.id_for_label }}">Hora de Apertura</label>
+                                        <input type="text" class="form-control" id="{{ form.horario_apertura.id_for_label }}" name="{{ form.horario_apertura.name }}">
+                                        {% for error in form.horario_apertura.errors %}
+                                            <span class="error-message">{{ error }}</span>
+                                        {% endfor %}
+                                        <label for="{{ form.horario_cierre.id_for_label }}">Hora de Cierre</label>
+                                        <input type="text" class="form-control" id="{{ form.horario_cierre.id_for_label }}" name="{{ form.horario_cierre.name }}">
+                                        {% for error in form.horario_cierre.errors %}
+                                            <span class="error-message">{{ error }}</span>
+                                        {% endfor %}
                                     </div>
                                 </div>
                             </div>
                         </section>
+
                     </div>
                 </form>
             </div>
@@ -69,4 +82,9 @@ Psicosfera | Cuestionario de Registro
 <script src="{% static 'js/jquery.steps.js' %}"></script>
 <script src="{% static 'js/main2.js' %}"></script>
 <script src="{% static 'js/busqueda-autocompletado.js' %}" ></script>
+<script src="{% static 'js/foto_perfil_registro.js' %}"></script>
+<script src="{% static 'js/CalcularEdad.js' %}"></script>
+<script>
+    const calcularEdadUrl = "{% url 'calcular_edad' %}";
+</script>
 {% endblock %}
