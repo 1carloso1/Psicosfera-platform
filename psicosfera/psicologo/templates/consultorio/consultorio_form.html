@@ -44,7 +44,7 @@ Psicosfera | Cuestionario de Registro
                                 </div>
                                 <div class="form-row">
                                     <div class="form-holder form-holder-2">
-                                        <label for="{{ form.direccion.id_for_label }}">Dirección del Consultorio</label>
+                                        <label for="{{ form.direccion.id_for_label }}">Dirección del Consultorio:</label>
                                         <input type="text" class="form-control" id="{{ form.direccion.id_for_label }}" name="{{ form.direccion.name }}">
                                         <div id="autocomplete-results-location" class="autocomplete-results-form"></div>
                                         {% for error in form.direccion.errors %}
@@ -52,18 +52,22 @@ Psicosfera | Cuestionario de Registro
                                         {% endfor %}
                                     </div>
                                 </div>
-                                <div class="form-row">
-                                    <div class="form-holder form-holder-2">
-                                        <label for="{{ form.horario_apertura.id_for_label }}">Hora de Apertura</label>
-                                        <input type="text" class="form-control" id="{{ form.horario_apertura.id_for_label }}" name="{{ form.horario_apertura.name }}">
-                                        {% for error in form.horario_apertura.errors %}
-                                            <span class="error-message">{{ error }}</span>
-                                        {% endfor %}
-                                        <label for="{{ form.horario_cierre.id_for_label }}">Hora de Cierre</label>
-                                        <input type="text" class="form-control" id="{{ form.horario_cierre.id_for_label }}" name="{{ form.horario_cierre.name }}">
-                                        {% for error in form.horario_cierre.errors %}
-                                            <span class="error-message">{{ error }}</span>
-                                        {% endfor %}
+                                <div class="form-row form-center">
+                                    <div class="form-holder form-holder-2 form_hora">
+                                        <div class="hora-container">
+                                            <label for="{{ form.horario_apertura.id_for_label }}">Apertura:</label>
+                                            <input type="time" class="form-control" id="{{ form.horario_apertura.id_for_label }}" name="{{ form.horario_apertura.name }}">
+                                            {% for error in form.horario_apertura.errors %}
+                                                <span class="error-message">{{ error }}</span>
+                                            {% endfor %}
+                                        </div>
+                                        <div class="hora-container">
+                                            <label for="{{ form.horario_cierre.id_for_label }}">Cierre:</label>
+                                            <input type="time" class="form-control" id="{{ form.horario_cierre.id_for_label }}" name="{{ form.horario_cierre.name }}">
+                                            {% for error in form.horario_cierre.errors %}
+                                                <span class="error-message">{{ error }}</span>
+                                            {% endfor %}
+                                        </div>
                                     </div>
                                 </div>
                             </div>

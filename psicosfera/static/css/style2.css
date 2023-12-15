@@ -351,3 +351,30 @@ body {
 .hidden {
 	display: none;
 }
+
+.form-center {
+    display: flex;
+    justify-content: center;
+}
+
+.form_hora {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+}
+
+.hora-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.botonConfirmar {
+    background-color: transparent; /* Hace que el fondo sea transparente */
+    border: none; /* Elimina el borde */
+    color: white; /* Color del texto, */
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+}

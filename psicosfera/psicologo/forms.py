@@ -12,7 +12,7 @@ class FormPsicologo(forms.ModelForm):
             'user': forms.TextInput(
                 attrs={'class':'form-control'}
             ),
-           'especialidad': forms.TextInput(
+           'especialidad': forms.Select(
                 attrs={'class': 'form-control', 'id': 'especialidad-input'}
             ),
         }
