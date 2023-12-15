@@ -101,8 +101,10 @@ class NuevoPsicologo(View):
         
 class NuevoConsultorio(View):
     def get(self, request):
-        psicologo_actual = Psicologo.objects.get(user=self.request.user)
-        form = FormConsultorio(initial={'psicologo': psicologo_actual})
+        psicologo = Psicologo.objects.get(user=self.request.user)
+        psicologo_id = psicologo.id
+        print(psicologo_id)
+        form = FormConsultorio(initial={'psicologo': psicologo_id})
         return render(request, 'consultorio/consultorio_form.html', {'form': form})
     def post(self, request):
         form = FormConsultorio(request.POST)
@@ -127,6 +129,8 @@ class NuevoConsultorio(View):
                 message = f"{field.capitalize()}: {errors[0]}"  # Obtén el primer error
                 messages.error(request, message)
                 print(message)
+                print("ERROR")
+                print(form)
             return render(request, 'consultorio/consultorio_form.html', {'form': form})
 
 class NuevoPaciente(CreateView):
