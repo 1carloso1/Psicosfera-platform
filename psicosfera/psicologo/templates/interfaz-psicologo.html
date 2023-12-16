@@ -64,12 +64,13 @@
                     <h5>Notas Compartidas</h5>
                   </div>
                 </div>
+                <div>
                   {% csrf_token %}
                   <textarea  class="form-control" id="compartidas" cols="30" rows="10" ></textarea>
                 </div>
               </div><!-- End testimonial item -->
-            <br>
-            <input type="submit" class="btn btn-primary" value="Guardar nota"></input>
+              <br>
+              <input type="submit" class="btn btn-primary" value="Guardar nota"></input>
           </div>
         </form>
       </div>
@@ -93,15 +94,16 @@
       <h2>Diario Personal</h2>
     </div><!-- End Section Title -->
     {% csrf_token %}
-    <textarea name="editor1" class="form-control" id="editor1"></textarea>
+    <textarea name="editor1" class="form-control" id="editor1">{{ diario }}</textarea>
   </div>
-  <input onclick="obtenerContenido()" class="btn btn-primary">Obtener Contenid</input>
+  <input onclick="obtenerContenido()" class="btn btn-primary" value="Guardar"></input>
 
 </section>
 {% endblock %}
 
 
 {% block scripts %}
+
   <script src="{% static 'ckeditor/ckeditor.js' %}"></script>
   <script src="{% static 'ckeditor/lang/es.js' %}"></script>
 <script>
@@ -225,6 +227,7 @@
             // Maneja la respuesta y construye el contenido HTML para mostrar todos los pacientes
             var contenidoHTML = '<ul>';
             $.each(response, function(index, cita) {
+                console.log(cita.nombre_paciente)
                 contenidoHTML += `<li><a href="#foto" onclick="changeClass(this)" class="btn" data-id="${cita.id_paciente }"><i class="bi bi-arrow-right-circle"></i><span>${cita.nombre_paciente} | Prox. cita: ${cita.fecha_inicio} ${cita.hora_inicio}</span></a></li>`;
 
             });
@@ -240,7 +243,14 @@
   }
   $(document).ready(function() {
     // Realiza una solicitud AJAX para obtener las citas de todos los pacientes
-    obtenerCitas();
+
+    try {
+      obtenerCitas()
+      obtenerDiario()
+    } catch (error) {
+      console.log('Error:', error);
+    }
+    
   });
   </script>
   <script>
@@ -296,6 +306,23 @@
             });
         });
     });
+</script>
+
+<script>
+  function obtenerDiario() {
+    $.ajax({
+        url: 'diario_psicologo/',
+        method: 'GET',
+        dataType: 'json',
+        success: function(data) {
+            // Rellena el textarea con el contenido del campo del modelo
+            CKEDITOR.instances.editor1.setData(data.campo_texto);
+        },
+        error: function(error) {
+            console.error('Error al obtener el contenido:', error);
+        }
+    });
+}
 </script>
 
 <script>

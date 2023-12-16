@@ -4,6 +4,7 @@ from .views import *
 from paciente.views import datos_paciente
 urlpatterns = [
     path('', interfaz_psicologo, name = 'interfaz'),
+    path('diario_psicologo/', diario_psicologo, name='diario_psicologo'),
     path('datos_paciente/', datos_paciente, name='datos_paciente'),
     path('datos_psicologo/', datos_psicologo, name='datos_psicologo'),
     path('guardar_personales/', guardar_personales, name='guardar_personales'),

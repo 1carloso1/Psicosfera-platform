@@ -31,13 +31,9 @@ class Psicologo(models.Model):
     enlace_instagram = models.URLField(blank=True, null=True)
     enlace_linkedin = models.URLField(blank=True, null=True)
     fecha_registro = models.DateTimeField(auto_now_add=True)
-<<<<<<< HEAD
-    diario_personal = RichTextField()
-    
-=======
+    diario = RichTextField(blank=True, null=True)
     descripcion = models.CharField(max_length=254, null=True, blank=False, verbose_name="Descripción")
 
->>>>>>> ca45370a4103ac2241a73958c60511dc85414bd0
     def __str__(self):
         return f"{self.user}"
 
