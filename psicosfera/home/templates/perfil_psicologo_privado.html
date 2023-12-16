@@ -17,8 +17,8 @@
     <div class="col-xl-4">
 
       <div class="card  mt-5">
-        <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
-          <img id="foto" src="" alt="Profile" class="rounded-circle">
+        <div class="card-body pt-4 d-flex flex-column align-items-center">
+          <img id="foto" src="" alt="Profile" class="fotoPerfil">
           <br>
           <h2 id="user"></h2>
           <h3 id="especialidad2"></h3>
@@ -81,8 +81,18 @@
               </div>
 
               <div class="row">
+                <div class="col-lg-3 col-md-4 label ">Especialidad</div>
+                <p class="col-lg-9 col-md-8" id="especialidad"></p>
+              </div>
+
+              <div class="row">
                 <div class="col-lg-3 col-md-4 label">Dirección del Consultorio</div>
                 <p class="col-lg-9 col-md-8" id="direccion"></p>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-3 col-md-4 label">Horario de atención</div>
+                <p class="col-lg-9 col-md-8" id="horario"></p>
               </div>
 
               <div class="row">
@@ -128,6 +138,13 @@
                 </div>
 
                 <div class="row mb-3">
+                  <label for="age" class="col-md-4 col-lg-3 col-form-label">Especialidad</label>
+                  <div class="col-md-8 col-lg-9">
+                    <input name="age" type="text" class="form-control" id="especiality">
+                  </div>
+                </div>
+
+                <div class="row mb-3">
                   <label for="about" class="col-md-4 col-lg-3 col-form-label">Sobre mí</label>
                   <div class="col-md-8 col-lg-9">
                     <textarea class="form-control" id="descripcion2" style="height: 100px"></textarea>
@@ -138,6 +155,14 @@
                   <label for="address" class="col-md-4 col-lg-3 col-form-label">Dirección del Consultorio</label>
                   <div class="col-md-8 col-lg-9">
                     <input name="address" type="text" class="form-control" id="address" >
+                  </div>
+                </div>
+
+                <div class="row mb-3">
+                  <label for="address" class="col-md-4 col-lg-3 col-form-label">Horario de Atención</label>
+                  <div class="col-md-8 col-lg-9">
+                    <input name="apertura" type="text" class="form-control" id="apertura">
+                    <input name="cierre" type="text" class="form-control" id="cierre">
                   </div>
                 </div>
 
@@ -277,68 +302,7 @@
 {% block scripts %}
   <link href="{% static 'lightbox/js/lightbox.js' %}" rel="stylesheet">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script>
-      $(document).ready(function() {
-          // Hacer la solicitud AJAX al cargar la página
-          $.ajax({
-              url: '{% url "datos" %}', 
-              type: 'GET',
-              dataType: 'json',
-              success: function(data) {
-                if (data.foto) {
-                  $('#foto').attr('src', 'data:image/jpeg;base64,' + data.foto);
-                  $('#foto2').attr('src', 'data:image/jpeg;base64,' + data.foto);
-                }else{
-                  $('#foto').hide();
-                  $('#foto2').hide();
-                }
-                $('#user').text(data.user);
-                $('#user2').text(data.user);
-                $('#nombre').text(data.nombre);
-                $("#fullName").val(data.nombre);
-                $('#especialidad').text(data.especialidad);
-                $('#especialidad2').text(data.especialidad);
-                $('#descripcion').text(data.descripcion);
-                $('#descripcion2').text(data.descripcion);
-                $('#especiality').val(data.especialidad);
-                $('#direccion').text(data.direccion);
-                $('#address').val(data.direccion);
-                $('#edad').text(data.edad);
-                $('#age').val(data.edad);
-                $('#correo').text(data.correo);
-                $("#Email").val(data.correo);
-                $('#numero').text(data.telefono);
-                $("#Phone").val(data.telefono);
-                
-                if(data.psicologo == 1){
-                  $('#facebook').attr('href', data.facebook);
-                  $("#Facebook").val(data.facebook);
-                  $('#instagram').attr('href', data.instagram);
-                  $("#Instagram").val(data.instagram);
-                  $('#linkedin').attr('href', data.linkedin);
-                  $("#Linkedin").val(data.linkedin);
-                  $('#twitter').attr('href', data.twitter);
-                  $("#Twitter").val(data.twitter);
-                  $('#user').attr('data', 1);
-                  console.log($('#user').attr('data'))
-                }else{
-                  $('#facebook').hide();
-                  $("#Facebook").hide();
-                  $('#instagram').hide();
-                  $("#Instagram").hide();
-                  $('#linkedin').hide();
-                  $("#Linkedin").hide();
-                  $('#twitter').hide();
-                  $("#Twitter").hide();
-                  $(".hide").hide();
-                }
-              },
-              error: function(error) {
-                  console.log(error);
-              }
-          });
-      });
-  </script>
+  <script src="{% static 'js/datosPerfil.js' %}"></script>
   <script>
     $(document).ready(function() {
       $('#actualizar').submit(function(event) {

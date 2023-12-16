@@ -90,23 +90,49 @@ def obtener_citas(request):
 
 def datos_psicologo(request):
     psicologo = Psicologo.objects.get(user=request.user)
-    consultorio = Consultorio.objects.get(psicologo=psicologo)
+    psicologo_id = psicologo.id
+    usuario = "registrado"
     especialidad = psicologo.especialidad
-
     if psicologo.foto_perfil:
         with psicologo.foto_perfil.open('rb') as image_file:
             image_data = image_file.read()
             foto = base64.b64encode(image_data).decode('utf-8')
     else:
         foto = None
-    
-    datos = {
+
+    try:
+        consultorio = Consultorio.objects.get(psicologo=psicologo_id)
+        datos = {
+        'usuario':usuario,
+        'cons_registrado': 1,
         'foto': foto,
         'nombre': psicologo.user.first_name + ' ' + psicologo.user.last_name,
         'correo': psicologo.user.email,
         'telefono': psicologo.telefono,
+        'descripcion': psicologo.descripcion,
         'especialidad' : codigoANombre(especialidad),
+        'edad': psicologo.edad,
+        'sexo': psicologo.sexo,
+        'user': psicologo.user.username,
+        "psicologo": 1,
+        'facebook': psicologo.enlace_facebook,
+        'linkedin': psicologo.enlace_linkedin,
+        'instagram': psicologo.enlace_instagram,
+        'twitter':psicologo.enlace_pagina_web,   
         'direccion' : consultorio.direccion,
+        'apertura' : consultorio.horario_apertura,
+        'cierre' : consultorio.horario_cierre,
+    }
+    except:
+        datos = {
+        'usuario':usuario,
+        'cons_registrado': 0,
+        'foto': foto,
+        'nombre': psicologo.user.first_name + ' ' + psicologo.user.last_name,
+        'correo': psicologo.user.email,
+        'telefono': psicologo.telefono,
+        'descripcion': psicologo.descripcion,
+        'especialidad' : codigoANombre(especialidad),
         'edad': psicologo.edad,
         'sexo': psicologo.sexo,
         'user': psicologo.user.username,
@@ -117,7 +143,9 @@ def datos_psicologo(request):
         'twitter':psicologo.enlace_pagina_web,   
         'diario': psicologo.diario
     }
+    
     return JsonResponse(datos, safe=False)
+   
 
 def codigoANombre(especialidad):
     for codigo, nombre in ESPECIALIDADES_CHOICES_2: #transforma el id en el nombre de la especialidad

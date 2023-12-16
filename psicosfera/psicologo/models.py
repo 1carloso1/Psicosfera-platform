@@ -39,10 +39,11 @@ class Psicologo(models.Model):
 
 # Modelo de consultorio de los psicologos
 class Consultorio(models.Model):
-    psicologo = models.ForeignKey('Psicologo', verbose_name='Consultorio', on_delete=models.CASCADE, null=False, blank=False)
+    psicologo = models.OneToOneField('Psicologo', verbose_name='psicologo', on_delete=models.CASCADE)
     direccion = models.CharField(max_length=250,verbose_name="Dirección", null=False, blank=False)
-    horario_atencion = models.TimeField(blank=True, null=True)
+    horario_apertura = models.TimeField(blank=True, null=True)
+    horario_cierre = models.TimeField(blank=True, null=True)
     def __str__(self):
-        return f"{self.direccion}"
+        return f"{self.psicologo}"
 
     

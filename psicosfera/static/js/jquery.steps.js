@@ -265,7 +265,7 @@ function destroy(wizard, options)
 
     return wizardSubstitute;
 }
-
+ 
 /**
  * Triggers the onFinishing and onFinished event.
  *
@@ -1056,7 +1056,7 @@ function renderPagination(wizard, options, state)
     {
         var pagination = "<{0} class=\"actions {1}\"><ul role=\"menu\" aria-label=\"{2}\">{3}</ul></{0}>",
             buttonTemplate = "<li><a href=\"#{0}\" role=\"menuitem\">{1}</a></li>",
-            buttonTemplateFinish = "<li><button type=submit role=\"menuitem\" >{0}</button></li>",
+            buttonTemplateFinish = "<li><button type=submit class='botonConfirmar' role=\"menuitem\" >{0}</button></li>",
             buttons = "";
 
         if (!options.forceMoveForward)

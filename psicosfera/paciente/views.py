@@ -24,6 +24,7 @@ def datos_paciente(request):
     direccion = paciente.direccion
     edad = paciente.edad
     sexo = paciente.sexo
+    usuario = "registrado"
     if paciente.foto_perfil:
         with paciente.foto_perfil.open('rb') as image_file:
             image_data = image_file.read()
@@ -36,6 +37,7 @@ def datos_paciente(request):
         notas_compartidas = expediente.notas_compartidas
         notas_personales = expediente.notas_personales
         data ={
+            'usuario':usuario,
             "foto": foto,
             "nombre" : nombre,
             "correo" : correo_electronico,
@@ -53,6 +55,7 @@ def datos_paciente(request):
     except:
         print("No hay expediente.")
         data ={
+            'usuario':usuario,
             "foto": foto,
             "nombre" : nombre,
             "correo" : correo_electronico,

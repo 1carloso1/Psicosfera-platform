@@ -101,8 +101,10 @@ class NuevoPsicologo(View):
         
 class NuevoConsultorio(View):
     def get(self, request):
-        form = FormConsultorio(initial={'user': self.request.user})
-        print(form)
+        psicologo = Psicologo.objects.get(user=self.request.user)
+        psicologo_id = psicologo.id
+        print(psicologo_id)
+        form = FormConsultorio(initial={'psicologo': psicologo_id})
         return render(request, 'consultorio/consultorio_form.html', {'form': form})
     def post(self, request):
         form = FormConsultorio(request.POST)
@@ -110,13 +112,16 @@ class NuevoConsultorio(View):
         print(self.request.user)
  
         if form.is_valid():
+
             nuevo_grupo, creado = Group.objects.get_or_create(name='Consultorios')
-            # if creado:
-            #     permiso = Permission.objects.get(codename='change_blogpost')  
-            #     nuevo_grupo.permissions.add(permiso)        
+            psicologo_actual = Psicologo.objects.get(user=self.request.user)
             usuario = User.objects.get(username=self.request.user)
-            usuario.groups.add(nuevo_grupo)    
-            form.save()
+            usuario.groups.add(nuevo_grupo)
+
+            nuevo_consultorio = form.save(commit=False)
+            nuevo_consultorio.psicologo = psicologo_actual
+            nuevo_consultorio.save()
+
             return redirect('home')
         else:
             # No necesitas iterar sobre form.error_messages
@@ -124,6 +129,8 @@ class NuevoConsultorio(View):
                 message = f"{field.capitalize()}: {errors[0]}"  # Obtén el primer error
                 messages.error(request, message)
                 print(message)
+                print("ERROR")
+                print(form)
             return render(request, 'consultorio/consultorio_form.html', {'form': form})
 
 class NuevoPaciente(CreateView):

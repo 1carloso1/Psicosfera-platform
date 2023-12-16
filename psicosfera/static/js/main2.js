@@ -8,9 +8,9 @@ $(function(){
         transitionEffectSpeed: 500,
         titleTemplate : '<span class="title">#title#</span>',
         labels: {
-            previous : 'Previous',
-            next : 'Next Step',
-            finish : 'Confirm',
+            previous : 'Anterior',
+            next : 'Siguiente',
+            finish : 'Confirmar',
             current : ''
         }
     });
