@@ -13,6 +13,10 @@
 <li><a href="{% url 'interfaz' %}#diario" >Diario</a></li>
 {% endblock %}
 
+{% block links %}
+  <link rel="stylesheet" type="text/css" href="{% static 'ckeditor/skins/moono-lisa/editor.css' %}">
+{% endblock links %}
+
 {% block contenido %}
 <section id="directorio" class="service-details">
   <div class="container">
@@ -54,46 +58,19 @@
           <p class="direccion"></p>
           <!-- Agrega otros campos que desees mostrar -->
           <div class="container">
-            <div class="swiper ">
-              <template class="swiper-config">
-                {
-                  "speed" : 600,
-                  "slidesPerView": "auto",
-                  "pagination": {
-                    "el": ".swiper-pagination",
-                    "type": "bullets",
-                    "clickable": true
-                  }
-                }
-              </template>
-            <div class="swiper-wrapper">
-            <div class="swiper-slide">
-              <form action="" id="form_compartidas" data-aos="fade-up" data-aos-delay="300" method="post">
-              <div class="testimonial-item">
-                <div class="d-flex">
-                  <div>
-                    <h5>Notas Personales</h5>
-                  </div>
-                </div>
-                  {% csrf_token %}
-                  <textarea class="form-control" id="personales" cols="30" rows="10" ></textarea>
-              </div>
-            </div><!-- End testimonial item -->
-            <div class="swiper-slide">
-              <div class="testimonial-item">
+
                 <div class="d-flex">
                   <div>
                     <h5>Notas Compartidas</h5>
                   </div>
                 </div>
+                <div>
                   {% csrf_token %}
                   <textarea  class="form-control" id="compartidas" cols="30" rows="10" ></textarea>
                 </div>
               </div><!-- End testimonial item -->
-            </div>
-            <br>
-            <div class="swiper-pagination"></div>
-            <input type="submit" class="btn btn-primary" value="Guardar nota"></input>
+              <br>
+              <input type="submit" class="btn btn-primary" value="Guardar nota"></input>
           </div>
         </form>
       </div>
@@ -109,10 +86,50 @@
     <div id='calendar'>{% csrf_token %}</div>
   </div>
 </section>
+
+<section id="diario">
+  
+  <div class="diario">
+    <div class="container section-title" data-aos="fade-up">
+      <h2>Diario Personal</h2>
+    </div><!-- End Section Title -->
+    {% csrf_token %}
+    <textarea name="editor1" class="form-control" id="editor1">{{ diario }}</textarea>
+  </div>
+  <input onclick="obtenerContenido()" class="btn btn-primary" value="Guardar"></input>
+
+</section>
 {% endblock %}
 
 
 {% block scripts %}
+
+  <script src="{% static 'ckeditor/ckeditor.js' %}"></script>
+  <script src="{% static 'ckeditor/lang/es.js' %}"></script>
+<script>
+  CKEDITOR.replace( 'editor1' );
+
+  function obtenerContenido() {
+     var contenido = CKEDITOR.instances.editor1.getData();
+     $.ajax({
+      url: 'guardar_personales/',
+      method: 'POST',
+      data: {
+        'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
+        contenido: contenido
+      },
+      success: function(response) {
+        console.log('Contenido guardado exitosamente:', response);
+        alert('Contenido guardado exitosamente');
+      },
+      error: function(error) {
+        console.error('Error al guardar el contenido:', error);
+        alert('Error al guardar el contenido');
+      }
+    });
+  }
+</script>
+  </script>
   <script src="{% static 'js/index.global.min.js' %}" ></script>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -210,6 +227,7 @@
             // Maneja la respuesta y construye el contenido HTML para mostrar todos los pacientes
             var contenidoHTML = '<ul>';
             $.each(response, function(index, cita) {
+                console.log(cita.nombre_paciente)
                 contenidoHTML += `<li><a href="#foto" onclick="changeClass(this)" class="btn" data-id="${cita.id_paciente }"><i class="bi bi-arrow-right-circle"></i><span>${cita.nombre_paciente} | Prox. cita: ${cita.fecha_inicio} ${cita.hora_inicio}</span></a></li>`;
 
             });
@@ -225,7 +243,14 @@
   }
   $(document).ready(function() {
     // Realiza una solicitud AJAX para obtener las citas de todos los pacientes
-    obtenerCitas();
+
+    try {
+      obtenerCitas()
+      obtenerDiario()
+    } catch (error) {
+      console.log('Error:', error);
+    }
+    
   });
   </script>
   <script>
@@ -254,7 +279,7 @@
                   var direccion = response.direccion;
                   var fecha_nacimiento = response.fecha_nacimiento;
                   $('#hidden').removeAttr('id');
-
+                  $('#diario').html(response.diario);
                   $('h2[class="nombre"]').text(nombre);
                   $('p[class="edad"]').text("Edad: "+edad);
                   $('p[class="sexo"]').text("Sexo: "+sexo);
@@ -266,11 +291,7 @@
                   }else{
                     $('#compartidas').val("");
                   }
-                  if (notas_personales) {
-                    $('#personales').val(notas_personales);
-                  }else{
-                    $('#personales').val("");
-                  }
+
 
                   if (response.foto) {
                     $('#foto').attr('src', 'data:image/jpeg;base64,' + response.foto);
@@ -288,11 +309,28 @@
 </script>
 
 <script>
+  function obtenerDiario() {
+    $.ajax({
+        url: 'diario_psicologo/',
+        method: 'GET',
+        dataType: 'json',
+        success: function(data) {
+            // Rellena el textarea con el contenido del campo del modelo
+            CKEDITOR.instances.editor1.setData(data.campo_texto);
+        },
+        error: function(error) {
+            console.error('Error al obtener el contenido:', error);
+        }
+    });
+}
+</script>
+
+<script>
+
   $(document).ready(function() {
     $('#form_compartidas').submit(function(event) {
       event.preventDefault();
       var contenidoCompartidas = $('#compartidas').val(); // Obtener el contenido del textarea
-      var contenidoPersonales = $('#personales').val(); // Obtener el contenido del textarea
       var paciente_id = $('.btn').data('id');
       $.ajax({
         type: 'POST',
@@ -300,7 +338,6 @@
         data: {
           'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
           'contenidoCompartidas': contenidoCompartidas,  // Enviar el contenido del textarea al servidor
-          'contenidoPersonales': contenidoPersonales,  // Enviar el contenido del textarea al servidor
           'id': paciente_id
         },
         dataType: 'json',

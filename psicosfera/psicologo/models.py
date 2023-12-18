@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from ckeditor.fields import RichTextField
 from psicologo.especialidades import ESPECIALIDADES_CHOICES_2
 
 ESP_CHOICES = ESPECIALIDADES_CHOICES_2
@@ -30,6 +31,7 @@ class Psicologo(models.Model):
     enlace_instagram = models.URLField(blank=True, null=True)
     enlace_linkedin = models.URLField(blank=True, null=True)
     fecha_registro = models.DateTimeField(auto_now_add=True)
+    diario = RichTextField(blank=True, null=True)
     descripcion = models.CharField(max_length=254, null=True, blank=False, verbose_name="Descripción")
 
     def __str__(self):

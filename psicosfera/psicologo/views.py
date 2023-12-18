@@ -26,7 +26,14 @@ from django.http import HttpResponse
 from paciente.views import datos_paciente
 
 def interfaz_psicologo(request):
-    return render(request, 'interfaz-psicologo.html')
+    psicologo = Psicologo.objects.get(user=request.user)
+    data = {}
+    if psicologo.diario:
+        data = {
+            'diario': psicologo.diario
+        }
+    
+    return render(request, 'interfaz-psicologo.html',data)
 
 def guardar_cita(request):
     if request.method == 'POST':
@@ -55,32 +62,37 @@ def eliminar_cita(request):
 
 def obtener_citas(request):
     psicologo = Psicologo.objects.get(user=request.user)
-    
     citas = Evento.objects.all()
-    citasPsicologo = []
-    for cita in citas:
-        if cita.psicologo == psicologo:
-            citasPsicologo.append({
-                'id': cita.id,
-                'id_paciente': cita.paciente.id,
-                'nombre_paciente': cita.paciente.user.first_name + ' ' + cita.paciente.user.last_name,
-                'title': cita.titulo,
-                'start': cita.fecha_inicio.strftime('%Y-%m-%dT%H:%M:%S'),  # Formato ISO8601  
-                'end': cita.fecha_fin.strftime('%Y-%m-%dT%H:%M:%S'), # Formato ISO8601 
-                'fecha_inicio': cita.fecha_inicio.strftime('%Y-%m-%d'),   
-                'fecha_fin': cita.fecha_fin.strftime('%Y-%m-%d'),# Formato ISO8601
-                'hora_fin': cita.fecha_fin.strftime('%H:%M:%S'),  # Formato ISO8601
-                'hora_inicio': cita.fecha_inicio.strftime('%H:%M:%S'),  # Formato ISO8601
-            })
-    return JsonResponse(citasPsicologo, safe=False)
- 
+    
+    if citas:
+        try:
+            citasPsicologo = []
+            for cita in citas:
+                print(cita.paciente.user.username + ' ' + cita.psicologo.user.username)
+                if cita.psicologo == psicologo:
+                     
+                    citasPsicologo.append({
+                        'id': cita.id,
+                        'id_paciente': cita.paciente.id,
+                        'nombre_paciente': cita.paciente.user.first_name + ' ' + cita.paciente.user.last_name,
+                        'title': cita.titulo,
+                        'start': cita.fecha_inicio.strftime('%Y-%m-%dT%H:%M:%S'),  # Formato ISO8601  
+                        'end': cita.fecha_fin.strftime('%Y-%m-%dT%H:%M:%S'), # Formato ISO8601 
+                        'fecha_inicio': cita.fecha_inicio.strftime('%Y-%m-%d'),   
+                        'fecha_fin': cita.fecha_fin.strftime('%Y-%m-%d'),# Formato ISO8601
+                        'hora_fin': cita.fecha_fin.strftime('%H:%M:%S'),  # Formato ISO8601
+                        'hora_inicio': cita.fecha_inicio.strftime('%H:%M:%S'),  # Formato ISO8601
+                    })
+            return JsonResponse(citasPsicologo, safe=False)
+        except Evento.DoesNotExist:
+            return JsonResponse({'mensaje': 'Las citas no existe'}, status=404)
+    return JsonResponse({'mensaje': 'Las citas no existe'}, status=404)
 
 def datos_psicologo(request):
     psicologo = Psicologo.objects.get(user=request.user)
     psicologo_id = psicologo.id
     usuario = "registrado"
     especialidad = psicologo.especialidad
-    
     if psicologo.foto_perfil:
         with psicologo.foto_perfil.open('rb') as image_file:
             image_data = image_file.read()
@@ -129,6 +141,7 @@ def datos_psicologo(request):
         'linkedin': psicologo.enlace_linkedin,
         'instagram': psicologo.enlace_instagram,
         'twitter':psicologo.enlace_pagina_web,   
+        'diario': psicologo.diario
     }
     
     return JsonResponse(datos, safe=False)
@@ -139,7 +152,13 @@ def codigoANombre(especialidad):
     	if especialidad == codigo:
             return nombre
 
+def diario_psicologo(request):
+    psicologo = Psicologo.objects.get(user=request.user)
+    if psicologo.diario:
+        return JsonResponse({'diario':psicologo.diario})
     
+
+
 def actualizar_psicologo(request):
 
     if request.method == 'POST':
@@ -155,28 +174,17 @@ def actualizar_psicologo(request):
         return JsonResponse({'mensaje': 'Datos guardados con exito'})
     else:
         return JsonResponse({'mensaje': 'Método no permitido'}, status=405)
-        
 
-def guardar_notas(request):
+
+def guardar_personales(request):
     if request.method == 'POST':
-        notas_compartidas = request.POST.get('contenidoCompartidas', None)
-        if(not notas_compartidas):
-            notas_compartidas = ""
-        notas_personales = request.POST.get('contenidoPersonales', None)
-        if(not notas_personales):
-            notas_personales = ""
-        paciente_id = request.POST.get('id', None)
-        
-        paciente = Paciente.objects.get(id=paciente_id)
-        try:
-            expediente = Expediente.objects.get(paciente=paciente)
-            expediente.notas_personales = notas_personales
-            expediente.notas_compartidas = notas_compartidas
-            expediente.save()
-        except:
-            psicologo = Psicologo.objects.get(user=request.user)
-            expediente = Expediente(paciente=paciente,psicologo = psicologo,notas_compartidas = notas_compartidas,notas_personales = notas_personales)
-            expediente.save()
+        notas_personales= request.POST.get('contenido', None)
+        print(request.user.username)
+        psicologo = Psicologo.objects.get(user=request.user)
+        print('psicologo:', psicologo.user.username)
+        psicologo.diario = notas_personales
+        psicologo.save()
+
         
         return JsonResponse({'mensaje': 'Expediente guardado con éxito'})
     else:
