@@ -4,7 +4,7 @@ from django.urls import reverse_lazy
 from django.views.generic import TemplateView, ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-
+ 
 from psicologo.especialidades import ESPECIALIDADES_CHOICES_2
 from .models import Consultorio, Psicologo, User
 from evento.models import Evento
