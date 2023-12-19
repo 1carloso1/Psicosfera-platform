@@ -20,12 +20,17 @@ $(document).ready(function() {
             $('#foto2').hide();
             $('#foto3').hide();
           }
+          $('#certificado').attr('src', 'data:application/pdf;base64,' + data.certificado);
+          $('#curriculum').attr('src', 'data:application/pdf;base64,' + data.curriculum);
           $('#user').text(data.user);
           $('#user2').text(data.user);
           $('#nombre').text(data.nombre);
           $("#fullName").val(data.nombre);
           $('#especialidad').text(data.especialidad);
           $('#especialidad2').text(data.especialidad);
+          $('#institucion').text(data.institucion);
+          $('#institucion2').val(data.institucion);
+          $('#cedula').text(data.cedula);
           
           $('#descripcion').text(data.descripcion);
           $('#descripcion2').text(data.descripcion);
@@ -61,9 +66,12 @@ $(document).ready(function() {
           }
           if(data.cons_registrado == 1){
             $('#direccion').text(data.direccion);
+            direccion = data.direccion;
             $('#address').val(data.direccion);
             $('#cierre').text(data.cierre);
             $('#apertura').text(data.apertura);
+            $('#cierre2').val(data.cierre);
+            $('#apertura2').val(data.apertura);
             $('#horario').text(data.apertura + ' - ' + data.cierre);
           }
           else{

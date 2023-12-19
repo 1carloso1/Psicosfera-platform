@@ -97,6 +97,9 @@
 .contenedor-mapa-perfil {
   padding: 20px 0;
   display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 90%;
   height: 250px;
   transition: max-height 0.3s ease-in-out;
 }
@@ -219,6 +222,26 @@
   height: 40px; /* Alto deseado */
   object-fit: cover; /* Mantener la proporción y cortar la imagen si es necesario */
 	border-radius: 50%;
+}
+
+.embed-pdf {
+  width: 500px; /* Tamaño deseado */
+  height: 660px;
+  max-width: 100%; /* Para que se ajuste al contenedor si es más pequeño */
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.titulo_perfil{
+  font-weight: 600;
+  color: rgba(1, 41, 112, 0.6);
+  text-align: center;
+}
+
+.seccion_foto_fija{
+  position: sticky;
+  top: 100px;
 }
 
 /*--------------------------------------------------------------

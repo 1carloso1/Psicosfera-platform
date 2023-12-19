@@ -4,7 +4,7 @@ from django.urls import reverse_lazy
 from django.views.generic import TemplateView, ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-
+ 
 from psicologo.especialidades import ESPECIALIDADES_CHOICES_2
 from .models import Consultorio, Psicologo, User
 from evento.models import Evento
@@ -98,6 +98,18 @@ def datos_psicologo(request):
             foto = base64.b64encode(image_data).decode('utf-8')
     else:
         foto = None
+    if psicologo.certificado:
+        with psicologo.certificado.open('rb') as pdf_file:
+            pdf_data = pdf_file.read()
+            certificado = base64.b64encode(pdf_data).decode('utf-8')
+    else:
+            certificado = None
+    if psicologo.curriculum:
+        with psicologo.curriculum.open('rb') as pdf_file:
+            pdf_data = pdf_file.read()
+            curriculum = base64.b64encode(pdf_data).decode('utf-8')
+    else:
+            curriculum = None
 
     try:
         consultorio = Consultorio.objects.get(psicologo=psicologo_id)
@@ -110,6 +122,10 @@ def datos_psicologo(request):
         'telefono': psicologo.telefono,
         'descripcion': psicologo.descripcion,
         'especialidad' : codigoANombre(especialidad),
+        'institucion': psicologo.institucion_otorgamiento,
+        'cedula': psicologo.cedula,
+        'certificado':certificado,   
+        'curriculum':curriculum,
         'edad': psicologo.edad,
         'sexo': psicologo.sexo,
         'user': psicologo.user.username,
