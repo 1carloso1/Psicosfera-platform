@@ -69,22 +69,22 @@
 
               <div class="row">
                 <div class="col-lg-3 col-md-4 label ">Nombre de usuario</div>
-                <p class="col-lg-9 col-md-8" id="user2">{{ user.username }}</p>
+                <p class="col-lg-9 col-md-8" id="user2"></p>
               </div>
 
               <div class="row">
                 <div class="col-lg-3 col-md-4 label ">Nombre completo</div>
-                <p class="col-lg-9 col-md-8" id="nombre">{{ usuario.data.nombre }}</p>
+                <p class="col-lg-9 col-md-8" id="nombre"></p>
               </div>
 
               <div class="row">
                 <div class="col-lg-3 col-md-4 label ">Edad</div>
-                <p class="col-lg-9 col-md-8" id="edad">{{edad}}</p>
+                <p class="col-lg-9 col-md-8" id="edad"></p>
               </div>
 
               <div class="row">
                 <div class="col-lg-3 col-md-4 label">Especialidad</div>
-                <p class="col-lg-9 col-md-8" id="especialidad">{{especialidad}}</p>
+                <p class="col-lg-9 col-md-8" id="especialidad"></p>
               </div>
 
 
@@ -247,30 +247,30 @@
                 </div>
 
                 <div class="row mb-3">
-                  <label for="Twitter" class="hide" class="col-md-4 col-lg-3 col-form-label">Perfil de Twitter</label>
+                  <label for="Twitter" class="col-md-4 col-lg-3 col-form-label">Perfil de Twitter</label>
                   <div class="col-md-8 col-lg-9">
-                    <input name="twitter" type="text" class="form-control" id="Twitter" class="hide">
+                    <input name="twitter" type="text" class="form-control" id="Twitter">
                   </div>
                 </div>
 
                 <div class="row mb-3">
-                  <label for="Facebook" class="hide" class="col-md-4 col-lg-3 col-form-label">Perfil de  Facebook</label>
+                  <label for="Facebook" class="col-md-4 col-lg-3 col-form-label">Perfil de  Facebook</label>
                   <div class="col-md-8 col-lg-9">
-                    <input name="facebook" type="text" class="form-control" id="Facebook" class="hide">
+                    <input name="facebook" type="text" class="form-control" id="Facebook">
                   </div>
                 </div>
 
                 <div class="row mb-3">
-                  <label for="Instagram" class="hide" class="col-md-4 col-lg-3 col-form-label">Perfil de Instagram</label>
+                  <label for="Instagram" class="col-md-4 col-lg-3 col-form-label">Perfil de Instagram</label>
                   <div class="col-md-8 col-lg-9">
-                    <input name="instagram" type="text" class="form-control" id="Instagram" class="hide">
+                    <input name="instagram" type="text" class="form-control" id="Instagram">
                   </div>
                 </div>
 
                 <div class="row mb-3">
-                  <label for="Linkedin" class="hide" class="col-md-4 col-lg-3 col-form-label">Perfil de Linkedin</label>
+                  <label for="Linkedin" class="col-md-4 col-lg-3 col-form-label">Perfil de Linkedin</label>
                   <div class="col-md-8 col-lg-9">
-                    <input name="linkedin" type="text" class="form-control" id="Linkedin" class="hide">
+                    <input name="linkedin" type="text" class="form-control" id="Linkedin">
                   </div>
                 </div>
 
@@ -368,7 +368,7 @@
 {% block scripts %}
   <link href="{% static 'lightbox/js/lightbox.js' %}" rel="stylesheet">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
+  <script src="{% static 'js/datosPerfil.js' %}"></script>
   <script src="{% static 'js/googleMapsAPI.js' %}" ></script>
   <script src="{% static 'js/mostrarMapa.js' %}" ></script>
   <script>

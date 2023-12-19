@@ -1,11 +1,10 @@
 $(document).ready(function() {
     // Hacer la solicitud AJAX al cargar la página
     $.ajax({
-        url: 'datos/', 
-        type: 'POST',
+        url: UrlDatos, 
+        type: 'GET',
         dataType: 'json',
         success: function(data) {
-        console.log("Success");
         if (data.usuario == "default"){
           $('#foto3').attr('src', UrlImagenDefault);
         }
