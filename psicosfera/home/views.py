@@ -15,6 +15,8 @@ from paciente.models import Paciente
 from django.templatetags.static import static
 import base64
 
+from psicosfera.settings import MEDIA_ROOT
+
 def guardar_datos(request):
     if request.method == 'POST':
         esPsicologo = request.POST.get("psicologo")
@@ -39,11 +41,19 @@ def contacto(request):
     
 def perfil(request):
     if request.user.groups.filter(name='Psicologos').exists():
-        return render(request, 'perfil_psicologo_privado.html')
+        try:
+            psicologo = Psicologo.objects.get(user=request.user)
+            consultorio = Consultorio.objects.get(psicologo=psicologo)
+            datos = {
+            'direccion' : consultorio.direccion,
+    }   
+        except Psicologo.DoesNotExist:
+            pass
+        return render(request, 'perfil_psicologo_privado.html', {'usuario': datos})
     else:
         return render(request, 'perfil_paciente.html')
 
-
+ 
 def perfilPublico(request, username):
     # Obtener el usuario basado en el username
     user = get_object_or_404(User, username=username)
@@ -53,11 +63,35 @@ def perfilPublico(request, username):
         psicologo = Psicologo.objects.get(user=user)
         consultorio = Consultorio.objects.get(psicologo=psicologo)
         especialidad = psicologo.especialidad
+        if psicologo.foto_perfil:
+            with psicologo.foto_perfil.open('rb') as image_file:
+                image_data = image_file.read()
+                foto = base64.b64encode(image_data).decode('utf-8')
+        else:
+            foto = None
+        if psicologo.certificado:
+            with psicologo.certificado.open('rb') as pdf_file:
+                pdf_data = pdf_file.read()
+                certificado = base64.b64encode(pdf_data).decode('utf-8')
+        else:
+            certificado = None
+        if psicologo.curriculum:
+            with psicologo.curriculum.open('rb') as pdf_file:
+                pdf_data = pdf_file.read()
+                curriculum = base64.b64encode(pdf_data).decode('utf-8')
+        else:
+            curriculum = None
+
         datos = {
         'nombre': psicologo.user.first_name + ' ' + psicologo.user.last_name,
+        'foto': foto,
         'correo': psicologo.user.email,
         'telefono': psicologo.telefono,
+        'institucion': psicologo.institucion_otorgamiento,
         'especialidad' : codigoANombre(especialidad),
+        'institucion': psicologo.institucion_otorgamiento,
+        'cedula': psicologo.cedula,
+        'descripcion' : psicologo.descripcion,
         'direccion' : consultorio.direccion,
         'apertura' : consultorio.horario_apertura,
         'cierre' : consultorio.horario_cierre,
@@ -69,8 +103,10 @@ def perfilPublico(request, username):
         'linkedin': psicologo.enlace_linkedin,
         'instagram': psicologo.enlace_instagram,
         'twitter':psicologo.enlace_pagina_web,   
+        'certificado':certificado,   
+        'curriculum':curriculum, 
     }
-    
+        print(foto)
         return render(request, 'perfil_psicologo.html', {'usuario': datos})
     except Psicologo.DoesNotExist:
         pass  # El usuario no es un psicólogo, continuar
@@ -92,8 +128,7 @@ def datos(request):
         return datos_paciente(request)
     else:
         return datos_default(request)
-
-
+    
 def datos_default(request):
     usuario = "default"
     data ={

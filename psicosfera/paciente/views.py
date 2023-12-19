@@ -139,6 +139,12 @@ def psicologos_por_especialidad_nombre(request):
             psicologos = Psicologo.objects.all()
             for psicologo in psicologos:
                 especialidad = psicologo.especialidad # Accede a la especialidad del psicologo
+                if psicologo.foto_perfil:
+                    with psicologo.foto_perfil.open('rb') as image_file:   #Obtiene la foto encriptada para mostrarla en la tarjeta
+                        image_data = image_file.read()
+                        foto = base64.b64encode(image_data).decode('utf-8')
+                else:
+                    foto = None
                 for codigo, nombre in ESPECIALIDADES_CHOICES_2: #transforma el id en en nombre de la especialidad
                     if especialidad == codigo:
                         especialidad = nombre
@@ -150,7 +156,7 @@ def psicologos_por_especialidad_nombre(request):
                     direccion_consultorio = direccion_consultorio.replace(',', '-')
                     nombre_usuario = psicologo.user.first_name + " "  +  psicologo.user.last_name # Accede al nombre de usuario del usuario asociado al psicólogo
                     username = psicologo.user.username
-                    lista_nombres.append((nombre_usuario,especialidad, direccion_consultorio, username))  # Agrega el nombre de usuario a la lista
+                    lista_nombres.append((nombre_usuario,especialidad, direccion_consultorio, username, foto))  # Agrega el nombre de usuario a la lista
             return JsonResponse(lista_nombres, safe=False)
         
         elif inputText not in ESPECIALIDADES_CHOICES:
@@ -159,6 +165,12 @@ def psicologos_por_especialidad_nombre(request):
             for psicologo in psicologos:
                 nombre = psicologo.user.first_name + " "  +  psicologo.user.last_name # Accede al nombre de usuario del usuario asociado al psicólogo
                 especialidad = psicologo.especialidad # Accede a la especialidad del psicologo
+                if psicologo.foto_perfil:
+                    with psicologo.foto_perfil.open('rb') as image_file:   #Obtiene la foto encriptada para mostrarla en la tarjeta
+                        image_data = image_file.read()
+                        foto = base64.b64encode(image_data).decode('utf-8')
+                else:
+                    foto = None
                 for codigo, esp in ESPECIALIDADES_CHOICES_2: #transforma el id en en nombre de la especialidad
                     if especialidad == codigo:
                         especialidad = esp
@@ -169,7 +181,7 @@ def psicologos_por_especialidad_nombre(request):
                     direccion_consultorio = consultorio.direccion
                     direccion_consultorio = direccion_consultorio.replace(',', '-')
                     username = psicologo.user.username
-                    lista_nombres.append((nombre,especialidad,direccion_consultorio, username))  # Agrega el nombre de usuario a la lista
+                    lista_nombres.append((nombre,especialidad,direccion_consultorio, username, foto))  # Agrega el nombre de usuario a la lista
             return JsonResponse(lista_nombres, safe=False)
         
         else:

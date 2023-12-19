@@ -22,12 +22,15 @@
           <br>
           <h2 id="user"></h2>
           <h3 id="especialidad2"></h3>
+          <h6 class="titulo_perfil">Sobre Mí</h6>
+          <p class="small fst-italic" id="descripcion"></p>
           <div class="social-links mt-2">
             <a href="#" id="twitter"><i class="bi bi-twitter"></i></a>
             <a href="#" id="facebook"><i class="bi bi-facebook"></i></a>
             <a href="#" id="instagram"><i class="bi bi-instagram"></i></a>
             <a href="#" id="linkedin"><i class="bi bi-linkedin"></i></a>
           </div>
+          
         </div>
       </div>
 
@@ -60,10 +63,9 @@
           <div class="tab-content pt-2">
 
             <div class="tab-pane fade show active profile-overview" id="profile-overview">
-              <h5 class="card-title">Sobre mí</h5>
-              <p class="small fst-italic" id="descripcion"></p>
+              
 
-              <h5 class="card-title">Detalles de la cuenta</h5>
+              <h6 class="titulo_perfil">Detalles de la Cuenta</h6>
 
               <div class="row">
                 <div class="col-lg-3 col-md-4 label ">Nombre de usuario</div>
@@ -86,13 +88,13 @@
               </div>
 
               <div class="row">
-                <div class="col-lg-3 col-md-4 label">Dirección del Consultorio</div>
-                <p class="col-lg-9 col-md-8" id="direccion"></p>
+                <div class="col-lg-3 col-md-4 label ">Institución de Otorgamiento</div>
+                <p class="col-lg-9 col-md-8" id="institucion"></p>
               </div>
 
               <div class="row">
-                <div class="col-lg-3 col-md-4 label">Horario de atención</div>
-                <p class="col-lg-9 col-md-8" id="horario"></p>
+                <div class="col-lg-3 col-md-4 label ">Cédula Profesional</div>
+                <p class="col-lg-9 col-md-8" id="cedula"></p>
               </div>
 
               <div class="row">
@@ -103,6 +105,33 @@
               <div class="row">
                 <div class="col-lg-3 col-md-4 label">Correo electrónico</div>
                 <p class="col-lg-9 col-md-8" id="correo"></p>
+              </div>
+
+              <h6 class="titulo_perfil">Certificado Académico</h6>
+              <div class="row">
+                <embed id="certificado" src="" type="application/pdf" class="embed-pdf"/>
+              </div>
+              <br>
+              <h6 class="titulo_perfil">Curriculum Profesional</h6>
+              <div class="row">
+                <embed id="curriculum" src="" type="application/pdf" class="embed-pdf"/>
+              </div>
+              <br>
+
+              <h6 class="titulo_perfil">Detalles del Consultorio</h6>
+
+              <div class="row">
+                <div class="col-lg-3 col-md-4 label">Dirección del Consultorio</div>
+                <p class="col-lg-9 col-md-8" id="direccion"></p>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-3 col-md-4 label">Horario de atención</div>
+                <p class="col-lg-9 col-md-8" id="horario"></p>
+              </div>
+
+              <div class="row">
+                <div class="contenedor-mapa-perfil" id="map1"></div>
               </div>
 
             </div>
@@ -138,9 +167,16 @@
                 </div>
 
                 <div class="row mb-3">
-                  <label for="age" class="col-md-4 col-lg-3 col-form-label">Especialidad</label>
+                  <label for="especiality" class="col-md-4 col-lg-3 col-form-label">Especialidad</label>
                   <div class="col-md-8 col-lg-9">
-                    <input name="age" type="text" class="form-control" id="especiality">
+                    <input name="especiality" type="text" class="form-control" id="especiality">
+                  </div>
+                </div>
+
+                <div class="row mb-3">
+                  <label for="institucion2" class="col-md-4 col-lg-3 col-form-label">Institución de Otorgamiento</label>
+                  <div class="col-md-8 col-lg-9">
+                    <input name="institucion2" type="text" class="form-control" id="institucion2">
                   </div>
                 </div>
 
@@ -160,9 +196,11 @@
 
                 <div class="row mb-3">
                   <label for="address" class="col-md-4 col-lg-3 col-form-label">Horario de Atención</label>
-                  <div class="col-md-8 col-lg-9">
-                    <input name="apertura" type="text" class="form-control" id="apertura">
-                    <input name="cierre" type="text" class="form-control" id="cierre">
+                  <div class="col-md-4 col-lg-4">
+                    <input name="apertura" type="text" class="form-control" id="apertura2">
+                  </div>
+                  <div class="col-md-4 col-lg-5">
+                    <input name="cierre" type="text" class="form-control" id="cierre2">
                   </div>
                 </div>
 
@@ -303,6 +341,16 @@
   <link href="{% static 'lightbox/js/lightbox.js' %}" rel="stylesheet">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="{% static 'js/datosPerfil.js' %}"></script>
+  <script src="{% static 'js/googleMapsAPI.js' %}" ></script>
+  <script src="{% static 'js/mostrarMapa.js' %}" ></script>
+  <script>
+    // Espera a que la página se cargue completamente
+    document.addEventListener("DOMContentLoaded", function () {
+      // Llama a mostrarMapa con la dirección del usuario
+      console.log( "direccion: " + "{{usuario.direccion}}")
+      mostrarMapa("{{usuario.direccion}}");
+    });
+  </script>
   <script>
     $(document).ready(function() {
       $('#actualizar').submit(function(event) {
