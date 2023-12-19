@@ -40,14 +40,11 @@ def contacto(request):
     return render(request, 'contacto.html')
     
 def perfil(request):
-    datos = {}
 
     if request.user.groups.filter(name='Psicologos').exists():
         return render(request, 'perfil_psicologo_privado.html')
     else:
-        response = datos_paciente(request)
-        datos = json.loads(response.content)
-        return render(request, 'perfil_paciente.html', datos)
+        return render(request, 'perfil_paciente.html')
 
  
 def perfilPublico(request, username):
