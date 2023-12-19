@@ -14,6 +14,9 @@ from psicologo.models import Consultorio, Psicologo
 from paciente.models import Paciente
 from django.templatetags.static import static
 import base64
+from psicologo.views import datos_psicologo
+from paciente.views import datos_paciente
+import json
 
 def guardar_datos(request):
     if request.method == 'POST':
@@ -38,10 +41,16 @@ def contacto(request):
     return render(request, 'contacto.html')
     
 def perfil(request):
+    datos = {}
+
     if request.user.groups.filter(name='Psicologos').exists():
-        return render(request, 'perfil_psicologo_privado.html')
+        response = datos_psicologo(request)
+        datos = json.loads(response.content)
+        return render(request, 'perfil_psicologo_privado.html' , datos)
     else:
-        return render(request, 'perfil_paciente.html')
+        response = datos_paciente(request)
+        datos = json.loads(response.content)
+        return render(request, 'perfil_paciente.html', datos)
 
 
 def perfilPublico(request, username):

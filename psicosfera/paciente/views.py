@@ -12,11 +12,7 @@ import base64
 
 
 def datos_paciente(request):
-    try:
-        paciente_id = request.POST.get('paciente_id')
-        paciente = Paciente.objects.get(id=paciente_id)
-    except:
-        paciente = Paciente.objects.get(user=request.user)
+    paciente = Paciente.objects.get(user=request.user)
     nombre = str(paciente.user.first_name) +" "+ str(paciente.user.last_name)
     correo_electronico = paciente.user.email
     descripcion = paciente.descripcion

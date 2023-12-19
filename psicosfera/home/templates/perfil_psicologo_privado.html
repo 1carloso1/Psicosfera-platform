@@ -67,42 +67,43 @@
 
               <div class="row">
                 <div class="col-lg-3 col-md-4 label ">Nombre de usuario</div>
-                <p class="col-lg-9 col-md-8" id="user2"></p>
+                <p class="col-lg-9 col-md-8" id="user2">{{ user.username }}</p>
               </div>
 
               <div class="row">
                 <div class="col-lg-3 col-md-4 label ">Nombre completo</div>
-                <p class="col-lg-9 col-md-8" id="nombre"></p>
+                <p class="col-lg-9 col-md-8" id="nombre">{{ usuario.data.nombre }}</p>
               </div>
 
               <div class="row">
                 <div class="col-lg-3 col-md-4 label ">Edad</div>
-                <p class="col-lg-9 col-md-8" id="edad"></p>
+                <p class="col-lg-9 col-md-8" id="edad">{{edad}}</p>
               </div>
 
               <div class="row">
-                <div class="col-lg-3 col-md-4 label ">Especialidad</div>
-                <p class="col-lg-9 col-md-8" id="especialidad"></p>
+                <div class="col-lg-3 col-md-4 label">Especialidad</div>
+                <p class="col-lg-9 col-md-8" id="especialidad">{{especialidad}}</p>
               </div>
 
-              <div class="row">
-                <div class="col-lg-3 col-md-4 label">Dirección del Consultorio</div>
-                <p class="col-lg-9 col-md-8" id="direccion"></p>
-              </div>
-
-              <div class="row">
-                <div class="col-lg-3 col-md-4 label">Horario de atención</div>
-                <p class="col-lg-9 col-md-8" id="horario"></p>
-              </div>
 
               <div class="row">
                 <div class="col-lg-3 col-md-4 label">Número de teléfono</div>
-                <p class="col-lg-9 col-md-8" id="numero" ></p>
+                <p class="col-lg-9 col-md-8" id="numero" >{{telefono}}</p>
               </div>
 
               <div class="row">
                 <div class="col-lg-3 col-md-4 label">Correo electrónico</div>
-                <p class="col-lg-9 col-md-8" id="correo"></p>
+                <p class="col-lg-9 col-md-8" id="correo">{{correo}}</p>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-3 col-md-4 label">Dirección del Consultorio</div>
+                <p class="col-lg-9 col-md-8" id="direccion">{{direccion}}</p>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-3 col-md-4 label">Horario de Atención</div>
+                <p class="col-lg-9 col-md-8" id="direccion">{{apertura}} - {{cierre}}</p>
               </div>
 
             </div>
@@ -302,7 +303,7 @@
 {% block scripts %}
   <link href="{% static 'lightbox/js/lightbox.js' %}" rel="stylesheet">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="{% static 'js/datosPerfil.js' %}"></script>
+
   <script>
     $(document).ready(function() {
       $('#actualizar').submit(function(event) {
@@ -338,4 +339,5 @@
       });
     });
   </script>
+  
 {% endblock %}

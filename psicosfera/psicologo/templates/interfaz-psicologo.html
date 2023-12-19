@@ -227,8 +227,7 @@
             // Maneja la respuesta y construye el contenido HTML para mostrar todos los pacientes
             var contenidoHTML = '<ul>';
             $.each(response, function(index, cita) {
-                console.log(cita.nombre_paciente)
-                contenidoHTML += `<li><a href="#foto" onclick="changeClass(this)" class="btn" data-id="${cita.id_paciente }"><i class="bi bi-arrow-right-circle"></i><span>${cita.nombre_paciente} | Prox. cita: ${cita.fecha_inicio} ${cita.hora_inicio}</span></a></li>`;
+              contenidoHTML += `<li><a href="#foto" onclick="changeClass(this)" class="btn" data-id="${cita.id_paciente }"><i class="bi bi-arrow-right-circle"></i><span>${cita.nombre_paciente} | Prox. cita: ${cita.fecha_inicio} ${cita.hora_inicio}</span></a></li>`;
 
             });
             contenidoHTML += '</ul>';

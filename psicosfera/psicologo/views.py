@@ -23,7 +23,6 @@ from .forms import FormPsicologo
 from django.http import  JsonResponse
 import base64
 from django.http import HttpResponse
-from paciente.views import datos_paciente
 
 def interfaz_psicologo(request):
     psicologo = Psicologo.objects.get(user=request.user)
