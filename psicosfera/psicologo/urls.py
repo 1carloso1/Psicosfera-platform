@@ -1,7 +1,10 @@
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path
 from .views import *
 from paciente.views import datos_paciente
+from django.conf import settings
+from django.conf.urls.static import static
+
 urlpatterns = [
     path('', interfaz_psicologo, name = 'interfaz'),
     path('diario_psicologo/', diario_psicologo, name='diario_psicologo'),
@@ -13,4 +16,4 @@ urlpatterns = [
     path('obtener_citas/', obtener_citas, name='obtener_citas'),
     path('eliminar_cita/', eliminar_cita, name='eliminar_cita'),
     path('paciente_pdf/<int:paciente_id>', paciente_pdf, name='paciente_pdf'),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

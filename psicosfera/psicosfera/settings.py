@@ -203,6 +203,7 @@ LOGGING = {
     #     'level': 'INFO',
     # },
 }
+LOGIN_URL = ''
 
 # Para el envio del correo de contacto
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

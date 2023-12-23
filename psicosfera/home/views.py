@@ -1,31 +1,27 @@
-import os
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 from django.conf import settings
 from django.contrib import messages
-from django.http import HttpResponse, JsonResponse
-from paciente.views import datos_paciente, actualizar_paciente
-from psicologo.views import codigoANombre, datos_psicologo, actualizar_psicologo
+from django.http import JsonResponse
+from paciente.views import datos_paciente
+from psicologo.views import codigoANombre, datos_psicologo
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.models import User
 from psicologo.models import Consultorio, Psicologo
 from paciente.models import Paciente
-from django.templatetags.static import static
 import base64
+from psicologo.forms import FormPsicologo, FormConsultorio
+from paciente.forms import FormPaciente
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.contrib.auth import authenticate
+from django.shortcuts import render, redirect
+from django.contrib.auth import login
 
 from psicosfera.settings import MEDIA_ROOT
-
-def guardar_datos(request):
-    if request.method == 'POST':
-        esPsicologo = request.POST.get("psicologo")
-        if esPsicologo == "1":
-            return actualizar_psicologo(request)
-        else:
-            return actualizar_paciente(request)
-
-
+        
 class Home(TemplateView):
     def get_template_names(self):
         if self.request.user.groups.filter(name='Psicologos').exists():
@@ -38,14 +34,46 @@ class Home(TemplateView):
 
 def contacto(request):
     return render(request, 'contacto.html')
+
+@login_required
+def actualizar_password(request):
+    if request.method == 'POST':
+        password_actual = request.POST['password_actual'] 
+        nueva_password = request.POST['nueva_password']
+        confirmar_password = request.POST['confirmar_password']
+        # Verificar la password actual del usuario
+        user = authenticate(request, username=request.user.username, password=password_actual)
+        if user is not None:
+            # La password actual es válida
+            if nueva_password == confirmar_password:
+                # Las passwords coinciden, proceder con el cambio de password
+                request.user.set_password(nueva_password)
+                request.user.save()
+
+                messages.success(request, 'Contraseña actualizada exitosamente.')
+                return redirect('login')
+
+            else:
+                messages.error(request, 'Las contraseñas no coinciden.')
+                return redirect('perfil')
+        else:
+            messages.error(request, 'La contraseña actual es incorrecta.')
+            return redirect('perfil')
+    else:
+        return JsonResponse({'mensaje': 'Método no permitido'}, status=405) 
     
 def perfil(request):
 
     if request.user.groups.filter(name='Psicologos').exists():
-        return render(request, 'perfil_psicologo_privado.html')
+        psicologo=Psicologo.objects.get(user=request.user)
+        consultorio = Consultorio.objects.get(psicologo=psicologo)
+        formConsultorio = FormConsultorio(instance=consultorio)
+        formPsicologo = FormPsicologo(instance=psicologo)
+        return render(request, 'perfil_psicologo_privado.html', {'formPsicologo': formPsicologo, 'formConsultorio': formConsultorio})
     else:
-        return render(request, 'perfil_paciente.html')
-
+        paciente=Paciente.objects.get(user=request.user)
+        form = FormPaciente(instance=paciente)
+        return render(request, 'perfil_paciente.html', {'form': form})
  
 def perfilPublico(request, username):
     # Obtener el usuario basado en el username
@@ -76,7 +104,8 @@ def perfilPublico(request, username):
             curriculum = None
 
         datos = {
-        'nombre': psicologo.user.first_name + ' ' + psicologo.user.last_name,
+        'nombre': psicologo.user.first_name,
+        'apellidos' : psicologo.user.last_name,
         'foto': foto,
         'correo': psicologo.user.email,
         'telefono': psicologo.telefono,
@@ -99,7 +128,6 @@ def perfilPublico(request, username):
         'certificado':certificado,   
         'curriculum':curriculum, 
     }
-        print(foto)
         return render(request, 'perfil_psicologo.html', {'usuario': datos})
     except Psicologo.DoesNotExist:
         pass  # El usuario no es un psicólogo, continuar
@@ -114,6 +142,7 @@ def perfilPublico(request, username):
     # Si no es psicólogo ni paciente, puedes manejarlo de acuerdo a tus necesidades
     return render(request, 'perfil_no_encontrado.html', {'usuario': username}) 
 
+@login_required
 def datos(request):
     if request.user.groups.filter(name='Psicologos').exists():
         return datos_psicologo(request)

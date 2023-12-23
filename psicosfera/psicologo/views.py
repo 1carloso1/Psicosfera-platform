@@ -1,29 +1,21 @@
-from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib.auth.decorators import login_required
-from django.urls import reverse_lazy
-from django.views.generic import TemplateView, ListView
-from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
- 
 from psicologo.especialidades import ESPECIALIDADES_CHOICES_2
-from .models import Consultorio, Psicologo, User
+from .models import Consultorio, Psicologo
 from evento.models import Evento
-
-from django.http import FileResponse
-from django.shortcuts import render
-from reportlab.lib.pagesizes import letter
-from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
-from reportlab.lib import colors
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image
-from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.lib.styles import getSampleStyleSheet
 from io import BytesIO
-from paciente.models import Paciente, Expediente
-from .forms import FormPsicologo
+from paciente.models import Paciente
 from django.http import  JsonResponse
 import base64
 from django.http import HttpResponse
+from .forms import FormPsicologo, FormConsultorio 
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.contrib.auth import authenticate
+from django.shortcuts import render, redirect
 
+@login_required
 def interfaz_psicologo(request):
     psicologo = Psicologo.objects.get(user=request.user)
     data = {}
@@ -34,6 +26,7 @@ def interfaz_psicologo(request):
     
     return render(request, 'interfaz-psicologo.html',data)
 
+@login_required
 def guardar_cita(request):
     if request.method == 'POST':
         psicologo = Psicologo.objects.get(user=request.user)
@@ -51,6 +44,7 @@ def guardar_cita(request):
     else:
         return JsonResponse({'mensaje': 'Método no permitido'}, status=405)
 
+@login_required
 def eliminar_cita(request):
     try:
         cita = Evento.objects.get(id=request.POST.get('id'))
@@ -59,6 +53,7 @@ def eliminar_cita(request):
     except Evento.DoesNotExist:
         return JsonResponse({'mensaje': 'La cita no existe'}, status=404)
 
+@login_required
 def obtener_citas(request):
     psicologo = Psicologo.objects.get(user=request.user)
     citas = Evento.objects.all()
@@ -67,7 +62,6 @@ def obtener_citas(request):
         try:
             citasPsicologo = []
             for cita in citas:
-                print(cita.paciente.user.username + ' ' + cita.psicologo.user.username)
                 if cita.psicologo == psicologo:
                      
                     citasPsicologo.append({
@@ -87,11 +81,15 @@ def obtener_citas(request):
             return JsonResponse({'mensaje': 'Las citas no existe'}, status=404)
     return JsonResponse({'mensaje': 'Las citas no existe'}, status=404)
 
+@login_required
 def datos_psicologo(request):
     psicologo = Psicologo.objects.get(user=request.user)
     psicologo_id = psicologo.id
     usuario = "registrado"
     especialidad = psicologo.especialidad
+    direccion = ""
+    apertura = ""
+    cierre = ""
     if psicologo.foto_perfil:
         with psicologo.foto_perfil.open('rb') as image_file:
             image_data = image_file.read()
@@ -113,41 +111,24 @@ def datos_psicologo(request):
 
     try:
         consultorio = Consultorio.objects.get(psicologo=psicologo_id)
-        datos = {
-        'usuario':usuario,
-        'cons_registrado': 1,
-        'foto': foto,
-        'nombre': psicologo.user.first_name + ' ' + psicologo.user.last_name,
-        'correo': psicologo.user.email,
-        'telefono': psicologo.telefono,
-        'descripcion': psicologo.descripcion,
-        'especialidad' : codigoANombre(especialidad),
-        'institucion': psicologo.institucion_otorgamiento,
-        'cedula': psicologo.cedula,
-        'certificado':certificado,   
-        'curriculum':curriculum,
-        'edad': psicologo.edad,
-        'sexo': psicologo.sexo,
-        'user': psicologo.user.username,
-        "psicologo": 1,
-        'facebook': psicologo.enlace_facebook,
-        'linkedin': psicologo.enlace_linkedin,
-        'instagram': psicologo.enlace_instagram,
-        'twitter':psicologo.enlace_pagina_web,   
-        'direccion' : consultorio.direccion,
-        'apertura' : consultorio.horario_apertura,
-        'cierre' : consultorio.horario_cierre,
-    }
+  
+        direccion = consultorio.direccion
+        apertura = consultorio.horario_apertura
+        cierre = consultorio.horario_cierre
     except:
-        datos = {
+        pass
+    datos = {
         'usuario':usuario,
         'cons_registrado': 0,
         'foto': foto,
-        'nombre': psicologo.user.first_name + ' ' + psicologo.user.last_name,
+        'nombre': psicologo.user.first_name,
+        'apellidos': psicologo.user.last_name,
         'correo': psicologo.user.email,
         'telefono': psicologo.telefono,
         'descripcion': psicologo.descripcion,
         'especialidad' : codigoANombre(especialidad),
+        'certificado': certificado,
+        'curriculum' : curriculum,
         'edad': psicologo.edad,
         'sexo': psicologo.sexo,
         'user': psicologo.user.username,
@@ -156,7 +137,10 @@ def datos_psicologo(request):
         'linkedin': psicologo.enlace_linkedin,
         'instagram': psicologo.enlace_instagram,
         'twitter':psicologo.enlace_pagina_web,   
-        'diario': psicologo.diario
+        'diario': psicologo.diario,
+        'direccion': direccion,
+        'apertura': apertura,
+        'cierre': cierre,
     }
     
     return JsonResponse(datos, safe=False)
@@ -167,39 +151,72 @@ def codigoANombre(especialidad):
     	if especialidad == codigo:
             return nombre
 
+@login_required
 def diario_psicologo(request):
     psicologo = Psicologo.objects.get(user=request.user)
     if psicologo.diario:
         return JsonResponse({'diario':psicologo.diario})
-    
 
-
+@login_required
 def actualizar_psicologo(request):
-
+    psicologo = Psicologo.objects.get(user=request.user)
     if request.method == 'POST':
-        psicologo = Psicologo.objects.get(user=request.user)
-        psicologo.user.first_name = request.POST.get('nombre', None)
-        psicologo.telefono = request.POST.get('numero', None)
-        psicologo.user.email = request.POST.get('correo', None)
-        psicologo.enlace_facebook = request.POST.get('facebook', None)
-        psicologo.enlace_linkedin = request.POST.get('linkedin', None)
-        psicologo.enlace_instagram = request.POST.get('instagram', None)
-        psicologo.enlace_pagina_web = request.POST.get('twitter', None)
-        psicologo.save()
-        return JsonResponse({'mensaje': 'Datos guardados con exito'})
+        form = FormPsicologo(request.POST, request.FILES, instance=psicologo)
+        if form.is_valid():
+            try:
+                # Guardar los cambios en el formulario PsicologoForm
+                psicologo = form.save(commit=False)
+
+                # Procesar los datos adicionales
+                nombre = request.POST.get('firstName', '')  # Reemplaza 'firstName' con el nombre real del campo
+                apellidos = request.POST.get('lastName', '')  # Reemplaza 'lastName' con el nombre real del campo
+
+                # Actualizar los campos adicionales en el modelo Psicologo
+                psicologo.user.first_name = nombre
+                psicologo.user.last_name = apellidos
+                psicologo.user.save()
+
+                # Guardar los cambios en el modelo Psicologo
+                psicologo.save()
+                # ... resto del código ...
+            except Exception as e:
+                messages.error(request, "Error al actualizar tus datos")
+                return redirect('perfil')
+            messages.success(request, "Se han actualizado tus datos correctamente.")
+            return redirect('perfil')
+        else:
+            messages.error(request, "Datos invalidos.")
+            return redirect('perfil')
     else:
         return JsonResponse({'mensaje': 'Método no permitido'}, status=405)
+
+@login_required
+def actualizar_consultorio(request):
+    psicologo = Psicologo.objects.get(user=request.user)
+    consultorio = Consultorio.objects.get(psicologo=psicologo)
+    if request.method == 'POST':
+        form = FormConsultorio(request.POST, instance=consultorio)
+        if form.is_valid():
+            consultorio = form.save()
+            messages.success(request, "Se han actualizado tus datos correctamente.")
+            return redirect('perfil')
+        else:
+            messages.error(request, "Datos invalidos.")
+            return redirect('perfil')
+    else:
+        return JsonResponse({'mensaje': 'Método no permitido'}, status=405)    
+
+
+
+
 
 
 def guardar_personales(request):
     if request.method == 'POST':
         notas_personales= request.POST.get('contenido', None)
-        print(request.user.username)
         psicologo = Psicologo.objects.get(user=request.user)
-        print('psicologo:', psicologo.user.username)
         psicologo.diario = notas_personales
         psicologo.save()
-
         
         return JsonResponse({'mensaje': 'Expediente guardado con éxito'})
     else:
