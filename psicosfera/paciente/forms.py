@@ -7,9 +7,19 @@ class FormPaciente(forms.ModelForm):
     class Meta:
         model = Paciente
         fields = '__all__'
+        exclude = ['user']
         
         widgets = {
-            'user': forms.TextInput(
-                attrs={'class':'form-control'}
+            'foto_perfil': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+            'edad': forms.NumberInput(attrs={'class': 'form-control'}),
+            'sexo': forms.Select(attrs={'class': 'form-control'}),
+            'fecha_nacimiento': forms.DateInput(attrs={'class': 'form-control'}),
+            'telefono': forms.TextInput(attrs={'class': 'form-control'}),
+            'direccion': forms.TextInput(
+                attrs={'class': 'form-control', 'id': 'direccion-input'}
             ),
+            'descripcion': forms.TextInput(attrs={'class': 'form-control'}),
+            'ocupacion': forms.TextInput(attrs={'class': 'form-control'}),
+            
+            
         }

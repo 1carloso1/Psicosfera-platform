@@ -9,7 +9,11 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from paciente.models import Paciente, Expediente
 import base64
-
+from .forms import FormPaciente
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.contrib.auth import authenticate
+from django.shortcuts import render, redirect
 
 def datos_paciente(request):
     try:
@@ -17,7 +21,8 @@ def datos_paciente(request):
         paciente = Paciente.objects.get(id=paciente_id)
     except:
         paciente = Paciente.objects.get(user=request.user)
-    nombre = str(paciente.user.first_name) +" "+ str(paciente.user.last_name)
+    nombre = str(paciente.user.first_name)
+    apellidos = str(paciente.user.last_name)
     correo_electronico = paciente.user.email
     descripcion = paciente.descripcion
     telefono = paciente.telefono
@@ -40,6 +45,7 @@ def datos_paciente(request):
             'usuario':usuario,
             "foto": foto,
             "nombre" : nombre,
+            "apellido": apellidos,
             "correo" : correo_electronico,
             'descripcion': descripcion,
             "telefono" : telefono,
@@ -58,6 +64,7 @@ def datos_paciente(request):
             'usuario':usuario,
             "foto": foto,
             "nombre" : nombre,
+            "apellidos": apellidos,
             "correo" : correo_electronico,
             'descripcion': descripcion,
             "telefono" : telefono,
@@ -70,17 +77,39 @@ def datos_paciente(request):
         }
     return JsonResponse(data, safe=False)
 
+@login_required
 def actualizar_paciente(request):
-
+    paciente = Paciente.objects.get(user=request.user)
     if request.method == 'POST':
-        paciente = Paciente.objects.get(user=request.user)
-        paciente.user.first_name = request.POST.get('nombre', None)
-        paciente.telefono = request.POST.get('numero', None)
-        paciente.user.email = request.POST.get('correo', None)
-        paciente.save()
-        return JsonResponse({'mensaje': 'Datos guardados con exito'})
+        form = FormPaciente(request.POST, request.FILES, instance=paciente)
+        if form.is_valid():
+            try:
+                # Guardar los cambios en el formulario pacienteForm
+                paciente = form.save(commit=False)
+
+                # Procesar los datos adicionales
+                nombre = request.POST.get('firstName', '')  # Reemplaza 'firstName' con el nombre real del campo
+                apellidos = request.POST.get('lastName', '')  # Reemplaza 'lastName' con el nombre real del campo
+
+                # Actualizar los campos adicionales en el modelo paciente
+                paciente.user.first_name = nombre
+                paciente.user.last_name = apellidos
+                paciente.user.save()
+
+                # Guardar los cambios en el modelo paciente
+                paciente.save()
+                # ... resto del código ...
+            except Exception as e:
+                messages.error(request, "Error al actualizar tus datos")
+                return redirect('perfil')
+            messages.success(request, "Se han actualizado tus datos correctamente.")
+            return redirect('perfil')
+        else:
+            messages.error(request, "Datos invalidos.")
+            return redirect('perfil')
     else:
         return JsonResponse({'mensaje': 'Método no permitido'}, status=405)
+
         
 
     

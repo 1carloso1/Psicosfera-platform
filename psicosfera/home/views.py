@@ -70,10 +70,12 @@ def perfil(request):
         formConsultorio = FormConsultorio(instance=consultorio)
         formPsicologo = FormPsicologo(instance=psicologo)
         return render(request, 'perfil_psicologo_privado.html', {'formPsicologo': formPsicologo, 'formConsultorio': formConsultorio})
-    else:
+    elif request.user.groups.filter(name='Pacientes').exists():
         paciente=Paciente.objects.get(user=request.user)
         form = FormPaciente(instance=paciente)
         return render(request, 'perfil_paciente.html', {'form': form})
+    else:
+        return redirect('login')
  
 def perfilPublico(request, username):
     # Obtener el usuario basado en el username
