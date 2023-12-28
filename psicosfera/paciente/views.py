@@ -30,6 +30,7 @@ def datos_paciente(request):
     edad = paciente.edad
     sexo = paciente.sexo
     usuario = "registrado"
+    notas_compartidas = ""
     if paciente.foto_perfil:
         with paciente.foto_perfil.open('rb') as image_file:
             image_data = image_file.read()
@@ -40,27 +41,11 @@ def datos_paciente(request):
     try:
         expediente = Expediente.objects.get(paciente=paciente)
         notas_compartidas = expediente.notas_compartidas
-        notas_personales = expediente.notas_personales
-        data ={
-            'usuario':usuario,
-            "foto": foto,
-            "nombre" : nombre,
-            "apellido": apellidos,
-            "correo" : correo_electronico,
-            'descripcion': descripcion,
-            "telefono" : telefono,
-            "direccion" : direccion,
-            "edad" : edad,
-            "sexo" : sexo,
-            "user": paciente.user.username,
-            "psicologo": 0,
-            
-            "notas_compartidas" : notas_compartidas,
-            "notas_personales": notas_personales,
-        }
+
     except:
         print("No hay expediente.")
-        data ={
+
+    data ={
             'usuario':usuario,
             "foto": foto,
             "nombre" : nombre,
@@ -73,7 +58,7 @@ def datos_paciente(request):
             "sexo" : sexo,
             "user": paciente.user.username,
             "psicologo": 0,
-            
+            "notas_compartidas" : notas_compartidas,
         }
     return JsonResponse(data, safe=False)
 
