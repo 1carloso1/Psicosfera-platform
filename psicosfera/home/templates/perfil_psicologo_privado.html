@@ -270,6 +270,16 @@
   <script src="{% static 'js/datosPerfil.js' %}"></script>
   <script src="{% static 'js/googleMapsAPI.js' %}" ></script>
   <script src="{% static 'js/mostrarMapa.js' %}" ></script>
+  {% if request.GET.success %}
+    <script>
+        alert("Se han actualizado tus datos correctamente.");
+    </script>
+  {% elif request.GET.error %}
+    <script>
+        alert("Error al actualizar tus datos.");
+    </script>
+  {% endif %}
+
   <script>
     // Espera a que la página se cargue completamente
     document.addEventListener("DOMContentLoaded", function () {

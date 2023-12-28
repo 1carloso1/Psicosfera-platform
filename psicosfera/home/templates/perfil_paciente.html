@@ -211,4 +211,14 @@
   <link href="{% static 'lightbox/js/lightbox.js' %}" rel="stylesheet">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="{% static 'js/datosPerfil.js' %}"></script>
+  {% if request.GET.success %}
+    <script>
+        alert("Se han actualizado tus datos correctamente.");
+    </script>
+  {% elif request.GET.error %}
+    <script>
+        alert("Error al actualizar tus datos.");
+    </script>
+  {% endif %}
+
 {% endblock %}

@@ -19,6 +19,8 @@ from django.contrib import messages
 from django.contrib.auth import authenticate
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 
 from psicosfera.settings import MEDIA_ROOT
         
@@ -79,6 +81,9 @@ def perfil(request):
         return render(request, 'perfil_paciente.html', {'form': form})
     else:
         return redirect('login')
+    
+def exito_actualizacion(request):
+    return HttpResponseRedirect(reverse('perfil') + '?success=true')
  
 def perfilPublico(request, username):
     # Obtener el usuario basado en el username
