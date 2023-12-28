@@ -19,11 +19,11 @@
 
 /* Global Colors */
 :root {
-  --color-default: #7c6f67;
-  --color-default-rgb: 124, 111, 103;
-  --color-background: #f9fbfa;
+  --color-default: #050200;
+  --color-default-rgb: black;
+  --color-background: #c5adce;
   --color-background-rgb: 249, 251, 250;
-  --color-primary: #6caedc;
+  --color-primary: #9b54ca;
   --color-primary-rgb: 108, 174, 220;
   --color-secondary: #000000;
   --color-secondary-rgb: 0, 0, 0;
@@ -35,9 +35,9 @@
 
 /* Nav Menu Colors */
 :root {
-  --color-nav: #7e8a92;
-  --color-nav-hover: #6caedc;
-  --color-nav-dropdown: #7e8a92;
+  --color-nav: #110110;
+  --color-nav-hover: #9b54ca;
+  --color-nav-dropdown: #0a000a;
   --color-nav-dropdown-hover: #6caedc;
   --color-nav-dropdown-background: #d0e0d8;
   --color-nav-mobile-background: #d0e0d8;
@@ -54,7 +54,7 @@
 .notification-icon {
   width: 40px;
   height: 40px;
-  background-color: rgba(169, 169, 169, 0.5); /* Gris con transparencia */
+  background-color:#9b54ca; /* Gris con transparencia */
   border-radius: 50%; /* Hace que el área sea circular */
   display: flex;
   justify-content: center;
@@ -439,7 +439,7 @@ section {
 # Global Header
 --------------------------------------------------------------*/
 .header {
-  --color-background: #ffffff;
+  --color-background: #efd3f3;
   --color-inverse: #ffffff;
   color: var(--color-default);
   background-color: var(--color-background);
@@ -972,8 +972,9 @@ section {
 # Footer
 --------------------------------------------------------------*/
 .footer {
-  --color-background: #f4f4f4;
-  --color-box-background: #eaeaea;
+  --color-background:#efd3f3;
+  --color-background: #efd3f3;
+  --color-box-background: ;
   color: var(--color-default);
   background-color: var(--color-background);
   font-size: 14px;
@@ -3273,3 +3274,22 @@ section {
   height: 150px; /* Alto deseado */
 }
 
+.psicosfera-list {
+  list-style: none; /* Elimina el estilo de lista predeterminado */
+  padding-left: 0; /* Elimina el padding izquierdo predeterminado */
+}
+
+.psicosfera-list li {
+  text-align: justify; /* Justifica el texto de los elementos de la lista */
+  margin-bottom: 10px; /* Agrega un poco de espacio entre los elementos de la lista */
+  position: relative; /* Necesario para posicionar la palomita */
+  padding-left: 25px; /* Espacio para la palomita */
+}
+
+.psicosfera-list li:before {
+  content: "\2713"; /* Código Unicode para la palomita */
+  position: absolute; /* Posiciona la palomita de forma absoluta */
+  left: 0; /* Alinea la palomita al inicio del elemento */
+  color: #8000a0; /* Cambia el color de la palomita, ajusta según tus necesidades */
+  font-size: 15px; /* Ajusta el tamaño de la palomita */
+}
