@@ -67,9 +67,12 @@ def perfil(request):
     if request.user.groups.filter(name='Psicologos').exists():
         psicologo=Psicologo.objects.get(user=request.user)
         consultorio = Consultorio.objects.get(psicologo=psicologo)
+        datos = {
+            'direccion' : consultorio.direccion,
+    }   
         formConsultorio = FormConsultorio(instance=consultorio)
         formPsicologo = FormPsicologo(instance=psicologo)
-        return render(request, 'perfil_psicologo_privado.html', {'formPsicologo': formPsicologo, 'formConsultorio': formConsultorio})
+        return render(request, 'perfil_psicologo_privado.html', {'formPsicologo': formPsicologo, 'formConsultorio': formConsultorio,'usuario': datos})
     elif request.user.groups.filter(name='Pacientes').exists():
         paciente=Paciente.objects.get(user=request.user)
         form = FormPaciente(instance=paciente)
