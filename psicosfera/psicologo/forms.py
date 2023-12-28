@@ -7,7 +7,7 @@ class FormPsicologo(forms.ModelForm):
     class Meta:
         model = Psicologo
         fields = '__all__'
-        exclude = ['diario', 'user'] 
+        exclude = ['diario','user'] 
         widgets = {
             'cedula': forms.TextInput(attrs={'class': 'form-control'}),
             'edad': forms.NumberInput(attrs={'class': 'form-control'}),

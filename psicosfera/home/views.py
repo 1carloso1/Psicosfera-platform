@@ -18,6 +18,10 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth import authenticate
 from django.shortcuts import render, redirect
+from django.contrib.auth import login
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+
 from psicosfera.settings import MEDIA_ROOT
         
 class Home(TemplateView):
@@ -65,15 +69,21 @@ def perfil(request):
     if request.user.groups.filter(name='Psicologos').exists():
         psicologo=Psicologo.objects.get(user=request.user)
         consultorio = Consultorio.objects.get(psicologo=psicologo)
+        datos = {
+            'direccion' : consultorio.direccion,
+    }   
         formConsultorio = FormConsultorio(instance=consultorio)
         formPsicologo = FormPsicologo(instance=psicologo)
-        return render(request, 'perfil_psicologo_privado.html', {'formPsicologo': formPsicologo, 'formConsultorio': formConsultorio})
+        return render(request, 'perfil_psicologo_privado.html', {'formPsicologo': formPsicologo, 'formConsultorio': formConsultorio,'usuario': datos})
     elif request.user.groups.filter(name='Pacientes').exists():
         paciente=Paciente.objects.get(user=request.user)
         form = FormPaciente(instance=paciente)
         return render(request, 'perfil_paciente.html', {'form': form})
     else:
         return redirect('login')
+    
+def exito_actualizacion(request):
+    return HttpResponseRedirect(reverse('perfil') + '?success=true')
  
 def perfilPublico(request, username):
     # Obtener el usuario basado en el username

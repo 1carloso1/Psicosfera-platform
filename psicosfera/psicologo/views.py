@@ -14,6 +14,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth import authenticate
 from django.shortcuts import render, redirect
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 
 @login_required
 def interfaz_psicologo(request):
@@ -182,11 +184,10 @@ def actualizar_psicologo(request):
             except Exception as e:
                 messages.error(request, "Error al actualizar tus datos")
                 return redirect('perfil')
-            messages.success(request, "Se han actualizado tus datos correctamente.")
-            return redirect('perfil')
+            # Redirigir a la página de perfil con un indicador de éxito en la URL
+            return redirect('actualizacion_exitosa')
         else:
-            messages.error(request, "Datos invalidos.")
-            return redirect('perfil')
+            return HttpResponseRedirect(reverse('perfil') + '?error=true')
     else:
         return JsonResponse({'mensaje': 'Método no permitido'}, status=405)
 
@@ -198,8 +199,7 @@ def actualizar_consultorio(request):
         form = FormConsultorio(request.POST, instance=consultorio)
         if form.is_valid():
             consultorio = form.save()
-            messages.success(request, "Se han actualizado tus datos correctamente.")
-            return redirect('perfil')
+            return HttpResponseRedirect(reverse('perfil') + '?success=true')
         else:
             messages.error(request, "Datos invalidos.")
             return redirect('perfil')

@@ -31,6 +31,8 @@ $(document).ready(function() {
         $("#Email").val(data.correo);
         $('#numero').text(data.telefono);
         $("#Phone").val(data.telefono);
+        $('#descripcion').text(data.descripcion);
+        $('#descripcion2').text(data.descripcion);
 
         if (data.psicologo == 1){
           $('#especialidad').text(data.especialidad);
@@ -41,8 +43,7 @@ $(document).ready(function() {
           $('#institucion2').val(data.institucion);
           $('#cedula').text(data.cedula);
           
-          $('#descripcion').text(data.descripcion);
-          $('#descripcion2').text(data.descripcion);
+         
           $('#especiality').val(data.especialidad);
           
           $('#facebook').attr('href', data.facebook);

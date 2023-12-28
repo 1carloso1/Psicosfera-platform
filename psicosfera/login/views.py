@@ -87,6 +87,7 @@ class NuevoPsicologo(View):
             if 'certificado' in request.FILES:
                 nuevo_psicologo.certificado = request.FILES['certificado']
             
+            nuevo_psicologo.user = request.user  # Asumiendo que el usuario está autenticado
             nuevo_psicologo.save()
             return redirect('nuevo-consultorio')
 
@@ -161,7 +162,8 @@ class NuevoPaciente(CreateView):
                 ruta_imagen_por_defecto = os.path.join(settings.BASE_DIR, 'static', 'img', 'usuario.png')
                 with open(ruta_imagen_por_defecto, 'rb') as imagen_por_defecto:
                     nuevo_paciente.foto_perfil.save('usuario.png', ContentFile(imagen_por_defecto.read()), save=True)
-            
+
+            nuevo_paciente.user = request.user  # Asumiendo que el usuario está autenticado
             nuevo_paciente.save()
             return redirect('home')
         
