@@ -71,12 +71,24 @@ function colocarMarcasEnUbicaciones(map, ubicaciones, info_psicologo) {
 
                     var coordConsultorio = { lat: lat, lng: lng };
 
-                    var marker = new google.maps.Marker({
+                    /*var marker = new google.maps.Marker({
                         position: coordConsultorio,
                         map: map,
                         title: location,
-                        icon: 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png'
-                    });
+                        icon: 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+                        visible: false // Hacer que el marcador sea invisible
+                    });*/
+
+                    var circle = new google.maps.Circle({
+                        strokeColor: '#FF69B4', // Rosa claro en formato hexadecimal
+                        strokeOpacity: 0.8,
+                        strokeWeight: 2,
+                        fillColor: '#FF69B4', // Rosa claro en formato hexadecimal
+                        fillOpacity: 0.35,
+                        map: map,
+                        center: coordConsultorio,
+                        radius: 500  // Radio en metros
+                    });                    
 
                     var partesInfo = info.split(',');
 
@@ -89,11 +101,14 @@ function colocarMarcasEnUbicaciones(map, ubicaciones, info_psicologo) {
                         content: contentHTML
                     });
 
-                    marker.addListener('mouseover', function() {
-                        infoWindow.open(map, marker);
+                   // Asociar el InfoWindow con el evento de mouseover del círculo
+                    google.maps.event.addListener(circle, 'mouseover', function(event) {
+                        infoWindow.setPosition(event.latLng); // Establecer la posición del InfoWindow en el punto donde el mouse entró al círculo
+                        infoWindow.open(map);
                     });
 
-                    marker.addListener('mouseout', function() {
+                    // Asociar el InfoWindow con el evento de mouseout del círculo
+                    google.maps.event.addListener(circle, 'mouseout', function() {
                         infoWindow.close();
                     });
                 } else {

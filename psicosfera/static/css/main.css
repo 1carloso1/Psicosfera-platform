@@ -3263,3 +3263,13 @@ section {
   display: none;
 }
 
+/*--------------------------------------------------------------
+# Carta Perfil
+--------------------------------------------------------------*/
+
+.carta_perfil {
+  border-radius: 50%;
+  width: 150px; /* Ancho deseado */
+  height: 150px; /* Alto deseado */
+}
+

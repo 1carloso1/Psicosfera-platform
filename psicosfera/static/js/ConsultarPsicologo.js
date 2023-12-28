@@ -68,7 +68,7 @@ function mostrar_contenido() {
                         <a href="../perfil/${userParts[3]}">
                             <div class="card card-small">
                                 <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
-                                    <img src="data:image/jpeg;base64,${userParts[4]}" alt="Profile" class="rounded-circle">
+                                    <img src="data:image/jpeg;base64,${userParts[4]}" alt="Profile" class="carta_perfil">
                                     <br>
                                     <h2>${userParts[0]}</h2>
                                     <h3>${userParts[1]}</h3>
