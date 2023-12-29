@@ -41,7 +41,9 @@ $(document).ready(function() {
           $('#certificado').attr('src', 'data:application/pdf;base64,' + data.certificado);
           $('#curriculum').attr('src', 'data:application/pdf;base64,' + data.curriculum);
           $('#institucion2').val(data.institucion);
-          $('#cedula').text(data.cedula);
+          $('#cedula1').text(data.cedula);
+          console.log(data.institucion);
+          $('#cedula').val(data.cedula);
           
          
           $('#especiality').val(data.especialidad);

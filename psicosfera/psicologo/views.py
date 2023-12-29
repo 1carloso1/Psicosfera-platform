@@ -129,6 +129,8 @@ def datos_psicologo(request):
         'telefono': psicologo.telefono,
         'descripcion': psicologo.descripcion,
         'especialidad' : codigoANombre(especialidad),
+        'institucion' : psicologo.institucion_otorgamiento,
+        'cedula' : psicologo.cedula,
         'certificado': certificado,
         'curriculum' : curriculum,
         'edad': psicologo.edad,

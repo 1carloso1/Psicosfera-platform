@@ -23,7 +23,7 @@ def datos_paciente(request):
         paciente = Paciente.objects.get(id=paciente_id)
     except:
         paciente = Paciente.objects.get(user=request.user)
-    nombre = str(paciente.user.first_name)
+    nombre = str(paciente.user.first_name + " " + paciente.user.last_name)
     apellidos = str(paciente.user.last_name)
     correo_electronico = paciente.user.email
     descripcion = paciente.descripcion
