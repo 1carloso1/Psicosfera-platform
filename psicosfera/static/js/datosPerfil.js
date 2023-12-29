@@ -33,6 +33,7 @@ $(document).ready(function() {
         $("#Phone").val(data.telefono);
         $('#descripcion').text(data.descripcion);
         $('#descripcion2').text(data.descripcion);
+        $('#ubicacion').text(data.ubicacion);
 
         if (data.psicologo == 1){
           $('#especialidad').text(data.especialidad);
@@ -42,12 +43,8 @@ $(document).ready(function() {
           $('#curriculum').attr('src', 'data:application/pdf;base64,' + data.curriculum);
           $('#institucion2').val(data.institucion);
           $('#cedula1').text(data.cedula);
-          console.log(data.institucion);
           $('#cedula').val(data.cedula);
-          
-         
           $('#especiality').val(data.especialidad);
-          
           $('#facebook').attr('href', data.facebook);
           $("#Facebook").val(data.facebook);
           $('#instagram').attr('href', data.instagram);
@@ -60,6 +57,8 @@ $(document).ready(function() {
 
           $('#direccion').text(data.direccion);
           $('#address').val(data.direccion);
+          $('#costo_consulta').text("$"+data.costo_consulta);
+          $('#costo_consulta2').val(data.costo_consulta);
           $('#cierre').text(data.cierre);
           $('#apertura').text(data.apertura);
           $('#cierre2').val(data.cierre);

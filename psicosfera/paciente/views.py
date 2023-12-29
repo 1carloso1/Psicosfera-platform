@@ -28,7 +28,7 @@ def datos_paciente(request):
     correo_electronico = paciente.user.email
     descripcion = paciente.descripcion
     telefono = paciente.telefono
-    direccion = paciente.direccion
+    ubicacion = paciente.ubicacion
     edad = paciente.edad
     sexo = paciente.sexo
     usuario = "registrado"
@@ -51,7 +51,7 @@ def datos_paciente(request):
             "correo" : correo_electronico,
             'descripcion': descripcion,
             "telefono" : telefono,
-            "direccion" : direccion,
+            "ubicacion" : ubicacion,
             "edad" : edad,
             "sexo" : sexo,
             "user": paciente.user.username,
@@ -70,7 +70,7 @@ def datos_paciente(request):
             "correo" : correo_electronico,
             'descripcion': descripcion,
             "telefono" : telefono,
-            "direccion" : direccion,
+            "ubicacion" : ubicacion,
             "edad" : edad,
             "sexo" : sexo,
             "user": paciente.user.username,
@@ -169,6 +169,8 @@ def psicologos_por_especialidad_nombre(request):
             psicologos = Psicologo.objects.all()
             for psicologo in psicologos:
                 especialidad = psicologo.especialidad # Accede a la especialidad del psicologo
+                ubicacion = psicologo.ubicacion # Accede a la especialidad del psicologo
+                ubicacion = ubicacion.replace(',', '-') # Accede a la especialidad del psicologo
                 if psicologo.foto_perfil:
                     with psicologo.foto_perfil.open('rb') as image_file:   #Obtiene la foto encriptada para mostrarla en la tarjeta
                         image_data = image_file.read()
@@ -184,9 +186,10 @@ def psicologos_por_especialidad_nombre(request):
                     consultorio = Consultorio.objects.get(psicologo=psicologo)
                     direccion_consultorio = consultorio.direccion
                     direccion_consultorio = direccion_consultorio.replace(',', '-')
+                    costo_consulta = consultorio.costo_consulta
                     nombre_usuario = psicologo.user.first_name + " "  +  psicologo.user.last_name # Accede al nombre de usuario del usuario asociado al psicólogo
                     username = psicologo.user.username
-                    lista_nombres.append((nombre_usuario,especialidad, direccion_consultorio, username, foto))  # Agrega el nombre de usuario a la lista
+                    lista_nombres.append((nombre_usuario,especialidad, direccion_consultorio, username, foto, costo_consulta, ubicacion))  # Agrega el nombre de usuario a la lista
             return JsonResponse(lista_nombres, safe=False)
         
         elif inputText not in ESPECIALIDADES_CHOICES:
@@ -195,6 +198,8 @@ def psicologos_por_especialidad_nombre(request):
             for psicologo in psicologos:
                 nombre = psicologo.user.first_name + " "  +  psicologo.user.last_name # Accede al nombre de usuario del usuario asociado al psicólogo
                 especialidad = psicologo.especialidad # Accede a la especialidad del psicologo
+                ubicacion = psicologo.ubicacion # Accede a la especialidad del psicologo
+                ubicacion = ubicacion.replace(',', '-') # Accede a la especialidad del psicologo
                 if psicologo.foto_perfil:
                     with psicologo.foto_perfil.open('rb') as image_file:   #Obtiene la foto encriptada para mostrarla en la tarjeta
                         image_data = image_file.read()
@@ -210,8 +215,9 @@ def psicologos_por_especialidad_nombre(request):
                     consultorio = Consultorio.objects.get(psicologo=psicologo)
                     direccion_consultorio = consultorio.direccion
                     direccion_consultorio = direccion_consultorio.replace(',', '-')
+                    costo_consulta = consultorio.costo_consulta
                     username = psicologo.user.username
-                    lista_nombres.append((nombre,especialidad,direccion_consultorio, username, foto))  # Agrega el nombre de usuario a la lista
+                    lista_nombres.append((nombre,especialidad,direccion_consultorio, username, foto, costo_consulta, ubicacion))  # Agrega el nombre de usuario a la lista
             return JsonResponse(lista_nombres, safe=False)
         
         else:

@@ -57,6 +57,11 @@
               </div>
 
               <div class="row">
+                <div class="col-lg-3 col-md-4 label ">Ubicación</div>
+                <p class="col-lg-9 col-md-8">{{usuario.ubicacion}}</p>
+              </div>
+
+              <div class="row">
                 <div class="col-lg-3 col-md-4 label">Especialidad</div>
                 <p class="col-lg-9 col-md-8">{{usuario.especialidad}}</p>
               </div>
@@ -86,6 +91,10 @@
               <div class="row">
                 <div class="col-lg-3 col-md-4 label">Horario de Atención</div>
                 <p class="col-lg-9 col-md-8">{{usuario.apertura}} - {{usuario.cierre}}</p>
+              </div>
+              <div class="row">
+                <div class="col-lg-3 col-md-4 label">Costo General de la Consulta</div>
+                <p class="col-lg-9 col-md-8">${{usuario.costo_consulta}}</p>
               </div>
               <div class="row">
                 <div class="contenedor-mapa-perfil" id="map1"></div>

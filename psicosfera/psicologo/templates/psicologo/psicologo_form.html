@@ -73,6 +73,7 @@ Psicosfera | Cuestionario de Registro
                                     {% endfor %}
                                 </div>
                             </div>
+                            
                             <div class="form-row">
                                 <div class="form-holder form-holder-2">
                                     <label for="id_edad">Edad:</label>
@@ -84,6 +85,16 @@ Psicosfera | Cuestionario de Registro
                                     <label for="{{ form.sexo.id_for_label }}">Genero:</label>
                                     {{ form.sexo }}
                                     {% for error in form.sexo.errors %}
+                                        <span class="error-message">{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-holder form-holder-2">
+                                    <label for="{{ form.ubicacion.id_for_label }}">Ubicación:</label>
+                                    <input type="text" class="form-control" id="{{ form.ubicacion.id_for_label }}" name="{{ form.ubicacion.name }}">
+                                    <div id="autocomplete-results-location" class="autocomplete-results-form"></div>
+                                    {% for error in form.ubicacion.errors %}
                                         <span class="error-message">{{ error }}</span>
                                     {% endfor %}
                                 </div>
@@ -115,7 +126,7 @@ Psicosfera | Cuestionario de Registro
                                 <div class="form-row">
                                     <div class="form-holder form-holder-2">
                                         <label for="{{ form.identificacion_oficial.id_for_label }}">Identificación
-                                            Oficial:</label>
+                                            Oficial: (Archivo PDF)</label>
                                         <input type="file" class="form-control"
                                             id="{{ form.identificacion_oficial.id_for_label }}"
                                             name="identificacion">
@@ -126,7 +137,7 @@ Psicosfera | Cuestionario de Registro
                                 </div>
                                 <div class="form-row">
                                     <div class="form-holder form-holder-2">
-                                        <label for="{{ form.curriculum.id_for_label }}">Curriculum Vitae:</label>
+                                        <label for="{{ form.curriculum.id_for_label }}">Curriculum Vitae: (Archivo PDF)</label>
                                         <input type="file" class="form-control" id="{{ form.curriculum.id_for_label }}"
                                         name="curriculum">
                                             {% for error in form.curriculum.errors %}
@@ -142,7 +153,7 @@ Psicosfera | Cuestionario de Registro
                             <div class="inner">
                                 <div class="form-row">
                                     <div class="form-holder form-holder-2">
-                                        <label for="{{ form.cedula.id_for_label }}">Cédula Profesional:</label>
+                                        <label for="{{ form.cedula.id_for_label }}">Cédula Profesional: </label>
                                         <input type="text" class="form-control" id="{{ form.cedula.id_for_label }}" name="{{ form.cedula.name }}">
                                         {% for error in form.cedula.errors %}
                                             <span class="error-message">{{ error }}</span>
@@ -151,7 +162,7 @@ Psicosfera | Cuestionario de Registro
                                 </div>
                                 <div class="form-row">
                                     <div class="form-holder form-holder-2">
-                                        <label for="{{ form.certificado.id_for_label }}">Título Académico:</label>
+                                        <label for="{{ form.certificado.id_for_label }}">Título Académico: (Archivo PDF)</label>
                                         <input type="file" class="form-control" id="{{ form.certificado.id_for_label }}"
                                         name="certificado">
                                         {% for error in form.certificado.errors %}
@@ -185,7 +196,7 @@ Psicosfera | Cuestionario de Registro
                             <div class="inner">
                                 <div class="form-row">
                                     <div class="form-holder form-holder-2">
-                                        <label for="{{ form.enlace_pagina_web.id_for_label }}">Enlace de Pagina Web</label>
+                                        <label for="{{ form.enlace_pagina_web.id_for_label }}">Enlace de Pagina Web (Opcional)</label>
                                         <input type="url" class="form-control"
                                             id="{{ form.enlace_pagina_web.id_for_label }}"
                                             name="{{ form.enlace_pagina_web.name }}">
@@ -193,7 +204,7 @@ Psicosfera | Cuestionario de Registro
                                 </div>
                                 <div class="form-row">
                                     <div class="form-holder form-holder-2">
-                                        <label for="{{ form.enlace_facebook.id_for_label }}">Enlace de Pagina de Facebook</label>
+                                        <label for="{{ form.enlace_facebook.id_for_label }}">Enlace de Pagina de Facebook (Opcional)</label>
                                         <input type="url" class="form-control"
                                             id="{{ form.enlace_facebook.id_for_label }}"
                                             name="{{ form.enlace_facebook.name }}">
@@ -201,7 +212,7 @@ Psicosfera | Cuestionario de Registro
                                 </div>
                                 <div class="form-row">
                                     <div class="form-holder form-holder-2">
-                                        <label for="{{ form.enlace_instagram.id_for_label }}">Enlace de Pagina de Instagram</label>
+                                        <label for="{{ form.enlace_instagram.id_for_label }}">Enlace de Pagina de Instagram (Opcional)</label>
                                         <input type="url" class="form-control"
                                             id="{{ form.enlace_instagram.id_for_label }}"
                                             name="{{ form.enlace_instagram.name }}">
@@ -209,7 +220,7 @@ Psicosfera | Cuestionario de Registro
                                 </div>
                                 <div class="form-row">
                                     <div class="form-holder form-holder-2">
-                                        <label for="{{ form.enlace_linkedin.id_for_label }}">Enlace de Pagina de Linkedin/label>
+                                        <label for="{{ form.enlace_linkedin.id_for_label }}">Enlace de Pagina de Linkedin (Opcional)</label>
                                         <input type="url" class="form-control"
                                             id="{{ form.enlace_linkedin.id_for_label }}"
                                             name="{{ form.enlace_linkedin.name }}">

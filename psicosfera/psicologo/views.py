@@ -117,6 +117,7 @@ def datos_psicologo(request):
         direccion = consultorio.direccion
         apertura = consultorio.horario_apertura
         cierre = consultorio.horario_cierre
+        costo_consulta = consultorio.costo_consulta
     except:
         pass
     datos = {
@@ -128,6 +129,7 @@ def datos_psicologo(request):
         'correo': psicologo.user.email,
         'telefono': psicologo.telefono,
         'descripcion': psicologo.descripcion,
+        'ubicacion': psicologo.ubicacion,
         'especialidad' : codigoANombre(especialidad),
         'institucion' : psicologo.institucion_otorgamiento,
         'cedula' : psicologo.cedula,
@@ -145,6 +147,7 @@ def datos_psicologo(request):
         'direccion': direccion,
         'apertura': apertura,
         'cierre': cierre,
+        'costo_consulta': costo_consulta,
     }
     
     return JsonResponse(datos, safe=False)

@@ -120,6 +120,7 @@ def perfilPublico(request, username):
         'correo': psicologo.user.email,
         'telefono': psicologo.telefono,
         'institucion': psicologo.institucion_otorgamiento,
+        'ubicacion': psicologo.ubicacion,
         'especialidad' : codigoANombre(especialidad),
         'institucion': psicologo.institucion_otorgamiento,
         'cedula': psicologo.cedula,
@@ -137,6 +138,7 @@ def perfilPublico(request, username):
         'twitter':psicologo.enlace_pagina_web,   
         'certificado':certificado,   
         'curriculum':curriculum, 
+        'costo_consulta':consultorio.costo_consulta, 
     }
         return render(request, 'perfil_psicologo.html', {'usuario': datos})
     except Psicologo.DoesNotExist:

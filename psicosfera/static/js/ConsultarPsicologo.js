@@ -51,12 +51,15 @@ function mostrar_contenido() {
                     direccion_psicologo = userParts[2];
                     usuario = userParts[3];
                     foto = userParts[4];
+                    costo_consulta = userParts[5];
+                    ubicacion = userParts[6];
 
                     //console.log("Nombre: " + userParts[0]);
                     //console.log('Especialidad: ' + userParts[1]);
                     //console.log('Dirección: ' + userParts[2]);
 
-                    userParts[2] = userParts[2].replace(/-/g, ',');
+                    userParts[2] = userParts[2].replace(/-/g, ','); //Direccion del consultorio
+                    userParts[6] = userParts[6].replace(/-/g, ','); //Ubicacion del Psicologo
                     listaDeUbicaciones.push(userParts[2]);
                     listaDePsicologos.push(userParts[0] + "," + userParts[1]);
 
@@ -72,7 +75,8 @@ function mostrar_contenido() {
                                     <br>
                                     <h2>${userParts[0]}</h2>
                                     <h3>${userParts[1]}</h3>
-                                    <h5>${userParts[2]}</h5>
+                                    <h5>${userParts[6]}</h5>
+                                    <h5>$${userParts[5]} </h5>
                                 </div>
                             </div>
                         </a>

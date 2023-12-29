@@ -17,7 +17,7 @@ class Paciente(models.Model):
     sexo = models.CharField(max_length=1, choices=SEXO_CHOICES, null=False, blank=False)
     ocupacion = models.CharField(max_length=100, verbose_name="Ocupación", null=False, blank=False)
     telefono = models.CharField(max_length=15, null=False, blank=False)
-    direccion = models.CharField(max_length=200, verbose_name="Dirección", null=False, blank=False)
+    ubicacion = models.CharField(max_length=200, verbose_name="Ubicación", null=True, blank=True)
     fecha_registro = models.DateTimeField(auto_now_add=True)
     foto_perfil = models.ImageField(upload_to='pacientes_foto_perfil/', blank=True) 
     descripcion = models.CharField(max_length=254, blank=True, null=True, verbose_name="Descripción")

@@ -70,6 +70,15 @@ Psicosfera | Cuestionario de Registro
                                         </div>
                                     </div>
                                 </div>
+                                <div class="form-row">
+                                    <div class="form-holder form-holder-2">
+                                        <label for="{{ form.costo_consulta.id_for_label }}">Costo General de la Consulta:</label>
+                                        <input type="text" class="form-control" id="{{ form.costo_consulta.id_for_label }}" name="{{ form.costo_consulta.name }}">
+                                        {% for error in form.costo_consulta.errors %}
+                                            <span class="error-message">{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                </div>
                             </div>
                         </section>
 
