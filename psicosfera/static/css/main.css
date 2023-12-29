@@ -106,8 +106,28 @@
 
 #zona-especialista {
   overflow-y: auto; /* Añade un scrollbar vertical cuando sea necesario */
-  
 }
+
+ /* Estilos de la barra de desplazamiento */
+ #zona-especialista::-webkit-scrollbar {
+  width: 15px; /* Ancho de la barra de desplazamiento */
+}
+
+  /* Color de fondo de la barra de desplazamiento */
+  #zona-especialista::-webkit-scrollbar-track {
+    background-color: #efd3f3; /* Cambia el color según desees */
+  }
+
+  /* Estilo del thumb o manija del scroll */
+  #zona-especialista::-webkit-scrollbar-thumb {
+    background-color: #9b54ca; /* Color del thumb */
+    border-radius: 5px; /* Borde redondeado */
+  }
+
+  /* Cambia el color del thumb al estar hover */
+  #zona-especialista::-webkit-scrollbar-thumb:hover {
+    background-color: #7d3a9e;
+  }
 
 .expandir {
   max-height: auto; /* Ajusta la altura máxima según tus necesidades */
