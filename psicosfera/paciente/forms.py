@@ -15,7 +15,7 @@ class FormPaciente(forms.ModelForm):
             'sexo': forms.Select(attrs={'class': 'form-control'}),
             'fecha_nacimiento': forms.DateInput(attrs={'class': 'form-control'}),
             'telefono': forms.TextInput(attrs={'class': 'form-control'}),
-            'direccion': forms.TextInput(
+            'ubicacion': forms.TextInput(
                 attrs={'class': 'form-control', 'id': 'direccion-input'}
             ),
             'descripcion': forms.TextInput(attrs={'class': 'form-control'}),

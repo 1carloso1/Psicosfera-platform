@@ -14,12 +14,14 @@ SEXO_CHOICES = (
 # Modelo de psicologo
 class Psicologo(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    cedula = models.CharField(max_length=8, null=False, blank=False)  #mover al eliminar los antiguos usuarios blank=False, null=False
+    descripcion = models.CharField(max_length=254, null=True, blank=False, verbose_name="Descripción")
     edad = models.PositiveIntegerField()
     sexo = models.CharField(max_length=1, choices=SEXO_CHOICES, null=False, blank=False)
     fecha_nacimiento = models.DateField(verbose_name="Fecha de nacimiento", null=False, blank=False)
-    especialidad = models.CharField(max_length=50, choices=ESP_CHOICES, null=False, blank=False)
     telefono = models.CharField(max_length=10, null=False, blank=False)
+    ubicacion = models.CharField(max_length=200, verbose_name="Ubicación", blank=True, null=True)
+    cedula = models.CharField(max_length=8, null=False, blank=False)  #mover al eliminar los antiguos usuarios blank=False, null=False
+    especialidad = models.CharField(max_length=50, choices=ESP_CHOICES, null=False, blank=False)
     institucion_otorgamiento = models.CharField(max_length=200, verbose_name="Institución de otorgamiento", null=False, blank=False)
     fecha_obtencion = models.DateTimeField(auto_now_add=True, null=True)
     curriculum = models.FileField(upload_to='curriculum_psicologo/', blank=True, null=True)  #mover al eliminar los antiguos usuarios blank=False, null=False
@@ -32,7 +34,7 @@ class Psicologo(models.Model):
     enlace_linkedin = models.URLField(blank=True, null=True)
     fecha_registro = models.DateTimeField(auto_now_add=True)
     diario = RichTextField(blank=True, null=True)
-    descripcion = models.CharField(max_length=254, null=True, blank=False, verbose_name="Descripción")
+    
 
     def __str__(self):
         return f"{self.user}"
@@ -43,6 +45,7 @@ class Consultorio(models.Model):
     direccion = models.CharField(max_length=250,verbose_name="Dirección", null=False, blank=False)
     horario_apertura = models.TimeField(blank=True, null=True)
     horario_cierre = models.TimeField(blank=True, null=True)
+    costo_consulta = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Costo de Consulta", blank=True, null=True)
     def __str__(self):
         return f"{self.psicologo}"
 

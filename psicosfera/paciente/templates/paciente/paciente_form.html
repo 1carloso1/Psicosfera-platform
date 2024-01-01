@@ -93,16 +93,16 @@ Psicosfera | Cuestionario de Registro
                         <div class="inner">
                             <div class="form-row">
                                 <div class="form-holder form-holder-2">
-                                    <label for="{{ form.direccion.id_for_label }}">Dirección:</label>
-                                    <input type="text" class="form-control" id="{{ form.direccion.id_for_label }}" name="{{ form.direccion.name }}">
-                                    {% for error in form.direccion.errors %}
+                                    <label for="{{ form.ubicacion.id_for_label }}">Ubicación:</label>
+                                    <input type="text" class="form-control" id="{{ form.ubicacion.id_for_label }}" name="{{ form.ubicacion.name }}">
+                                    {% for error in form.ubicacion.errors %}
                                         <span class="error-message">{{ error }}</span>
                                     {% endfor %}
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-holder form-holder-2">
-                                    <label for="{{ form.direccion.id_for_label }}">Ocupación:</label>
+                                    <label for="{{ form.ocupacion.id_for_label }}">Ocupación:</label>
                                     <input type="text" class="form-control" id="{{ form.ocupacion.id_for_label }}" name="{{ form.ocupacion.name }}">
                                     {% for error in form.ocupacion.errors %}
                                         <span class="error-message">{{ error }}</span>
