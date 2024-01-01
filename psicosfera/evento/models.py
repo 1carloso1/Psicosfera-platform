@@ -1,6 +1,7 @@
 from django.db import models
 from paciente.models import Paciente
 from psicologo.models import Psicologo
+from django.contrib.auth.models import User
 
 # Create your models here.
 class Evento(models.Model):
@@ -10,3 +11,9 @@ class Evento(models.Model):
     fecha_fin = models.DateTimeField()
     titulo = models.CharField(max_length=255)
     
+
+class Notification(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    mensaje = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+    is_read = models.BooleanField(default=False)

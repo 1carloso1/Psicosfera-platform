@@ -71,7 +71,7 @@ def perfil(request):
         consultorio = Consultorio.objects.get(psicologo=psicologo)
         datos = {
             'direccion' : consultorio.direccion,
-    }   
+        }   
         formConsultorio = FormConsultorio(instance=consultorio)
         formPsicologo = FormPsicologo(instance=psicologo)
         return render(request, 'perfil_psicologo_privado.html', {'formPsicologo': formPsicologo, 'formConsultorio': formConsultorio,'usuario': datos})
