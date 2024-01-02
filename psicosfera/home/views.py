@@ -11,6 +11,7 @@ from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.models import User
 from psicologo.models import Consultorio, Psicologo
 from paciente.models import Paciente
+from evento.models import Notification
 import base64
 from psicologo.forms import FormPsicologo, FormConsultorio
 from paciente.forms import FormPaciente
@@ -51,8 +52,10 @@ def actualizar_password(request):
                 # Las passwords coinciden, proceder con el cambio de password
                 request.user.set_password(nueva_password)
                 request.user.save()
-
-                messages.success(request, 'Contraseña actualizada exitosamente.')
+                perfil_url = reverse('perfil')
+                message = "Contraseña actualizada exitosamente."
+                crear_notificacion(user, message,perfil_url)
+                messages.success(request, message)
                 return redirect('login')
 
             else:
@@ -63,7 +66,25 @@ def actualizar_password(request):
             return redirect('perfil')
     else:
         return JsonResponse({'mensaje': 'Método no permitido'}, status=405) 
-    
+
+def crear_notificacion(user, mensaje, url):
+    Notification.objects.create(user=user, mensaje=mensaje, notification_url=url)
+
+def marcar_notificacion_leida(request):
+    if request.method == 'POST':
+        notification_url = request.POST.get('notification_url', '')
+        notification_id = request.POST.get('notification_id', '')
+        if notification_id:
+            try:
+                # Obtén la notificación basada en la URL
+                notification = Notification.objects.get(id=notification_id, user=request.user)
+                notification.is_read = True
+                notification.save()
+                return JsonResponse({'success': True, 'redirect_url': notification_url})
+            except Notification.DoesNotExist:
+                pass
+
+    return JsonResponse({'success': False})
 def perfil(request):
 
     if request.user.groups.filter(name='Psicologos').exists():

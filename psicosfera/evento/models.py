@@ -17,3 +17,4 @@ class Notification(models.Model):
     mensaje = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
     is_read = models.BooleanField(default=False)
+    notification_url = models.URLField(blank=True, null=True)

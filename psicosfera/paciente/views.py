@@ -75,8 +75,8 @@ def actualizar_paciente(request):
                 paciente = form.save(commit=False)
 
                 # Procesar los datos adicionales
-                nombre = request.POST.get('firstName', '')  # Reemplaza 'firstName' con el nombre real del campo
-                apellidos = request.POST.get('lastName', '')  # Reemplaza 'lastName' con el nombre real del campo
+                nombre = request.POST.get('firstName', '')  
+                apellidos = request.POST.get('lastName', '')  
 
                 # Actualizar los campos adicionales en el modelo paciente
                 paciente.user.first_name = nombre
@@ -85,7 +85,7 @@ def actualizar_paciente(request):
 
                 # Guardar los cambios en el modelo paciente
                 paciente.save()
-                # ... resto del código ...
+
             except Exception as e:
                 messages.error(request, "Error al actualizar tus datos")
                 return redirect('perfil')
