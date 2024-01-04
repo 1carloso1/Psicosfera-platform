@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import *
 from paciente.views import actualizar_paciente
-from psicologo.views import actualizar_psicologo, actualizar_consultorio
+from psicologo.views import actualizar_psicologo, actualizar_consultorio, obtener_citas_publico
 urlpatterns = [
     path('', Home.as_view(), name = 'home'),
     path('contacto/', contacto, name='contacto'),
@@ -9,6 +9,7 @@ urlpatterns = [
     path('perfil/', perfil, name = 'perfil'),
     path('actualizacion_exitosa/', exito_actualizacion, name = 'actualizacion_exitosa'),
     path('perfil/<str:username>/', perfilPublico, name = 'ver_perfil'),
+    path('obtener_citas_publico/<str:username>/', obtener_citas_publico, name='obtener_citas_publico'),
     path('datos/', datos, name = 'datos'),
     path('datos_default/', datos_default, name = 'datos_default'),
     path('actualizar_psicologo/', actualizar_psicologo, name = 'actualizar_psicologo'),

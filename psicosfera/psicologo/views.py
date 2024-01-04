@@ -16,6 +16,8 @@ from django.contrib.auth import authenticate
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from django.shortcuts import get_object_or_404
+from django.contrib.auth.models import User
 
 @login_required
 def interfaz_psicologo(request):
@@ -54,7 +56,7 @@ def eliminar_cita(request):
         return JsonResponse({'mensaje': 'Cita eliminada con éxito'})
     except Evento.DoesNotExist:
         return JsonResponse({'mensaje': 'La cita no existe'}, status=404)
-
+ 
 @login_required
 def obtener_citas(request):
     psicologo = Psicologo.objects.get(user=request.user)
@@ -82,6 +84,43 @@ def obtener_citas(request):
         except Evento.DoesNotExist:
             return JsonResponse({'mensaje': 'Las citas no existe'}, status=404)
     return JsonResponse({'mensaje': 'Las citas no existe'}, status=404)
+
+@login_required
+def obtener_citas_publico(request, username):
+     # Obtener el usuario basado en el username
+    user = get_object_or_404(User, username=username)
+    
+    
+    # Intentar obtener el perfil de psicólogo para el usuario
+    try:
+        psicologo = Psicologo.objects.get(user=user)
+        citas = Evento.objects.filter(psicologo=psicologo)
+        
+        if citas:
+            try:
+                citasPsicologo = []
+                for cita in citas:
+                    if cita.psicologo == psicologo:
+                        
+                        citasPsicologo.append({
+                            'id': cita.id,
+                            'id_paciente': cita.paciente.id,
+                            'nombre_paciente': cita.paciente.user.first_name + ' ' + cita.paciente.user.last_name,
+                            'title': cita.titulo,
+                            'start': cita.fecha_inicio.strftime('%Y-%m-%dT%H:%M:%S'),  # Formato ISO8601  
+                            'end': cita.fecha_fin.strftime('%Y-%m-%dT%H:%M:%S'), # Formato ISO8601 
+                            'fecha_inicio': cita.fecha_inicio.strftime('%Y-%m-%d'),   
+                            'fecha_fin': cita.fecha_fin.strftime('%Y-%m-%d'),# Formato ISO8601
+                            'hora_fin': cita.fecha_fin.strftime('%H:%M:%S'),  # Formato ISO8601
+                            'hora_inicio': cita.fecha_inicio.strftime('%H:%M:%S'),  # Formato ISO8601
+                        })
+                return JsonResponse(citasPsicologo, safe=False)
+            except Evento.DoesNotExist:
+                return JsonResponse({'mensaje': 'Las citas no existe'}, status=404)
+        return JsonResponse({'mensaje': 'Las citas no existe'}, status=404)
+    except Psicologo.DoesNotExist:
+        pass  # El usuario no es un psicólogo, continuar
+    
 
 @login_required
 def datos_psicologo(request):
