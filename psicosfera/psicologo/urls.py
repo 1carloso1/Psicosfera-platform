@@ -7,7 +7,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('', interfaz_psicologo, name = 'interfaz'),
-    path('diario_psicologo/', diario_psicologo, name='diario_psicologo'),
+    path('diario_psicologo/', diario_psicologo, name='diario_psicologo'), # type: ignore
     path('datos_paciente/', datos_paciente, name='datos_paciente'),
     path('datos_psicologo/', datos_psicologo, name='datos_psicologo'),
     path('guardar_personales/', guardar_personales, name='guardar_personales'),
