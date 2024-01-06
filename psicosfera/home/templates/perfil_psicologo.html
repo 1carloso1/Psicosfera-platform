@@ -6,20 +6,27 @@
     Perfil | {{usuario.user}}
 {% endblock %}
 
+{% block btns %}
+<li><a href="{% url 'ver_perfil' username=usuario.user %}#perfil">Detalles del Especialista</a></li>
+<li><a href="{% url 'ver_perfil' username=usuario.user %}#consultorio">Consultorio</a></li>
+<li><a href="{% url 'ver_perfil' username=usuario.user %}#agenda">Agenda de Citas</a></li>
+
+{% endblock %}
+
 {% block links %}
   <link href="{% static 'css/style.css' %}" rel="stylesheet">
   <link href="{% static 'lightbox/css/lightbox.css' %}" rel="stylesheet">
 {% endblock links %}
 
 {% block contenido %}
-<section class="section profile">
+<section class="section profile" id="perfil">
   <div class="row">
     <div class="col-xl-4" >
       <div class="card  mt-5 seccion_foto_fija">
         <div class="card-body pt-4 d-flex flex-column align-items-center" >
           <img src="data:image/jpeg;base64,{{ usuario.foto }}" alt="Profile" class="fotoPerfil">
           <br>
-          <h2>{{usuario.nombre}}</h2>
+          <h2>{{usuario.nombre}} {{usuario.apellidos}}</h2>
           <h3>{{usuario.especialidad}}</h3>
           <h6 class="titulo_perfil">Descripción</h6>
               <p class="small fst-italic">{{usuario.descripcion}}</p>
@@ -43,12 +50,14 @@
             <div class="tab-pane fade show active profile-overview" id="profile-overview">
               
 
-              <h5 class="titulo_perfil">Detalles del Especialista</h5><br>
+              <div class="container section-title" data-aos="fade-up">
+                <h2>Detalles del Especialista</h2>
+              </div><!-- End Section Title -->
 
 
               <div class="row">
                 <div class="col-lg-3 col-md-4 label ">Nombre completo</div>
-                <p class="col-lg-9 col-md-8">{{usuario.nombre}}</p>
+                <p class="col-lg-9 col-md-8">{{usuario.nombre}} {{usuario.apellidos}}</p>
               </div>
 
               <div class="row">
@@ -83,31 +92,42 @@
                 <embed src="data:application/pdf;base64,{{ usuario.curriculum }}" type="application/pdf" class="embed-pdf"/>
               </div>
               <br>
-              <h6 class="titulo_perfil">Consultorio</h6><br>
-              <div class="row">
-                <div class="col-lg-3 col-md-4 label">Dirección del Consultorio</div>
-                <p class="col-lg-9 col-md-8">{{usuario.direccion}}</p>
-              </div>
-              <div class="row">
-                <div class="col-lg-3 col-md-4 label">Horario de Atención</div>
-                <p class="col-lg-9 col-md-8">{{usuario.apertura}} - {{usuario.cierre}}</p>
-              </div>
-              <div class="row">
-                <div class="col-lg-3 col-md-4 label">Costo General de la Consulta</div>
-                <p class="col-lg-9 col-md-8">${{usuario.costo_consulta}}</p>
-              </div>
-              <div class="row">
-                <div class="contenedor-mapa-perfil" id="map1"></div>
-              </div>
+              <section id="consultorio">
+              <div class="container section-title" data-aos="fade-up">
+                <h2>Consultorio</h2>
+              </div><!-- End Section Title -->
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label">Dirección del Consultorio</div>
+                  <p class="col-lg-9 col-md-8">{{usuario.direccion}}</p>
+                </div>
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label">Horario de Atención</div>
+                  <p class="col-lg-9 col-md-8">{{usuario.apertura}} - {{usuario.cierre}}</p>
+                </div>
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label">Costo General de la Consulta</div>
+                  <p class="col-lg-9 col-md-8">${{usuario.costo_consulta}}</p>
+                </div>
+                <div class="row">
+                  <div class="contenedor-mapa-perfil" id="map1"></div>
+                </div>
+              </section>
             </div>
           </div><!-- End Bordered Tabs -->
-
         </div>
       </div>
-
     </div>
+    <section id="agenda" class="service-details">
+      <div class="container">  
+        <div class="container section-title" data-aos="fade-up">
+          <h2>Calendario de citas</h2>
+        </div><!-- End Section Title -->
+        <div id='calendar'>{% csrf_token %}</div>
+      </div>
+    </section>
   </div>
 </section>
+
 {% endblock %}
  
 {% block scripts %}
@@ -121,5 +141,99 @@
       // Llama a mostrarMapa con la dirección del usuario
       mostrarMapa("{{usuario.direccion}}");
     });
+  </script>
+  <script>
+    var username = "{{ usuario.user}}"; // Obtener el nombre de usuario del psicólogo
+    var obtenerCitasPublico = `/obtener_citas_publico/${username}/`;
+  </script>
+  <script src="{% static 'js/index.global.min.js' %}" ></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay'
+            },
+            navLinks: true,
+            selectable: true,
+            select: function(arg) {
+                var title = prompt('Titulo de la cita:');
+                if (title) {
+                  var paciente = prompt('Usuario del paciente:');
+                  if (paciente) {
+                    var csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+                    $.ajax({
+                      url: 'guardar_cita/',
+                      type: 'POST',
+                      headers: {
+                        'X-CSRFToken': csrfToken  
+                      },
+                      data: {
+                          titulo: title, 
+                          start: arg.startStr,
+                          end: arg.endStr,
+                          paciente: paciente
+                      },
+                      success: function(response) {
+                        alert(response.mensaje);
+                        calendar.refetchEvents(); 
+                        obtenerCitas();
+                      },
+                      error: function(xhr, status, error) {
+                          console.error('Error al guardar el evento:', error);
+                      }
+                    });
+                  }
+
+                }
+                calendar.unselect();
+            },
+            selectable: false,
+            editable: false,
+            eventStartEditable: false,
+            eventResizableFromStart: false,
+            eventDurationEditable: false,
+            eventOverlap: false,
+            dayMaxEvents: true,
+            events: obtenerCitasPublico,
+        });
+
+        calendar.render();
+    });
+</script>
+<script>
+  function obtenerCitas(){
+    $.ajax({
+        url: obtenerCitasPublico,  
+        type: 'GET',
+        success: function(response) {
+            // Maneja la respuesta y construye el contenido HTML para mostrar todos los pacientes
+            var contenidoHTML = '<ul>';
+            $.each(response, function(index, cita) {
+              contenidoHTML += `<li><a href="#foto" onclick="changeClass(this)" class="btn" data-id="${cita.id_paciente }"><i class="bi bi-arrow-right-circle"></i><span>${cita.nombre_paciente} | Prox. cita: ${cita.fecha_inicio} ${cita.hora_inicio}</span></a></li>`;
+
+            });
+            contenidoHTML += '</ul>';
+
+            // Actualiza el contenido del elemento "datos-paciente"
+            $('#pacientes').html(contenidoHTML);
+        },
+        error: function(response) {
+          console.log('LA cagaste:', response);
+        }
+    });
+  }
+  $(document).ready(function() {
+    // Realiza una solicitud AJAX para obtener las citas de todos los pacientes
+
+    try {
+      obtenerCitas()
+    } catch (error) {
+      console.log('Error:', error);
+    }
+    
+  });
   </script>
 {% endblock %}
