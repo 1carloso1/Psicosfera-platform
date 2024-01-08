@@ -19,15 +19,18 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth import authenticate
 from django.shortcuts import render, redirect
-from django.contrib.auth import login
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.encoding import force_bytes, force_text
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.http import HttpResponse
+from django.utils.encoding import force_bytes
 from psicosfera.settings import MEDIA_ROOT
         
 class Home(TemplateView):
     def get_template_names(self):
-        if self.request.user.groups.filter(name='Psicologos').exists():
+        if self.request.user.groups.filter(name='Psicologos').exists(): # type: ignore
             return ['homePsicologo.html']
         else:
             return ['home.html']
@@ -57,7 +60,6 @@ def actualizar_password(request):
                 crear_notificacion(user, message,perfil_url)
                 messages.success(request, message)
                 return redirect('login')
-
             else:
                 messages.error(request, 'Las contraseñas no coinciden.')
                 return redirect('perfil')
@@ -67,9 +69,64 @@ def actualizar_password(request):
     else:
         return JsonResponse({'mensaje': 'Método no permitido'}, status=405) 
 
+def enviar_correo(asunto,correo, mensaje):
+    email_origen = 'chalaca23ff@gmail.com'
+    recipient_list = [correo]
+
+    email = EmailMessage(asunto, mensaje, email_origen, recipient_list)
+    email.send()
+    
+def enviar_correo_confirmacion(request):
+    # Generar token de confirmación
+    usuario = request.user
+    token = default_token_generator.make_token(usuario)
+    print(token)
+    # Construir la URL de confirmación
+    url_confirmacion = reverse('confirmar_email', args=[usuario.pk, token])
+    enlace_confirmacion = f'http://{settings.SITE_DOMAIN}{url_confirmacion}'
+    mensaje = f'Haz clic en el siguiente enlace para confirmar tu correo: {enlace_confirmacion}'
+    asunto = 'Confirma tu correo'
+    
+    enviar_correo(asunto,usuario.email,mensaje)
+    return redirect('perfil')
+
+
+def confirmar_correo(request, pk, token):
+    print(token)
+    usuario = get_object_or_404(User, pk=pk)
+    try:
+        usuario_paciente = Paciente.objects.get(user=usuario)
+        
+        if default_token_generator.check_token(usuario_paciente.user, token):
+            usuario_paciente.correo_verificado = True
+            usuario_paciente.save()
+            return HttpResponse('Correo electrónico confirmado exitosamente para el Paciente.')
+        else:
+            return HttpResponse('Enlace de confirmación no válido.')
+    except Paciente.DoesNotExist:
+       print("Usuario Paciente no encontrado")
+       
+    try:
+        usuario_psicologo = Psicologo.objects.get(user=usuario)
+        
+        if default_token_generator.check_token(usuario_psicologo.user, token):
+            usuario_psicologo.correo_verificado = True
+            usuario_psicologo.save()
+            return HttpResponse('Correo electrónico confirmado exitosamente para el Psicologo.')
+        else:
+            return HttpResponse('Enlace de confirmación no válido.')
+    except Psicologo.DoesNotExist:
+        print("Usuario Psicologo no encontrado")
+    
+    return HttpResponse('Enlace de confirmación no válido para ningun usuario.')
+
+    
+     
 def crear_notificacion(user, mensaje, url):
     Notification.objects.create(user=user, mensaje=mensaje, notification_url=url)
-
+    asunto = 'Cambios en tu cuenta'
+    enviar_correo(asunto,user.email, mensaje)
+    
 def marcar_notificacion_leida(request):
     if request.method == 'POST':
         notification_url = request.POST.get('notification_url', '')
@@ -85,6 +142,7 @@ def marcar_notificacion_leida(request):
                 pass
 
     return JsonResponse({'success': False})
+
 def perfil(request):
 
     if request.user.groups.filter(name='Psicologos').exists():
@@ -92,14 +150,15 @@ def perfil(request):
         consultorio = Consultorio.objects.get(psicologo=psicologo)
         datos = {
             'direccion' : consultorio.direccion,
+            
         }   
         formConsultorio = FormConsultorio(instance=consultorio)
         formPsicologo = FormPsicologo(instance=psicologo)
-        return render(request, 'perfil_psicologo_privado.html', {'formPsicologo': formPsicologo, 'formConsultorio': formConsultorio,'usuario': datos})
+        return render(request, 'perfil_psicologo_privado.html', {'formPsicologo': formPsicologo, 'formConsultorio': formConsultorio,'usuario': datos, 'correo_verificado' : psicologo.correo_verificado})
     elif request.user.groups.filter(name='Pacientes').exists():
         paciente=Paciente.objects.get(user=request.user)
         form = FormPaciente(instance=paciente)
-        return render(request, 'perfil_paciente.html', {'form': form})
+        return render(request, 'perfil_paciente.html', {'form': form, 'correo_verificado' : paciente.correo_verificado})
     else:
         return redirect('login')
     
@@ -190,35 +249,3 @@ def datos_default(request):
         'usuario':usuario,
     }
     return JsonResponse(data, safe=False)
-
-
-
-def procesar_formulario(request):
-    if request.method == 'POST':
-        nombre = request.POST['firstName']
-        apellido = request.POST['lastName']
-        correo = request.POST['email']
-        telefono = request.POST['phone']
-        mensaje = request.POST['message']
-        asunto = "Contacto de la pagina web."
-        
-        template = render_to_string('email.html', {
-            'nombre': nombre,
-            'apellido':apellido,
-            'correo': correo,
-            'telefono': telefono,
-            'mensaje': mensaje,
-        })
-
-        email = EmailMessage(
-            asunto,
-            template,
-            settings.EMAIL_HOST_USER,
-            ['chalaca23ff@gmail.com']
-        )
-
-        email.fail_silently = False 
-        email.send()
-
-        messages.success(request, "Se ha enviado tu correo.")
-        return redirect('contacto')
