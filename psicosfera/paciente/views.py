@@ -16,6 +16,7 @@ from django.contrib.auth import authenticate
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from psicologo.views import codigoANombre
 
 def datos_paciente(request):
     try:
@@ -46,6 +47,10 @@ def datos_paciente(request):
 
     except:
         print("No hay expediente.")
+        if not paciente.contactos:
+            contactos = None
+        else:
+            contactos = obtener_detalles_de_contactos(paciente.contactos)
 
     data ={
             'usuario':usuario,
@@ -61,8 +66,28 @@ def datos_paciente(request):
             "user": paciente.user.username,
             "psicologo": 0,
             "notas_compartidas" : notas_compartidas,
+            "contactos" : contactos,
         }
     return JsonResponse(data, safe=False)
+
+def obtener_detalles_de_contactos(contactos):
+    detalles_contactos = []
+    if contactos:
+        for contacto_id in contactos:
+            try:
+                psicologo = Psicologo.objects.get(id=contacto_id)
+                detalles_contactos.append({
+                    'nombre': psicologo.user.first_name,
+                    'apellido': psicologo.user.last_name,
+                    'especialidad': codigoANombre(psicologo.especialidad),
+                    'usuario': psicologo.user.username,
+                    'ubicacion': psicologo.ubicacion,
+                })
+            except Psicologo.DoesNotExist:
+                # Manejar si el usuario no existe
+                pass
+    print(detalles_contactos)
+    return detalles_contactos
 
 @login_required
 def actualizar_paciente(request):

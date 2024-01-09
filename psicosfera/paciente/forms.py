@@ -7,7 +7,7 @@ class FormPaciente(forms.ModelForm):
     class Meta:
         model = Paciente
         fields = '__all__'
-        exclude = ['user']
+        exclude = ['user','contactos','correo_verificado']
         
         widgets = {
             'foto_perfil': forms.ClearableFileInput(attrs={'class': 'form-control'}),

@@ -22,6 +22,7 @@ class Paciente(models.Model):
     foto_perfil = models.ImageField(upload_to='pacientes_foto_perfil/', blank=True) 
     fecha_registro = models.DateTimeField(auto_now_add=True)
     correo_verificado = models.BooleanField(default=False)
+    contactos = models.JSONField(blank=True, null=True)
 
     def __str__(self):
         return f"{self.user}"
