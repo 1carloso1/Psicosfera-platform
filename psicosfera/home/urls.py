@@ -15,7 +15,8 @@ urlpatterns = [
     path('actualizar_consultorio/', actualizar_consultorio, name = 'actualizar_consultorio'),
     path('actualizar_paciente/', actualizar_paciente, name = 'actualizar_paciente'),
     path('actualizar_password/', actualizar_password, name = 'actualizar_password'),
-    path('marcar_notificacion_leida/', marcar_notificacion_leida, name='marcar_notificacion_leida'),
     path('enviar_correo_confirmacion/', enviar_correo_confirmacion, name='enviar_correo_confirmacion'),
     path('confirmar_correo/<int:pk>/<str:token>/', confirmar_correo, name='confirmar_correo'),
+    path('ajuste_notificaciones/', ajuste_notificaciones, name='ajuste_notificaciones'),
+    path('marcar_notificacion_leida/', marcar_notificacion_leida, name='marcar_notificacion_leida'),
 ]# urls.py

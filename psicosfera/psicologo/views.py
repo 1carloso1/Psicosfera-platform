@@ -12,12 +12,13 @@ from django.http import HttpResponse
 from .forms import FormPsicologo, FormConsultorio 
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.contrib.auth import authenticate
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
+
+
 
 @login_required
 def interfaz_psicologo(request):
@@ -205,6 +206,7 @@ def diario_psicologo(request):
 
 @login_required
 def actualizar_psicologo(request):
+    from home.views import crear_notificacion
     psicologo = Psicologo.objects.get(user=request.user)
     if request.method == 'POST':
         form = FormPsicologo(request.POST, request.FILES, instance=psicologo)
@@ -214,17 +216,21 @@ def actualizar_psicologo(request):
                 psicologo = form.save(commit=False)
 
                 # Procesar los datos adicionales
-                nombre = request.POST.get('firstName', '')  # Reemplaza 'firstName' con el nombre real del campo
-                apellidos = request.POST.get('lastName', '')  # Reemplaza 'lastName' con el nombre real del campo
+                nombre = request.POST.get('firstName', '') 
+                apellidos = request.POST.get('lastName', '')  
+                correo = request.POST.get('correo2', '')  
 
                 # Actualizar los campos adicionales en el modelo Psicologo
                 psicologo.user.first_name = nombre
                 psicologo.user.last_name = apellidos
+                psicologo.user.email = correo
                 psicologo.user.save()
 
                 # Guardar los cambios en el modelo Psicologo
                 psicologo.save()
-                # ... resto del código ...
+                perfil_url = reverse('perfil')
+                message = "Cambios realizados correctamente."
+                crear_notificacion(psicologo.user,"Cambios", message, perfil_url)
             except Exception as e:
                 messages.error(request, "Error al actualizar tus datos")
                 return redirect('perfil')
