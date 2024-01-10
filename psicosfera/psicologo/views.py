@@ -132,6 +132,10 @@ def datos_psicologo(request):
     direccion = ""
     apertura = ""
     cierre = ""
+    if not psicologo.contactos:
+        contactos = None
+    else:
+        contactos = obtener_detalles_de_contactos(psicologo.contactos)
     if psicologo.foto_perfil:
         with psicologo.foto_perfil.open('rb') as image_file:
             image_data = image_file.read()
@@ -188,10 +192,28 @@ def datos_psicologo(request):
         'apertura': apertura,
         'cierre': cierre,
         'costo_consulta': costo_consulta,
+        "contactos" : contactos,
     }
     
     return JsonResponse(datos, safe=False)
    
+def obtener_detalles_de_contactos(contactos):
+    detalles_contactos = []
+    if contactos:
+        for contacto_id in contactos:
+            try:
+                paciente = Paciente.objects.get(id=contacto_id)
+                detalles_contactos.append({
+                    'nombre': paciente.user.first_name,
+                    'apellido': paciente.user.last_name,
+                    'usuario': paciente.user.username,
+                    'ubicacion': paciente.ubicacion,
+                })
+            except Psicologo.DoesNotExist:
+                # Manejar si el usuario no existe
+                pass
+    print(detalles_contactos)
+    return detalles_contactos
 
 def codigoANombre(especialidad):
     for codigo, nombre in ESPECIALIDADES_CHOICES_2: #transforma el id en el nombre de la especialidad

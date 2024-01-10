@@ -239,12 +239,12 @@ def agregar_contacto(request, username):
 def perfilPublico(request, username):
     # Obtener el usuario basado en el username
     user = get_object_or_404(User, username=username)
-    paciente = get_object_or_404(Paciente, user=request.user)
     
     # Intentar obtener el perfil de psicólogo para el usuario
     try:
         psicologo = Psicologo.objects.get(user=user)
         consultorio = Consultorio.objects.get(psicologo=psicologo)
+        paciente = get_object_or_404(Paciente, user=request.user)
         especialidad = psicologo.especialidad
         if psicologo.foto_perfil:
             with psicologo.foto_perfil.open('rb') as image_file:
@@ -306,6 +306,8 @@ def perfilPublico(request, username):
     except Psicologo.DoesNotExist:
         try:
             paciente = Paciente.objects.get(user=user)
+            psicologo = get_object_or_404(Psicologo, user=request.user)
+
             if paciente.foto_perfil:
                 with paciente.foto_perfil.open('rb') as image_file:
                     image_data = image_file.read()
@@ -313,6 +315,14 @@ def perfilPublico(request, username):
             else:
                 foto = None
 
+            #Verificar que los usuarios (Paciente y Psicologo tienen una relacion)
+            if not paciente.contactos:
+                usuario_agregado = 0
+            elif psicologo.id in paciente.contactos:
+                usuario_agregado = 1
+            else:
+                usuario_agregado = 0
+            print(usuario_agregado)
             datos = {
             'nombre': paciente.user.first_name,
             'apellidos' : paciente.user.last_name,
@@ -325,7 +335,7 @@ def perfilPublico(request, username):
             'user': paciente.user.username,
             "psicologo": 0,
             'descripcion' : paciente.descripcion,
-            'usuario_agregado': 0,
+            'usuario_agregado': 1,
             #'facebook': psicologo.enlace_facebook,
             #'linkedin': psicologo.enlace_linkedin,
             #'instagram': psicologo.enlace_instagram,

@@ -6,6 +6,12 @@
     Psicosfera | Mi Perfil
 {% endblock %}
 
+{% block btns %}
+<li><a href="{% url 'perfil' %}#perfil">Detalles de la Cuenta</a></li>
+<li><a href="{% url 'perfil' %}#consult">Consultorio</a></li>
+<li><a href="{% url 'perfil' %}#contact">Contactos</a></li>
+{% endblock %}
+
 {% block links %}
   <link href="{% static 'css/style.css' %}" rel="stylesheet">
   <link href="{% static 'lightbox/css/lightbox.css' %}" rel="stylesheet">
@@ -73,7 +79,8 @@
             <div class="tab-pane fade show active profile-overview" id="profile-overview">
 
 
-              <h6 class="titulo_perfil">Detalles de la Cuenta</h6>
+              <h4 class="titulo_perfil" id="perfil">Detalles de la Cuenta</h4>
+              <br>
 
               <div class="row">
                 <div class="col-lg-3 col-md-4 label ">Nombre completo</div>
@@ -127,7 +134,8 @@
               </div>
               <br>
 
-              <h6 class="titulo_perfil">Detalles del Consultorio</h6>
+              <h5 class="titulo_perfil" id="consult">Detalles del Consultorio</h5>
+              <br>
 
               <div class="row">
                 <div class="col-lg-3 col-md-4 label">Dirección del Consultorio</div>
@@ -146,6 +154,17 @@
 
               <div class="row">
                 <div class="contenedor-mapa-perfil" id="map1"></div>
+              </div>
+              <br>
+
+              <div>
+                <h5 class="titulo_perfil" id="contact">Contactos</h5>
+                <br>
+
+                <div class="row">
+                  <p class="text-center" id="contactosPsico"></p>
+                </div>
+                
               </div>
 
             </div>

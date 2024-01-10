@@ -24,7 +24,8 @@ def datos_paciente(request):
         paciente = Paciente.objects.get(id=paciente_id)
     except:
         paciente = Paciente.objects.get(user=request.user)
-    nombre = str(paciente.user.first_name + " " + paciente.user.last_name)
+
+    nombre = paciente.user.first_name
     apellidos = str(paciente.user.last_name)
     correo_electronico = paciente.user.email
     descripcion = paciente.descripcion
@@ -34,6 +35,10 @@ def datos_paciente(request):
     sexo = paciente.sexo
     usuario = "registrado"
     notas_compartidas = ""
+    if not paciente.contactos:
+        contactos = None
+    else:
+        contactos = obtener_detalles_de_contactos(paciente.contactos)
     if paciente.foto_perfil:
         with paciente.foto_perfil.open('rb') as image_file:
             image_data = image_file.read()
@@ -47,10 +52,8 @@ def datos_paciente(request):
 
     except:
         print("No hay expediente.")
-        if not paciente.contactos:
-            contactos = None
-        else:
-            contactos = obtener_detalles_de_contactos(paciente.contactos)
+
+    
 
     data ={
             'usuario':usuario,
@@ -86,7 +89,6 @@ def obtener_detalles_de_contactos(contactos):
             except Psicologo.DoesNotExist:
                 # Manejar si el usuario no existe
                 pass
-    print(detalles_contactos)
     return detalles_contactos
 
 @login_required

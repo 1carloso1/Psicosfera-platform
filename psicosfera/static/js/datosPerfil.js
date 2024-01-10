@@ -28,7 +28,6 @@ $(document).ready(function() {
         });
         contactosHTML += '</div>';
 
-        $('#contactos').html(contactosHTML);
         if (data.usuario == "registrado"){
           if (data.foto) {
             $('#foto').attr('src', 'data:image/jpeg;base64,' + data.foto);
@@ -58,6 +57,26 @@ $(document).ready(function() {
           $('#contactos').html(contactosHTML);
 
           if (data.psicologo == 1){
+            // Mostrar detalles de los contactos
+        var contactosHTML2 = '<div class="row justify-content-center">';
+        data.contactos.forEach(function(contacto) {
+            contactosHTML2 += `
+                <div class="col-md-6 mb-4">
+                    <a href="../perfil/${contacto.usuario}" class="card-link">
+                        <div class="card h-100">
+                            <div class="card-body d-flex flex-column justify-content-center">
+                                <h5 class="card-title text-center">${contacto.nombre} ${contacto.apellido}</h5>
+                                <p class="card-text text-center">Paciente</p>
+                                <p class="card-text text-center">${contacto.ubicacion}</p>
+                                <!-- Agrega más detalles según tus necesidades -->
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            `;
+        });
+        contactosHTML2 += '</div>';
+
             $('#especialidad').text(data.especialidad);
             $('#especialidad2').text(data.especialidad);
             $('#institucion').text(data.institucion);
@@ -75,6 +94,8 @@ $(document).ready(function() {
             $("#Linkedin").val(data.linkedin);
             $('#twitter').attr('href', data.twitter);
             $("#Twitter").val(data.twitter);
+            $('#contactosPsico').html(contactosHTML2);
+
 
 
             $('#direccion').text(data.direccion);
