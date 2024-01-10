@@ -231,8 +231,8 @@
 --------------------------------------------------------------*/
 .fotoPerfil{
   display: block;
-	width: 400px; /* Ancho deseado */
-  height: 400px; /* Alto deseado */
+	width: 300px; /* Ancho deseado */
+  height: 300px; /* Alto deseado */
   object-fit: cover; /* Mantener la proporción y cortar la imagen si es necesario */
 	border-radius: 50%;
 }

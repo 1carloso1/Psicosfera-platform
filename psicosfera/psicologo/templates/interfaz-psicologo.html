@@ -108,7 +108,6 @@
   <script src="{% static 'ckeditor/lang/es.js' %}"></script>
 <script>
   CKEDITOR.replace( 'editor1' );
-
   function obtenerContenido() {
      var contenido = CKEDITOR.instances.editor1.getData();
      $.ajax({
@@ -129,6 +128,7 @@
     });
   }
 </script>
+
   <script src="{% static 'js/index.global.min.js' %}" ></script>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -205,8 +205,8 @@
         calendar.render();
     });
 </script>
-  <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
 
+  <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
   <script>
     function changeClass(boton) { 
       var botones = document.querySelectorAll('.btn');
@@ -217,6 +217,7 @@
       
     }
   </script>
+
   <script>
   function obtenerCitas(){
     $.ajax({
@@ -251,6 +252,7 @@
     
   });
   </script>
+
   <script>
     $(document).ready(function() {
         $('#pacientes').on('click', 'a.btn', function(e) {
@@ -324,7 +326,6 @@
 </script>
 
 <script>
-
   $(document).ready(function() {
     $('#form_compartidas').submit(function(event) {
       event.preventDefault();

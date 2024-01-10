@@ -8,7 +8,27 @@ $(document).ready(function() {
         if (data.usuario == "default"){
           $('#foto3').attr('src', UrlImagenDefault);
         }
+        // Mostrar detalles de los contactos
+        var contactosHTML = '<div class="row justify-content-center">';
+        data.contactos.forEach(function(contacto) {
+            contactosHTML += `
+                <div class="col-md-6 mb-4">
+                    <a href="../perfil/${contacto.usuario}" class="card-link">
+                        <div class="card h-100">
+                            <div class="card-body d-flex flex-column justify-content-center">
+                                <h5 class="card-title text-center">${contacto.nombre} ${contacto.apellido}</h5>
+                                <p class="card-text text-center">${contacto.especialidad}</p>
+                                <p class="card-text text-center">${contacto.ubicacion}</p>
+                                <!-- Agrega más detalles según tus necesidades -->
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            `;
+        });
+        contactosHTML += '</div>';
 
+        $('#contactos').html(contactosHTML);
         if (data.usuario == "registrado"){
           if (data.foto) {
             $('#foto').attr('src', 'data:image/jpeg;base64,' + data.foto);
@@ -35,6 +55,7 @@ $(document).ready(function() {
           $('#descripcion').text(data.descripcion);
           $('#descripcion2').text(data.descripcion);
           $('#ubicacion').text(data.ubicacion);
+          $('#contactos').html(contactosHTML);
 
           if (data.psicologo == 1){
             $('#especialidad').text(data.especialidad);

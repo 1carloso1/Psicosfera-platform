@@ -194,10 +194,45 @@ def perfil(request):
     
 def exito_actualizacion(request):
     return HttpResponseRedirect(reverse('perfil') + '?success=true')
+
+def agregar_contacto(request, username):
+    #La idea general es que obtenga al usuario actual (debe ser paciente) y al psicologo que es el username de la URL
+    user = get_object_or_404(User, username=username)
+    paciente = get_object_or_404(Paciente, user=request.user)
+    try:
+        psicologo = Psicologo.objects.get(user=user)
+     
+        if not paciente.contactos:
+            paciente.contactos = []
+        if psicologo.id not in paciente.contactos:
+            paciente.contactos.append(psicologo.id)
+        paciente.save()
+
+        if not psicologo.contactos:
+            psicologo.contactos = []
+        if paciente.id not in psicologo.contactos:
+            psicologo.contactos.append(paciente.id)
+        psicologo.save()
+
+        print("paciente: ")
+        print(paciente.contactos)
+        print("psicologo: ")
+        print(psicologo.contactos)
+
+        # Respuesta JSON para confirmar el éxito
+        return JsonResponse({"message": "Contacto agregado exitosamente"})
+
+    except Psicologo.DoesNotExist:
+        # Si el psicólogo no existe, devolvemos un mensaje de error
+        return JsonResponse({"error": "El psicólogo no existe"})
+    except Paciente.DoesNotExist:
+        # Si el paciente no existe, devolvemos un mensaje de error
+        return JsonResponse({"error": "El paciente no existe"})
  
 def perfilPublico(request, username):
     # Obtener el usuario basado en el username
     user = get_object_or_404(User, username=username)
+    paciente = get_object_or_404(Paciente, user=request.user)
     
     # Intentar obtener el perfil de psicólogo para el usuario
     try:
@@ -223,6 +258,14 @@ def perfilPublico(request, username):
         else:
             curriculum = None
 
+        #Verificar que los usuarios (Paciente y Psicologo tienen una relacion)
+        if not psicologo.contactos:
+            usuario_agregado = 0
+        elif paciente.id in psicologo.contactos:
+            usuario_agregado = 1
+        else:
+            usuario_agregado = 0
+        print(usuario_agregado)
         datos = {
         'nombre': psicologo.user.first_name,
         'apellidos' : psicologo.user.last_name,
@@ -249,20 +292,41 @@ def perfilPublico(request, username):
         'certificado':certificado,   
         'curriculum':curriculum, 
         'costo_consulta':consultorio.costo_consulta, 
+        'usuario_agregado': usuario_agregado, 
     }
         return render(request, 'perfil_psicologo.html', {'usuario': datos})
+    
     except Psicologo.DoesNotExist:
-        pass  # El usuario no es un psicólogo, continuar
-    
-    # Intentar obtener el perfil de paciente para el usuario
-    try:
-        perfil_paciente = Paciente.objects.get(user=user)
-        return render(request, 'perfil_paciente.html', {'usuario': perfil_paciente})
-    except Paciente.DoesNotExist:
-        pass  # El usuario no es un paciente, continuar
-    
-    # Si no es psicólogo ni paciente, puedes manejarlo de acuerdo a tus necesidades
-    return render(request, 'perfil_no_encontrado.html', {'usuario': username}) 
+        try:
+            paciente = Paciente.objects.get(user=user)
+            if paciente.foto_perfil:
+                with paciente.foto_perfil.open('rb') as image_file:
+                    image_data = image_file.read()
+                    foto = base64.b64encode(image_data).decode('utf-8')
+            else:
+                foto = None
+
+            datos = {
+            'nombre': paciente.user.first_name,
+            'apellidos' : paciente.user.last_name,
+            'foto': foto,
+            'correo': paciente.user.email,
+            'telefono': paciente.telefono,
+            'ubicacion': paciente.ubicacion,
+            'edad': paciente.edad,
+            'sexo': paciente.sexo,
+            'user': paciente.user.username,
+            "psicologo": 0,
+            'descripcion' : paciente.descripcion,
+            'usuario_agregado': 0,
+            #'facebook': psicologo.enlace_facebook,
+            #'linkedin': psicologo.enlace_linkedin,
+            #'instagram': psicologo.enlace_instagram,
+            #'twitter':psicologo.enlace_pagina_web,    
+            }
+            return render(request, 'perfil_paciente_publico.html', {'usuario': datos})
+        except Paciente.DoesNotExist:
+            pass
 
 @login_required
 def datos(request):

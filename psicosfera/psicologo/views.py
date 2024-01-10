@@ -261,11 +261,11 @@ def actualizar_consultorio(request):
 
 
 
-def guardar_personales(request):
+def guardar_diario(request):
     if request.method == 'POST':
-        notas_personales= request.POST.get('contenido', None)
+        notas= request.POST.get('contenido', None)
         psicologo = Psicologo.objects.get(user=request.user)
-        psicologo.diario = notas_personales
+        psicologo.diario = notas
         psicologo.save()
         
         return JsonResponse({'mensaje': 'Expediente guardado con éxito'})

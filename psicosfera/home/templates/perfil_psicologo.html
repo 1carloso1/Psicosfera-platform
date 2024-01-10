@@ -8,7 +8,9 @@
 
 {% block btns %}
 <li><a href="{% url 'ver_perfil' username=usuario.user %}#perfil">Detalles del Especialista</a></li>
+{% if usuario.usuario_agregado == 1 %}
 <li><a href="{% url 'ver_perfil' username=usuario.user %}#consultorio">Consultorio</a></li>
+{% endif %}
 <li><a href="{% url 'ver_perfil' username=usuario.user %}#agenda">Agenda de Citas</a></li>
 
 {% endblock %}
@@ -36,6 +38,15 @@
             <a href="{{usuario.instagram}}" id="instagram"><i class="bi bi-instagram"></i></a>
             <a href="{{usuario.linkedin}}" id="linkedin"><i class="bi bi-linkedin"></i></a>
           </div>
+          <br>
+          {% if usuario.usuario_agregado == 1 %}
+          <button class="btn btn-primary">Contacto Agregado</button>
+
+          {% elif usuario.usuario_agregado == 0 %}
+          <!-- <a class="btn btn-primary" href="{% url 'agregar_contacto' username=usuario.user %}">Agregar Psicólogo</a>-->
+          <button id="botonAgregarContacto" class="btn btn-primary" onclick="agregarContacto('{{ usuario.user }}')">Agregar Psicólogo</button>
+
+          {% endif %}
         </div>
       </div>
     </div>
@@ -91,8 +102,10 @@
               <div class="row">
                 <embed src="data:application/pdf;base64,{{ usuario.curriculum }}" type="application/pdf" class="embed-pdf"/>
               </div>
-              <br>
-              <section id="consultorio">
+            </div>
+
+            {% if usuario.usuario_agregado == 1 %}
+            <section id="consultorio">
               <div class="container section-title" data-aos="fade-up">
                 <h2>Consultorio</h2>
               </div><!-- End Section Title -->
@@ -112,7 +125,7 @@
                   <div class="contenedor-mapa-perfil" id="map1"></div>
                 </div>
               </section>
-            </div>
+              {% endif %}  
           </div><!-- End Bordered Tabs -->
         </div>
       </div>
@@ -135,6 +148,21 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="{% static 'js/googleMapsAPI.js' %}" ></script>
   <script src="{% static 'js/mostrarMapa.js' %}" ></script>
+  <script>
+    function agregarContacto(username) {
+        $.ajax({
+            url: `/perfil/${username}/agregar-contacto/`,
+            method: 'GET',  // O 'POST' según tu lógica
+            success: function(response) {
+                $('#botonAgregarContacto').text('solicitud Enviada').prop('disabled', true);
+            },
+            error: function(error) {
+                console.error('Hubo un error al agregar el contacto:', error);
+            }
+        });
+    }
+</script>
+
   <script>
     // Espera a que la página se cargue completamente
     document.addEventListener("DOMContentLoaded", function () {
