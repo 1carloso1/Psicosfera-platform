@@ -23,6 +23,9 @@ class Paciente(models.Model):
     fecha_registro = models.DateTimeField(auto_now_add=True)
     correo_verificado = models.BooleanField(default=False)
     contactos = models.JSONField(blank=True, null=True)
+    notificaciones_cambios = models.BooleanField(default=True)
+    notificaciones_servicios = models.BooleanField(default=True)
+    notificaciones_promociones = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.user}"

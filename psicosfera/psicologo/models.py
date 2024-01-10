@@ -23,6 +23,9 @@ class Psicologo(models.Model):
     foto_perfil = models.ImageField(upload_to='psicologos_foto_perfil/', blank=True) #mover al eliminar los antiguos usuarios blank=False, null=False
     fecha_registro = models.DateTimeField(auto_now_add=True)
     correo_verificado = models.BooleanField(default=False)
+    notificaciones_cambios = models.BooleanField(default=True)
+    notificaciones_servicios = models.BooleanField(default=True)
+    notificaciones_promociones = models.BooleanField(default=False)
     cedula = models.CharField(max_length=8, null=False, blank=False)  #mover al eliminar los antiguos usuarios blank=False, null=False
     especialidad = models.CharField(max_length=50, choices=ESP_CHOICES, null=False, blank=False)
     institucion_otorgamiento = models.CharField(max_length=200, verbose_name="Institución de otorgamiento", null=False, blank=False)

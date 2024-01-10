@@ -91,6 +91,7 @@ def obtener_detalles_de_contactos(contactos):
 
 @login_required
 def actualizar_paciente(request):
+    from home.views import crear_notificacion
     paciente = Paciente.objects.get(user=request.user)
     if request.method == 'POST':
         form = FormPaciente(request.POST, request.FILES, instance=paciente)
@@ -102,14 +103,19 @@ def actualizar_paciente(request):
                 # Procesar los datos adicionales
                 nombre = request.POST.get('firstName', '')  
                 apellidos = request.POST.get('lastName', '')  
+                correo = request.POST.get('correo2', '')  
 
                 # Actualizar los campos adicionales en el modelo paciente
                 paciente.user.first_name = nombre
                 paciente.user.last_name = apellidos
+                paciente.user.email = correo
                 paciente.user.save()
 
                 # Guardar los cambios en el modelo paciente
                 paciente.save()
+                perfil_url = reverse('perfil')
+                message = "Cambios realizados correctamente."
+                crear_notificacion(paciente.user,"Cambios", message, perfil_url)
 
             except Exception as e:
                 messages.error(request, "Error al actualizar tus datos")

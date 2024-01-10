@@ -129,6 +129,11 @@
                   <label for="lastName" class="col-md-4 col-lg-3 col-form-label">Apellidos:</label>
                   <input name="lastName" type="text" class="form-control" id="lastName">
                 </p>
+
+                <p>
+                  <label for="correo2" class="col-md-4 col-lg-3 col-form-label">Correo electrónico:</label>
+                  <input name="correo2" type="text" class="form-control" id="correo2">
+                </p>
                   {{ form.as_p }}
                 <div class="text-center">
                   <button type="submit" class="btn btn-primary">Guardar cambios</button>
@@ -136,46 +141,69 @@
               </form>
 
             </div>
+          </div>
 
             <div class="tab-pane fade pt-3" id="profile-settings">
-
               <!-- Settings Form -->
-              <form>
-
-                <div class="row mb-3">
-                  <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Notificaciones de Correo electrónico</label>
-                  <div class="col-md-8 col-lg-9">
-                    <div class="form-check">
-                      <input class="form-check-input" type="checkbox" id="changesMade" checked>
-                      <label class="form-check-label" for="changesMade">
-                        Cambios realizados en su cuenta
-                      </label>
-                    </div>
-                    <div class="form-check">
-                      <input class="form-check-input" type="checkbox" id="newProducts" checked>
-                      <label class="form-check-label" for="newProducts">
-                        Información sobre nuevos productos y servicios.
-                      </label>
-                    </div>
-                    <div class="form-check">
-                      <input class="form-check-input" type="checkbox" id="proOffers">
-                      <label class="form-check-label" for="proOffers">
-                        Ofertas promocionales y de marketing
-                      </label>
-                    </div>
-                    <div class="form-check">
-                      <input class="form-check-input" type="checkbox" id="securityNotify" checked disabled>
-                      <label class="form-check-label" for="securityNotify">
-                        Alertas de seguridad
-                      </label>
-                    </div>
+              {% if not correo_verificado %}
+              <div class="">
+                <div class="text-center">
+                  <label class="col-md-4 col-lg-3 col-form-label">Debes confirmar tu correo para acceder a esta función.</label>
+                  <div class="text-center">
+                    <a href="{% url 'enviar_correo_confirmacion' %}" style="display: inline-block; padding: 10px 20px; background-color: #4CAF50; color: #ffffff; text-decoration: none; border-radius: 5px;">Confirmar Correo</a>
                   </div>
                 </div>
-
-                <div class="text-center">
-                  <button type="submit" class="btn btn-primary">Guardar cambios</button>
+              </div>
+              {% else %}
+              <form method="post" enctype="multipart/form-data" action="{% url 'ajuste_notificaciones' %}">
+                {% csrf_token %}
+                
+                <div class="row mb-3">
+                    <label class="col-md-4 col-lg-3 col-form-label">Notificaciones de Correo electrónico</label>
+                    <div class="col-md-8 col-lg-9">
+                        <div class="form-check">
+                          {% if ajuste_notificaciones.cambios  %}
+                            <input class="form-check-input" type="checkbox" id="cambios" name="cambios" checked>
+                          {% else %}
+                            <input class="form-check-input" type="checkbox" id="cambios" name="cambios">
+                          {% endif %}
+                            <label class="form-check-label" for="cambios">
+                                Cambios realizados en su cuenta
+                            </label>
+                        </div>
+                        <div class="form-check">
+                        {% if ajuste_notificaciones.servicios  %}
+                          <input class="form-check-input" type="checkbox" id="servicios" name="servicios" checked>
+                        {% else %}
+                          <input class="form-check-input" type="checkbox" id="servicios" name="servicios">
+                        {% endif %}
+                            <label class="form-check-label" for="servicios">
+                                Información sobre nuevos productos y servicios.
+                            </label>
+                        </div>
+                        <div class="form-check">
+                          {% if ajuste_notificaciones.promociones  %}
+                            <input class="form-check-input" type="checkbox" id="promociones" name="promociones" checked>
+                          {% else %}
+                            <input class="form-check-input" type="checkbox" id="promociones" name="promociones">
+                          {% endif %}
+                            <label class="form-check-label" for="promociones">
+                                Ofertas promocionales y de marketing
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="securityNotify" name="securityNotify" checked disabled>
+                            <label class="form-check-label" for="securityNotify">
+                                Alertas de seguridad
+                            </label>
+                        </div>
+                    </div>
                 </div>
-              </form><!-- End settings Form -->
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                </div>
+            </form>
+              {% endif %}
 
             </div>
 
