@@ -34,6 +34,7 @@
 
   <!-- Template Main CSS File -->
   <link href="{% static 'css/main.css' %}" rel="stylesheet">
+  <link href="{% static 'css/notificaciones.css' %}" rel="stylesheet">
 
   {% block links %}
     
@@ -84,31 +85,50 @@
                 </li>
             </ul><!-- End Chat Dropdown Items -->
           
-          <a class="notification-icon" href="#" data-bs-toggle="dropdown">
-            <img src="{% static 'img/elementos/notificacion.png' %}" alt="Notification" class="icon-img">
-          </a>
-          {% csrf_token %}
-          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
-              <li class="dropdown-header">
-                  <h6>Notificaciones</h6>
-              </li>
-              {% for notification in user_notifications %}
-                  <li >
-                      <a href="{{ notification.notification_url }}" class="notification-link" data="{{ notification.id }}">
-                          <hr class="dropdown-divider">
-                          <div class="notification-content">
-                              <span class="notification-message">{{ notification.mensaje }}</span>
-                              <span class="notification-timestamp">{{ notification.timestamp|date:"F j, Y H:i" }}</span>
-                          </div>
-                      </a>
-                  </li>
-              {% endfor %}
-          </ul><!-- End Notification Dropdown Items -->
-            
-            <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-              <img id="foto3" src="" alt="user" class="fotoPerfilDiminuta">
+          <div class="notification-icon-container">
 
-              <span class="d-none d-md-block dropdown-toggle ps-2">{{ user }}</span>
+            <a class="notification-icon " class="notificaciones-icono" href="#" data-bs-toggle="dropdown">
+              <span id="punto-rojo"></span>
+              <img src="{% static 'img/elementos/notificacion.png' %}" alt="Notification" class="icon-img">
+            </a>
+            
+            {% csrf_token %}
+            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications-container text-center">
+            <li class="dropdown-header">
+                <h6>Notificaciones</h6>
+            </li>
+            {% for notification in user_notifications %}
+                {% if notification.is_read %}
+                    <!-- Notificación leída -->
+                    <li class="notificacion-leida">
+                        <a href="{{ notification.notification_url }}" class="notification-link" data="{{ notification.id }}">
+                            <hr class="dropdown-divider">
+                            <div class="notification-content">
+                                <span class="notification-message">{{ notification.mensaje }}</span>
+                                <span class="notification-timestamp">{{ notification.timestamp|date:"F j, Y H:i" }}</span>
+                            </div>
+                        </a>
+                    </li>
+                {% else %}
+                    <!-- Notificación no leída -->
+                    <li class="notificacion-no-leida">
+                      <a href="{{ notification.notification_url }}" class="notification-link" data="{{ notification.id }}">
+                        <hr class="dropdown-divider">
+                        <div class="notification-content">
+                          <span class="notification-message">{{ notification.mensaje }}</span>
+                          <span class="notification-timestamp">{{ notification.timestamp|date:"F j, Y H:i" }}</span>
+                        </div>
+                      </a>
+                    </li>
+                    {% endif %}
+                    {% endfor %}
+                  </ul>
+                </div>
+                  
+                  <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+                    <img id="foto3" src="" alt="user" class="fotoPerfilDiminuta">
+                    
+                    <span class="d-none d-md-block dropdown-toggle ps-2">{{ user }}</span>
             </a><!-- End Profile Image Icon -->
             <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
               <li class="dropdown-header">
@@ -304,6 +324,22 @@
             });
         });
     });
+</script>
+<script>
+</script>
+<script>
+  var notificacionesNoLeidas = {{ notificacionesNoLeidas|default:0 }};
+  print(notificacionesNoLeidas);
+  document.addEventListener('DOMContentLoaded', function () {
+    var iconoNotificaciones = document.getElementById('punto-rojo');
+
+    // Actualiza la visibilidad del punto rojo según la presencia de notificaciones no leídas
+    if (notificacionesNoLeidas > 0) {
+        iconoNotificaciones.style.display = 'block';
+    } else {
+        iconoNotificaciones.style.display = 'none';
+    }
+});
 </script>
     
   <script src="https://cdn.jsdelivr.net/npm/aos@2.3.1/dist/aos.js"></script>

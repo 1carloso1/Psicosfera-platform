@@ -89,20 +89,13 @@ def enviar_correo_confirmacion(request):
     enviar_correo(asunto,usuario.email,mensaje)
     return redirect('perfil')
 
-def obtener_usuario(user):
-    usuario = None
+def confirmar_correo(request, pk, token):
+    usuario = get_object_or_404(User, pk=pk)
     
     try:
         usuario = usuario.paciente
     except:
         usuario = usuario.psicologo
-        
-    return usuario
-
-def confirmar_correo(request, pk, token):
-    usuario = get_object_or_404(User, pk=pk)
-    
-    usuario = obtener_usuario(usuario)
         
     if default_token_generator.check_token(usuario.user, token):
         usuario.correo_verificado = True
