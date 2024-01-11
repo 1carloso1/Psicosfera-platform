@@ -30,6 +30,10 @@
           <br>
           <h2>{{usuario.nombre}} {{usuario.apellidos}}</h2>
           <h3>{{usuario.especialidad}}</h3>
+          {% if usuario.usuario_agregado == 1 %}
+          <h6 class="titulo_perfil" id="perfil">Contacto Agregado</h6>
+          {% endif %}
+          <br>
           <h6 class="titulo_perfil">Descripción</h6>
               <p class="small fst-italic">{{usuario.descripcion}}</p>
           <div class="social-links mt-2">
@@ -40,13 +44,11 @@
           </div>
           <br>
           {% if usuario.usuario_agregado == 1 %}
-          <button class="btn btn-primary">Contacto Agregado</button>
-          <br>
-          <button id="botonEliminarContacto" class="btn btn-primary" onclick="eliminarContacto('{{ usuario.user }}')">Eliminar Psicólogo</button>
-
+          <button id="botonEliminarContacto" class="btn btn-danger" onclick="eliminarContacto('{{ usuario.user }}')">Eliminar Psicólogo</button>
           {% elif usuario.usuario_agregado == 0 %}
           <!-- <a class="btn btn-primary" href="{% url 'agregar_contacto' username=usuario.user %}">Agregar Psicólogo</a>-->
-          <button id="botonAgregarContacto" class="btn btn-primary" onclick="agregarContacto('{{ usuario.user }}')">Agregar Psicólogo</button>
+          
+          <button id="botonEnviarSolicitud" class="btn btn-primary" onclick="enviarSolicitud('{{ usuario.user }}')">Enviar Solicitud</button>
           {% endif %}
         </div>
       </div>
@@ -149,30 +151,35 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="{% static 'js/googleMapsAPI.js' %}" ></script>
   <script src="{% static 'js/mostrarMapa.js' %}" ></script>
-  <script>
-    function agregarContacto(username) {
-        $.ajax({
-            url: `/perfil/${username}/agregar-contacto/`,
-            method: 'GET',  // O 'POST' según tu lógica
-            success: function(response) {
-                $('#botonAgregarContacto').text('solicitud Enviada').prop('disabled', true);
-            },
-            error: function(error) {
-                console.error('Hubo un error al agregar el contacto:', error);
-            }
-        });
-    }
-</script>
+  
+
 <script>
   function eliminarContacto(username) {
       $.ajax({
           url: `/perfil/${username}/eliminar-contacto/`,
           method: 'GET',  // O 'POST' según tu lógica
           success: function(response) {
-              $('#botoneliminarContacto').text('Psicólogo Eliminado').prop('disabled', true);
-          },
+            if (response.message) {
+              $('#botonEliminarContacto').text('Psicólogo Eliminado').prop('disabled', true);
+          }},
           error: function(error) {
               console.error('Hubo un error al eliminar el contacto:', error);
+          }
+      });
+  }
+</script>
+
+<script>
+  function enviarSolicitud(username) {
+      $.ajax({
+          url: `/perfil/${username}/enviar-solicitud/`,
+          method: 'GET',  // O 'POST' según tu lógica
+          success: function(response) {
+            if (response.message) {
+              $('#botonEnviarSolicitud').text('Solicitud Enviada').prop('disabled', true);
+          }},
+          error: function(error) {
+              console.error('Hubo un error al enviar la solicitud:', error);
           }
       });
   }

@@ -203,28 +203,52 @@ def enviar_solicitud(request, username):
     paciente_user = paciente.user.username
     asunto = "Amistad"
     mensaje = f"{paciente_user} te ha enviado una solicitud."
-    url = reverse('home')
+    url = reverse('ver_perfil', kwargs={'username': paciente})
     crear_notificacion(user,asunto,mensaje,url)
+
+    try:
+        psicologo = Psicologo.objects.get(user=user)
+     
+        if not psicologo.solicitudes:
+            psicologo.solicitudes = []
+        if paciente.id not in psicologo.solicitudes:
+            psicologo.solicitudes.append(paciente.id)
+        psicologo.save()
+
+        print(f"Solicitud envviada a {psicologo.id}: ")
+        print(f"Solicitudes de {psicologo.id}: {psicologo.solicitudes}")
+    except Psicologo.DoesNotExist:
+        # Si el psicólogo no existe, devolvemos un mensaje de error
+        return JsonResponse({"error": "El psicólogo no existe"})
+
     # Respuesta JSON para confirmar el éxito
     return JsonResponse({"message": "Solicitud enviada exitosamente"})
 
 def agregar_contacto(request, username):
     #La idea general es que obtenga al usuario actual (debe ser paciente) y al psicologo que es el username de la URL
     user = get_object_or_404(User, username=username)
-    paciente = get_object_or_404(Paciente, user=request.user)
+    psicologo = get_object_or_404(Psicologo, user=request.user)
     try:
-        psicologo = Psicologo.objects.get(user=user)
+        paciente = Paciente.objects.get(user=user)
      
         if not paciente.contactos:
             paciente.contactos = []
+        if not paciente.solicitudes:
+            paciente.solicitudes = []
         if psicologo.id not in paciente.contactos:
             paciente.contactos.append(psicologo.id)
+            if psicologo.id in paciente.solicitudes:
+                paciente.solicitudes.remove(psicologo.id) #Se elimina la solicitud
         paciente.save()
 
         if not psicologo.contactos:
             psicologo.contactos = []
+        if not psicologo.solicitudes:
+            psicologo.solicitudes = []
         if paciente.id not in psicologo.contactos:
             psicologo.contactos.append(paciente.id)
+            if paciente.id in psicologo.solicitudes:
+                psicologo.solicitudes.remove(paciente.id) #Se elimina la solicitud
         psicologo.save()
 
         print(f"Contactos paciente {paciente.id}: ")
@@ -258,11 +282,16 @@ def eliminar_contacto(request, username):
             print(paciente.contactos)
             print(f"Contactos psicologo: {psicologo.id} después de eliminar: ")
             print(psicologo.contactos)
+
+            # Respuesta JSON para confirmar el éxito
+            return JsonResponse({"message": "Contacto eliminado exitosamente"})
+        
         else:
             print("No hay contactos para eliminar")
+            # Si el psicólogo no existe, devolvemos un mensaje de error
+            return JsonResponse({"error": "No hay contactos para eliminar"})
 
-        # Respuesta JSON para confirmar el éxito
-        return JsonResponse({"message": "Contacto eliminado exitosamente"})
+        
 
     except Psicologo.DoesNotExist:
         # Si el psicólogo no existe, devolvemos un mensaje de error
@@ -271,7 +300,7 @@ def eliminar_contacto(request, username):
         # Si el paciente no existe, devolvemos un mensaje de error
         return JsonResponse({"error": "El paciente no existe"})
 
-def perfilPublico(request, username):
+def perfilPublico(request, username,):
     # Obtener el usuario basado en el username
     user = get_object_or_404(User, username=username)
     
@@ -307,8 +336,17 @@ def perfilPublico(request, username):
             usuario_agregado = 1
         else:
             usuario_agregado = 0
-        print(f"El usuario {paciente.id} tiene como contactos a {paciente.contactos}")
-        print(f"el usuario esta agregado: {usuario_agregado}")
+
+        #Verificar que los los usuarios tienen una solicitud pendiente
+        if not paciente.solicitudes:
+            solicitud_pendiente = 0
+        elif psicologo.id in paciente.solicitudes:
+            solicitud_pendiente = 1
+        else:
+            solicitud_pendiente = 0
+
+        print(f"solicitud pendiente: {solicitud_pendiente}")
+
         datos = {
         'nombre': psicologo.user.first_name,
         'apellidos' : psicologo.user.last_name,
@@ -336,6 +374,7 @@ def perfilPublico(request, username):
         'curriculum':curriculum, 
         'costo_consulta':consultorio.costo_consulta, 
         'usuario_agregado': usuario_agregado, 
+        #'solicitud_pendiente': solicitud_pendiente, 
     }
         return render(request, 'perfil_psicologo.html', {'usuario': datos})
     
@@ -358,7 +397,15 @@ def perfilPublico(request, username):
                 usuario_agregado = 1
             else:
                 usuario_agregado = 0
-            print(usuario_agregado)
+
+            #Verificar que los los usuarios tienen una solicitud pendiente
+            if not psicologo.solicitudes:
+                solicitud_pendiente = 0
+            elif paciente.id in psicologo.solicitudes:
+                solicitud_pendiente = 1
+            else:
+                solicitud_pendiente = 0
+            print(f"solicitud pendiente: {solicitud_pendiente}")
             datos = {
             'nombre': paciente.user.first_name,
             'apellidos' : paciente.user.last_name,
@@ -371,7 +418,8 @@ def perfilPublico(request, username):
             'user': paciente.user.username,
             "psicologo": 0,
             'descripcion' : paciente.descripcion,
-            'usuario_agregado': 1,
+            'usuario_agregado': usuario_agregado,
+            'solicitud_pendiente': solicitud_pendiente,
             #'facebook': psicologo.enlace_facebook,
             #'linkedin': psicologo.enlace_linkedin,
             #'instagram': psicologo.enlace_instagram,

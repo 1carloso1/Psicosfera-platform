@@ -39,6 +39,7 @@ class Psicologo(models.Model):
     enlace_linkedin = models.URLField(blank=True, null=True)
     diario = RichTextField(blank=True, null=True)
     contactos = models.JSONField(blank=True, null=True)
+    solicitudes = models.JSONField(blank=True, null=True)
     
     
 
