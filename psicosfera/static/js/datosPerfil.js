@@ -10,7 +10,8 @@ $(document).ready(function() {
         }
         // Mostrar detalles de los contactos
         var contactosHTML = '<div class="row justify-content-center">';
-        data.contactos.forEach(function(contacto) {
+        if (data.contactos) {
+          data.contactos.forEach(function(contacto) {
             contactosHTML += `
                 <div class="col-md-6 mb-4">
                     <a href="../perfil/${contacto.usuario}" class="card-link">
@@ -26,6 +27,9 @@ $(document).ready(function() {
                 </div>
             `;
         });
+        } else {
+          contactosHTML = '<p>Sin contactos</p>';  
+      }
         contactosHTML += '</div>';
 
         if (data.usuario == "registrado"){
@@ -48,33 +52,37 @@ $(document).ready(function() {
           $('#age').val(data.edad);
           $('#correo').text(data.correo);
           document.getElementById('correo2').value = data.correo;
-          console.log(data.user);
           $('#numero').text(data.telefono);
           $("#Phone").val(data.telefono);
           $('#descripcion').text(data.descripcion);
           $('#descripcion2').text(data.descripcion);
           $('#ubicacion').text(data.ubicacion);
           $('#contactos').html(contactosHTML);
+          
 
           if (data.psicologo == 1){
             // Mostrar detalles de los contactos
         var contactosHTML2 = '<div class="row justify-content-center">';
-        data.contactos.forEach(function(contacto) {
-            contactosHTML2 += `
-                <div class="col-md-6 mb-4">
-                    <a href="../perfil/${contacto.usuario}" class="card-link">
-                        <div class="card h-100">
-                            <div class="card-body d-flex flex-column justify-content-center">
-                                <h5 class="card-title text-center">${contacto.nombre} ${contacto.apellido}</h5>
-                                <p class="card-text text-center">Paciente</p>
-                                <p class="card-text text-center">${contacto.ubicacion}</p>
-                                <!-- Agrega más detalles según tus necesidades -->
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            `;
-        });
+        if (data.contactos) {
+          data.contactos.forEach(function(contacto) {
+              contactosHTML2 += `
+                  <div class="col-md-6 mb-4">
+                      <a href="../perfil/${contacto.usuario}" class="card-link">
+                          <div class="card h-100">
+                              <div class="card-body d-flex flex-column justify-content-center">
+                                  <h5 class="card-title text-center">${contacto.nombre} ${contacto.apellido}</h5>
+                                  <p class="card-text text-center">Paciente</p>
+                                  <p class="card-text text-center">${contacto.ubicacion}</p>
+                                  <!-- Agrega más detalles según tus necesidades -->
+                              </div>
+                          </div>
+                      </a>
+                  </div>
+              `;
+          });
+        } else {
+          contactosHTML2 = '<p>Sin contactos</p>';  
+      }
         contactosHTML2 += '</div>';
 
             $('#especialidad').text(data.especialidad);

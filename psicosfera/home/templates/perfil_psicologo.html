@@ -41,11 +41,12 @@
           <br>
           {% if usuario.usuario_agregado == 1 %}
           <button class="btn btn-primary">Contacto Agregado</button>
+          <br>
+          <button id="botonEliminarContacto" class="btn btn-primary" onclick="eliminarContacto('{{ usuario.user }}')">Eliminar Psicólogo</button>
 
           {% elif usuario.usuario_agregado == 0 %}
           <!-- <a class="btn btn-primary" href="{% url 'agregar_contacto' username=usuario.user %}">Agregar Psicólogo</a>-->
           <button id="botonAgregarContacto" class="btn btn-primary" onclick="agregarContacto('{{ usuario.user }}')">Agregar Psicólogo</button>
-
           {% endif %}
         </div>
       </div>
@@ -161,6 +162,20 @@
             }
         });
     }
+</script>
+<script>
+  function eliminarContacto(username) {
+      $.ajax({
+          url: `/perfil/${username}/eliminar-contacto/`,
+          method: 'GET',  // O 'POST' según tu lógica
+          success: function(response) {
+              $('#botoneliminarContacto').text('Psicólogo Eliminado').prop('disabled', true);
+          },
+          error: function(error) {
+              console.error('Hubo un error al eliminar el contacto:', error);
+          }
+      });
+  }
 </script>
 
   <script>

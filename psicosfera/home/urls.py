@@ -9,6 +9,7 @@ urlpatterns = [
     path('actualizacion_exitosa/', exito_actualizacion, name = 'actualizacion_exitosa'),
     path('perfil/<str:username>/', perfilPublico, name = 'ver_perfil'),
     path('perfil/<str:username>/agregar-contacto/', agregar_contacto, name='agregar_contacto'),
+    path('perfil/<str:username>/eliminar-contacto/', eliminar_contacto, name='eliminar_contacto'),
     path('obtener_citas_publico/<str:username>/', obtener_citas_publico, name='obtener_citas_publico'),
     path('datos/', datos, name = 'datos'),
     path('datos_default/', datos_default, name = 'datos_default'),

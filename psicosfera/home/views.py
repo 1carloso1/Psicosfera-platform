@@ -143,6 +143,8 @@ def crear_notificacion(user,asunto, mensaje, url):
         enviar_correo(asunto,user.email, mensaje)
     elif asunto == "Seguridad":
         enviar_correo(asunto,user.email, mensaje)
+    elif asunto == "Amistad":
+        enviar_correo(asunto,user.email, mensaje)
     else:
         pass
         
@@ -195,6 +197,17 @@ def perfil(request):
 def exito_actualizacion(request):
     return HttpResponseRedirect(reverse('perfil') + '?success=true')
 
+def enviar_solicitud(request, username):
+    user = get_object_or_404(User, username=username)
+    paciente = get_object_or_404(Paciente, user=request.user)
+    paciente_user = paciente.user.username
+    asunto = "Amistad"
+    mensaje = f"{paciente_user} te ha enviado una solicitud."
+    url = reverse('home')
+    crear_notificacion(user,asunto,mensaje,url)
+    # Respuesta JSON para confirmar el éxito
+    return JsonResponse({"message": "Solicitud enviada exitosamente"})
+
 def agregar_contacto(request, username):
     #La idea general es que obtenga al usuario actual (debe ser paciente) y al psicologo que es el username de la URL
     user = get_object_or_404(User, username=username)
@@ -214,9 +227,9 @@ def agregar_contacto(request, username):
             psicologo.contactos.append(paciente.id)
         psicologo.save()
 
-        print("paciente: ")
+        print(f"Contactos paciente {paciente.id}: ")
         print(paciente.contactos)
-        print("psicologo: ")
+        print(f"Contactos psicologo: {psicologo.id}: ")
         print(psicologo.contactos)
 
         # Respuesta JSON para confirmar el éxito
@@ -229,6 +242,35 @@ def agregar_contacto(request, username):
         # Si el paciente no existe, devolvemos un mensaje de error
         return JsonResponse({"error": "El paciente no existe"})
  
+def eliminar_contacto(request, username):
+    #La idea general es que obtenga al usuario actual (debe ser paciente) y al psicologo que es el username de la URL
+    user = get_object_or_404(User, username=username)
+    paciente = get_object_or_404(Paciente, user=request.user)
+    try:
+        psicologo = Psicologo.objects.get(user=user)
+
+        if paciente.contactos and psicologo.id in paciente.contactos and paciente.id in psicologo.contactos:
+            paciente.contactos.remove(psicologo.id)  #Se remueven ambos contactos
+            psicologo.contactos.remove(paciente.id)
+            paciente.save()
+            psicologo.save()
+            print(f"Contactos paciente {paciente.id} después de eliminar: ")
+            print(paciente.contactos)
+            print(f"Contactos psicologo: {psicologo.id} después de eliminar: ")
+            print(psicologo.contactos)
+        else:
+            print("No hay contactos para eliminar")
+
+        # Respuesta JSON para confirmar el éxito
+        return JsonResponse({"message": "Contacto eliminado exitosamente"})
+
+    except Psicologo.DoesNotExist:
+        # Si el psicólogo no existe, devolvemos un mensaje de error
+        return JsonResponse({"error": "El psicólogo no existe"})
+    except Paciente.DoesNotExist:
+        # Si el paciente no existe, devolvemos un mensaje de error
+        return JsonResponse({"error": "El paciente no existe"})
+
 def perfilPublico(request, username):
     # Obtener el usuario basado en el username
     user = get_object_or_404(User, username=username)
@@ -265,7 +307,8 @@ def perfilPublico(request, username):
             usuario_agregado = 1
         else:
             usuario_agregado = 0
-        print(usuario_agregado)
+        print(f"El usuario {paciente.id} tiene como contactos a {paciente.contactos}")
+        print(f"el usuario esta agregado: {usuario_agregado}")
         datos = {
         'nombre': psicologo.user.first_name,
         'apellidos' : psicologo.user.last_name,
