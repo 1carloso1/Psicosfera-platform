@@ -24,6 +24,10 @@
           <img src="data:image/jpeg;base64,{{ usuario.foto }}" alt="Profile" class="fotoPerfil">
           <br>
           <h2>{{usuario.nombre}} {{usuario.apellidos}}</h2>
+          {% if usuario.usuario_agregado == 1 %}
+          <h6 class="titulo_perfil" id="perfil">Contacto Agregado</h6>
+          {% endif %}
+          <br>
           <h6 class="titulo_perfil">Descripción</h6>
               <p class="small fst-italic">{{usuario.descripcion}}</p>
           <div class="social-links mt-2">

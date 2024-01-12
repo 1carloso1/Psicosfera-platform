@@ -45,10 +45,13 @@
           <br>
           {% if usuario.usuario_agregado == 1 %}
           <button id="botonEliminarContacto" class="btn btn-danger" onclick="eliminarContacto('{{ usuario.user }}')">Eliminar Psicólogo</button>
-          {% elif usuario.usuario_agregado == 0 %}
+          {% elif usuario.usuario_agregado == 0 and usuario.solicitud_pendiente == 0%}
           <!-- <a class="btn btn-primary" href="{% url 'agregar_contacto' username=usuario.user %}">Agregar Psicólogo</a>-->
-          
           <button id="botonEnviarSolicitud" class="btn btn-primary" onclick="enviarSolicitud('{{ usuario.user }}')">Enviar Solicitud</button>
+          {% endif %}
+
+          {% if usuario.solicitud_pendiente == 1 and usuario.usuario_agregado == 0 %}
+          <button class="btn btn-primary" disabled>Solicitud Enviada</button>
           {% endif %}
         </div>
       </div>

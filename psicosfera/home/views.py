@@ -362,9 +362,9 @@ def perfilPublico(request, username,):
             usuario_agregado = 0
 
         #Verificar que los los usuarios tienen una solicitud pendiente
-        if not paciente.solicitudes:
+        if not psicologo.solicitudes:
             solicitud_pendiente = 0
-        elif psicologo.id in paciente.solicitudes:
+        elif paciente.id in psicologo.solicitudes:
             solicitud_pendiente = 1
         else:
             solicitud_pendiente = 0
@@ -398,7 +398,7 @@ def perfilPublico(request, username,):
         'curriculum':curriculum, 
         'costo_consulta':consultorio.costo_consulta, 
         'usuario_agregado': usuario_agregado, 
-        #'solicitud_pendiente': solicitud_pendiente, 
+        'solicitud_pendiente': solicitud_pendiente, 
     }
         return render(request, 'perfil_psicologo.html', {'usuario': datos})
     
