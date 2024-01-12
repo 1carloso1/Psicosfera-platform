@@ -255,6 +255,11 @@ def agregar_contacto(request, username):
         print(paciente.contactos)
         print(f"Contactos psicologo: {psicologo.id}: ")
         print(psicologo.contactos)
+        psicologo_user = psicologo.user.username
+        asunto = "Amistad"
+        mensaje = f"{psicologo_user} ha aceptado tu solicitud."
+        url = reverse('ver_perfil', kwargs={'username': psicologo})
+        crear_notificacion(user,asunto,mensaje,url)
 
         # Respuesta JSON para confirmar el éxito
         return JsonResponse({"message": "Contacto agregado exitosamente"})
