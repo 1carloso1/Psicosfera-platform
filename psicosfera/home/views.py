@@ -269,9 +269,10 @@ def agregar_contacto(request, username):
 def eliminar_contacto(request, username):
     #La idea general es que obtenga al usuario actual (debe ser paciente) y al psicologo que es el username de la URL
     user = get_object_or_404(User, username=username)
-    paciente = get_object_or_404(Paciente, user=request.user)
+    
     try:
         psicologo = Psicologo.objects.get(user=user)
+        paciente = get_object_or_404(Paciente, user=request.user)
 
         if paciente.contactos and psicologo.id in paciente.contactos and paciente.id in psicologo.contactos:
             paciente.contactos.remove(psicologo.id)  #Se remueven ambos contactos
@@ -294,7 +295,30 @@ def eliminar_contacto(request, username):
         
 
     except Psicologo.DoesNotExist:
-        # Si el psicólogo no existe, devolvemos un mensaje de error
+        paciente = Paciente.objects.get(user=user)
+        psicologo = get_object_or_404(Psicologo, user=request.user)
+
+        if psicologo.contactos and paciente.id in psicologo.contactos and psicologo.id in paciente.contactos:
+            paciente.contactos.remove(psicologo.id)  #Se remueven ambos contactos
+            psicologo.contactos.remove(paciente.id)
+            paciente.save()
+            psicologo.save()
+            print(f"Contactos paciente {paciente.id} después de eliminar: ")
+            print(paciente.contactos)
+            print(f"Contactos psicologo: {psicologo.id} después de eliminar: ")
+            print(psicologo.contactos)
+
+            # Respuesta JSON para confirmar el éxito
+            return JsonResponse({"message": "Contacto eliminado exitosamente"})
+        
+        else:
+            print("No hay contactos para eliminar")
+            # Si el psicólogo no existe, devolvemos un mensaje de error
+            return JsonResponse({"error": "No hay contactos para eliminar"})
+
+
+
+
         return JsonResponse({"error": "El psicólogo no existe"})
     except Paciente.DoesNotExist:
         # Si el paciente no existe, devolvemos un mensaje de error

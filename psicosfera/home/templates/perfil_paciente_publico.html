@@ -33,6 +33,10 @@
             <a href="{{usuario.linkedin}}" id="linkedin"><i class="bi bi-linkedin"></i></a>
           </div>
           <br>
+          {% if usuario.usuario_agregado == 1 %}
+          <button id="botonEliminarContacto" class="btn btn-danger" onclick="eliminarContacto('{{ usuario.user }}')">Eliminar Paciente</button>
+          {% endif %}
+          <br>
           {% if usuario.solicitud_pendiente == 1 %}
           <!-- Nueva sección para aceptar o rechazar solicitud -->
           <div class="row mt-3">
@@ -89,6 +93,21 @@
 {% block scripts %}
   <link href="{% static 'lightbox/js/lightbox.js' %}" rel="stylesheet">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    function eliminarContacto(username) {
+        $.ajax({
+            url: `/perfil/${username}/eliminar-contacto/`,
+            method: 'GET',  // O 'POST' según tu lógica
+            success: function(response) {
+              if (response.message) {
+                $('#botonEliminarContacto').text('Paciente Eliminado').prop('disabled', true);
+            }},
+            error: function(error) {
+                console.error('Hubo un error al eliminar el contacto:', error);
+            }
+        });
+    }
+  </script>
   <script>
     function agregarContacto(username) {
         $.ajax({
