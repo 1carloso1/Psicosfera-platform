@@ -10,6 +10,7 @@ urlpatterns = [
     path('perfil/<str:username>/', perfilPublico, name = 'ver_perfil'),
     path('perfil/<str:username>/agregar-contacto/', agregar_contacto, name='agregar_contacto'),
     path('perfil/<str:username>/enviar-solicitud/', enviar_solicitud, name='enviar_solicitud'),
+    path('perfil/<str:username>/eliminar-solicitud/', eliminar_solicitud, name='eliminar_solicitud'),
     path('perfil/<str:username>/eliminar-contacto/', eliminar_contacto, name='eliminar_contacto'),
     path('obtener_citas_publico/<str:username>/', obtener_citas_publico, name='obtener_citas_publico'),
     path('datos/', datos, name = 'datos'),

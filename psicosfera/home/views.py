@@ -320,14 +320,45 @@ def eliminar_contacto(request, username):
             print("No hay contactos para eliminar")
             # Si el psicólogo no existe, devolvemos un mensaje de error
             return JsonResponse({"error": "No hay contactos para eliminar"})
-
-
-
-
+        
         return JsonResponse({"error": "El psicólogo no existe"})
     except Paciente.DoesNotExist:
         # Si el paciente no existe, devolvemos un mensaje de error
         return JsonResponse({"error": "El paciente no existe"})
+    
+def eliminar_solicitud(request, username):
+    #La idea general es que obtenga al usuario actual (debe ser paciente) y al psicologo que es el username de la URL
+    user = get_object_or_404(User, username=username)
+    psicologo = get_object_or_404(Psicologo, user=request.user)
+    try:
+        paciente = Paciente.objects.get(user=user)
+
+        if not psicologo.solicitudes:
+            psicologo.solicitudes = []
+        if paciente.id in psicologo.solicitudes:
+            psicologo.solicitudes.remove(paciente.id) #Se elimina la solicitud
+        psicologo.save()
+
+        print(f"Contactos paciente {paciente.id}: ")
+        print(paciente.contactos)
+        print(f"Contactos psicologo: {psicologo.id}: ")
+        print(psicologo.contactos)
+        psicologo_user = psicologo.user.username
+        asunto = "Amistad"
+        mensaje = f"{psicologo_user} ha rechazado tu solicitud."
+        url = reverse('ver_perfil', kwargs={'username': psicologo})
+        crear_notificacion(user,asunto,mensaje,url)
+
+        # Respuesta JSON para confirmar el éxito
+        return JsonResponse({"message": "Solicitud eliminada exitosamente"})
+
+    except Psicologo.DoesNotExist:
+        # Si el psicólogo no existe, devolvemos un mensaje de error
+        return JsonResponse({"error": "El psicólogo no existe"})
+    except Paciente.DoesNotExist:
+        # Si el paciente no existe, devolvemos un mensaje de error
+        return JsonResponse({"error": "El paciente no existe"})
+    
 
 def perfilPublico(request, username,):
     # Obtener el usuario basado en el username

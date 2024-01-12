@@ -47,7 +47,7 @@
             <div class="col-12">
                 <div class="justify-content-between align-items-center">
                     <button id="botonAgregarContacto" class="btn btn-primary" onclick="agregarContacto('{{ usuario.user }}')">Aceptar Solicitud</button>
-                    <button class="btn btn-danger" onclick="rechazarSolicitud()">Rechazar Solicitud</button>
+                    <button id="botonEliminarSolicitud" class="btn btn-danger" onclick="eliminarSolicitud('{{ usuario.user }}')">Rechazar Solicitud</button>
                 </div>
             </div>
           </div>  
@@ -125,5 +125,19 @@
             }
         });
     }
+</script>
+<script>
+  function eliminarSolicitud(username) {
+      $.ajax({
+          url: `/perfil/${username}/eliminar-solicitud/`,
+          method: 'GET',  // O 'POST' según tu lógica
+          success: function(response) {
+              $('#botonEliminarSolicitud').text('solicitud Rechazada').prop('disabled', true);
+          },
+          error: function(error) {
+              console.error('Hubo un error al eliminar la solicitud:', error);
+          }
+      });
+  }
 </script>
 {% endblock %}
