@@ -43,7 +43,6 @@
           <h4>Descargar detalles</h4>
           <div class="download-catalog">
             <a href="#" id="pdf"><i class="bi bi-filetype-pdf"></i><span>Generar PDF</span></a>
-            <a href="#"><i class="bi bi-file-earmark-word"></i><span>Catalog DOC</span></a>
           </div>
         </div><!-- End Services List -->
       </div> 
@@ -58,21 +57,21 @@
           <p class="direccion"></p>
           <!-- Agrega otros campos que desees mostrar -->
           <div class="container">
-
-                <div class="d-flex">
-                  <div>
-                    <h5>Notas Compartidas</h5>
-                  </div>
-                </div>
-                <div>
+            <div class="d-flex">
+              <div>
+                <h5>Notas Compartidas</h5>
+              </div>
+            </div>
+            <div>
+                <form method="post" enctype="multipart/form-data" id="form_compartidas"></form>
                   {% csrf_token %}
                   <textarea  class="form-control" id="compartidas" cols="30" rows="10" ></textarea>
+                </form>
                 </div>
               </div><!-- End testimonial item -->
               <br>
               <input type="submit" class="btn btn-primary" value="Guardar nota"></input>
           </div>
-        </form>
       </div>
     </div>
   </div>
@@ -96,7 +95,7 @@
     {% csrf_token %}
     <textarea name="editor1" class="form-control" id="editor1">{{ diario }}</textarea>
   </div>
-  <input onclick="obtenerContenido()" class="btn btn-primary" value="Guardar"></input>
+  <input onclick="guardarPersonal()" class="btn btn-primary" value="Guardar"></input>
 
 </section>
 {% endblock %}
@@ -108,7 +107,7 @@
   <script src="{% static 'ckeditor/lang/es.js' %}"></script>
 <script>
   CKEDITOR.replace( 'editor1' );
-  function obtenerContenido() {
+  function guardarPersonal() {
      var contenido = CKEDITOR.instances.editor1.getData();
      $.ajax({
       url: 'guardar_personales/',
@@ -315,7 +314,6 @@
         method: 'GET',
         dataType: 'json',
         success: function(data) {
-            // Rellena el textarea con el contenido del campo del modelo
             CKEDITOR.instances.editor1.setData(data.campo_texto);
         },
         error: function(error) {
