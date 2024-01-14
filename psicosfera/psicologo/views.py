@@ -5,7 +5,7 @@ from reportlab.lib.pagesizes import A4
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image
 from reportlab.lib.styles import getSampleStyleSheet
 from io import BytesIO
-from paciente.models import Paciente
+from paciente.models import Expediente, Paciente
 from django.http import  JsonResponse
 import base64
 from django.http import HttpResponse
@@ -280,6 +280,25 @@ def actualizar_consultorio(request):
 
 
 
+def guardar_notas(request):
+    if request.method == 'POST':
+        paciente_id = request.POST.get('id', '') 
+        contenido = request.POST.get('contenidoCompartidas', '')  
+        paciente = Paciente.objects.get(id=paciente_id)
+        try:
+            expediente = Expediente.objects.get(paciente=paciente)
+            expediente.notas_compartidas = contenido
+        except:
+            usuario = request.user
+            psicologo = usuario.psicologo
+            expediente = Expediente(paciente=paciente,psicologo=psicologo, notas_compartidas=contenido)
+        
+        expediente.save()
+    
+        
+        return JsonResponse({'mensaje': 'Expediente guardado con éxito'})
+    else:
+        return JsonResponse({'mensaje': 'Método no permitido'}, status=405)
 
 
 
@@ -302,7 +321,6 @@ def paciente_pdf(request,paciente_id):
         nombre = str(paciente.user.last_name) + " " + str(paciente.user.first_name)
         correo_electronico = paciente.user.email
         telefono = paciente.telefono
-        direccion = paciente.direccion
         edad = paciente.edad
         sexo = paciente.sexo
         foto = None
@@ -347,7 +365,6 @@ def paciente_pdf(request,paciente_id):
         datos = [
             "Correo Electrónico: {}".format(correo_electronico),
             "Teléfono: {}".format(telefono),
-            "Dirección: {}".format(direccion),
             "Edad: {}".format(edad),
             "Sexo: {}".format(sexo),
         ]

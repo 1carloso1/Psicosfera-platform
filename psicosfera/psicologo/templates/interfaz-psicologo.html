@@ -58,21 +58,21 @@
           <!-- Agrega otros campos que desees mostrar -->
           <div class="container">
             <div class="d-flex">
+              <form method="post" enctype="multipart/form-data" id="form_compartidas">
               <div>
                 <h5>Notas Compartidas</h5>
               </div>
             </div>
             <div>
-                <form method="post" enctype="multipart/form-data" id="form_compartidas"></form>
                   {% csrf_token %}
                   <textarea  class="form-control" id="compartidas" cols="30" rows="10" ></textarea>
-                </form>
-                </div>
-              </div><!-- End testimonial item -->
-              <br>
-              <input type="submit" class="btn btn-primary" value="Guardar nota"></input>
+            </div>
+          </div><!-- End testimonial item -->
+                <br>
+                <input type="submit" class="btn btn-primary" value="Guardar nota"></input>
+              </form>
           </div>
-      </div>
+          </div>
     </div>
   </div>
 </section>
@@ -127,7 +127,6 @@
     });
   }
 </script>
-
   <script src="{% static 'js/index.global.min.js' %}" ></script>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -206,6 +205,8 @@
 </script>
 
   <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+  <script src="{% static 'js/jquery-3.6.0.js' %}"></script>
+  <script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
   <script>
     function changeClass(boton) { 
       var botones = document.querySelectorAll('.btn');
@@ -290,7 +291,7 @@
                   }else{
                     $('#compartidas').val("");
                   }
-
+                  $('#compartidas').data('paciente_id', paciente_id);
 
                   if (response.foto) {
                     $('#foto').attr('src', 'data:image/jpeg;base64,' + response.foto);
@@ -328,7 +329,8 @@
     $('#form_compartidas').submit(function(event) {
       event.preventDefault();
       var contenidoCompartidas = $('#compartidas').val(); // Obtener el contenido del textarea
-      var paciente_id = $('.btn').data('id');
+      var paciente_id = $('#compartidas').data('paciente_id');
+      console.log(paciente_id); 
       $.ajax({
         type: 'POST',
         url: 'guardar_notas/',

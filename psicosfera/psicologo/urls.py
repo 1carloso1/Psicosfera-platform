@@ -13,7 +13,9 @@ urlpatterns = [
     path('guardar_personales/', guardar_diario, name='guardar_personales'),
     path('actualizar_psicologo/', actualizar_psicologo, name='actualizar_psicologo'),
     path('guardar_cita/', guardar_cita, name='guardar_cita'),
+    path('guardar_notas/', guardar_notas, name='guardar_notas'),
     path('obtener_citas/', obtener_citas, name='obtener_citas'),
     path('eliminar_cita/', eliminar_cita, name='eliminar_cita'),
     path('paciente_pdf/<int:paciente_id>', paciente_pdf, name='paciente_pdf'),
+    
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
