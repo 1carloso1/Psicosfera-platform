@@ -7,9 +7,6 @@
 {% endblock %}
 
 {% block btns %}
-<li><a href="{% url 'ver_perfil' username=usuario.user %}#perfil">Detalles del Especialista</a></li>
-<li><a href="{% url 'ver_perfil' username=usuario.user %}#consultorio">Consultorio</a></li>
-<li><a href="{% url 'ver_perfil' username=usuario.user %}#agenda">Agenda de Citas</a></li>
 
 {% endblock %}
 
@@ -27,6 +24,10 @@
           <img src="data:image/jpeg;base64,{{ usuario.foto }}" alt="Profile" class="fotoPerfil">
           <br>
           <h2>{{usuario.nombre}} {{usuario.apellidos}}</h2>
+          {% if usuario.usuario_agregado == 1 %}
+          <h6 class="titulo_perfil" id="perfil">Contacto Agregado</h6>
+          {% endif %}
+          <br>
           <h6 class="titulo_perfil">Descripción</h6>
               <p class="small fst-italic">{{usuario.descripcion}}</p>
           <div class="social-links mt-2">
@@ -35,6 +36,22 @@
             <a href="{{usuario.instagram}}" id="instagram"><i class="bi bi-instagram"></i></a>
             <a href="{{usuario.linkedin}}" id="linkedin"><i class="bi bi-linkedin"></i></a>
           </div>
+          <br>
+          {% if usuario.usuario_agregado == 1 %}
+          <button id="botonEliminarContacto" class="btn btn-danger" onclick="eliminarContacto('{{ usuario.user }}')">Eliminar Paciente</button>
+          {% endif %}
+          <br>
+          {% if usuario.solicitud_pendiente == 1 %}
+          <!-- Nueva sección para aceptar o rechazar solicitud -->
+          <div class="row mt-3">
+            <div class="col-12">
+                <div class="justify-content-between align-items-center">
+                    <button id="botonAgregarContacto" class="btn btn-primary" onclick="agregarContacto('{{ usuario.user }}')">Aceptar Solicitud</button>
+                    <button id="botonEliminarSolicitud" class="btn btn-danger" onclick="eliminarSolicitud('{{ usuario.user }}')">Rechazar Solicitud</button>
+                </div>
+            </div>
+          </div>  
+          {% endif %}
         </div>
       </div>
     </div>
@@ -68,7 +85,7 @@
                 <p class="col-lg-9 col-md-8">{{usuario.ubicacion}}</p>
               </div>
             </div>
-          </div><!-- End Bordered Tabs -->
+          </div><!-- End Bordered Tabs -->  
         </div>
       </div>
     </div>
@@ -80,4 +97,47 @@
 {% block scripts %}
   <link href="{% static 'lightbox/js/lightbox.js' %}" rel="stylesheet">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    function eliminarContacto(username) {
+        $.ajax({
+            url: `/perfil/${username}/eliminar-contacto/`,
+            method: 'GET',  // O 'POST' según tu lógica
+            success: function(response) {
+              if (response.message) {
+                $('#botonEliminarContacto').text('Paciente Eliminado').prop('disabled', true);
+            }},
+            error: function(error) {
+                console.error('Hubo un error al eliminar el contacto:', error);
+            }
+        });
+    }
+  </script>
+  <script>
+    function agregarContacto(username) {
+        $.ajax({
+            url: `/perfil/${username}/agregar-contacto/`,
+            method: 'GET',  // O 'POST' según tu lógica
+            success: function(response) {
+                $('#botonAgregarContacto').text('solicitud Aceptada').prop('disabled', true);
+            },
+            error: function(error) {
+                console.error('Hubo un error al agregar el contacto:', error);
+            }
+        });
+    }
+</script>
+<script>
+  function eliminarSolicitud(username) {
+      $.ajax({
+          url: `/perfil/${username}/eliminar-solicitud/`,
+          method: 'GET',  // O 'POST' según tu lógica
+          success: function(response) {
+              $('#botonEliminarSolicitud').text('solicitud Rechazada').prop('disabled', true);
+          },
+          error: function(error) {
+              console.error('Hubo un error al eliminar la solicitud:', error);
+          }
+      });
+  }
+</script>
 {% endblock %}

@@ -304,7 +304,6 @@
         $('.notification-link').on('click', function (e) {
             e.preventDefault();
             var notificationID = $(this).attr('data');
-            console.log(notificationID);
             var notificationUrl = $(this).attr('href');
             // Hacer una solicitud al servidor para marcar la notificación como leída
             $.ajax({

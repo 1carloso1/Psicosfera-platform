@@ -143,6 +143,8 @@ def crear_notificacion(user,asunto, mensaje, url):
         enviar_correo(asunto,user.email, mensaje)
     elif asunto == "Seguridad":
         enviar_correo(asunto,user.email, mensaje)
+    elif asunto == "Amistad":
+        enviar_correo(asunto,user.email, mensaje)
     else:
         pass
         
@@ -195,29 +197,69 @@ def perfil(request):
 def exito_actualizacion(request):
     return HttpResponseRedirect(reverse('perfil') + '?success=true')
 
-def agregar_contacto(request, username):
-    #La idea general es que obtenga al usuario actual (debe ser paciente) y al psicologo que es el username de la URL
+def enviar_solicitud(request, username):
     user = get_object_or_404(User, username=username)
     paciente = get_object_or_404(Paciente, user=request.user)
+    paciente_user = paciente.user.username
+    asunto = "Amistad"
+    mensaje = f"{paciente_user} te ha enviado una solicitud."
+    url = reverse('ver_perfil', kwargs={'username': paciente})
+    crear_notificacion(user,asunto,mensaje,url)
+
     try:
         psicologo = Psicologo.objects.get(user=user)
      
+        if not psicologo.solicitudes:
+            psicologo.solicitudes = []
+        if paciente.id not in psicologo.solicitudes:
+            psicologo.solicitudes.append(paciente.id)
+        psicologo.save()
+
+        print(f"Solicitud envviada a {psicologo.id}: ")
+        print(f"Solicitudes de {psicologo.id}: {psicologo.solicitudes}")
+    except Psicologo.DoesNotExist:
+        # Si el psicólogo no existe, devolvemos un mensaje de error
+        return JsonResponse({"error": "El psicólogo no existe"})
+
+    # Respuesta JSON para confirmar el éxito
+    return JsonResponse({"message": "Solicitud enviada exitosamente"})
+
+def agregar_contacto(request, username):
+    #La idea general es que obtenga al usuario actual (debe ser paciente) y al psicologo que es el username de la URL
+    user = get_object_or_404(User, username=username)
+    psicologo = get_object_or_404(Psicologo, user=request.user)
+    try:
+        paciente = Paciente.objects.get(user=user)
+     
         if not paciente.contactos:
             paciente.contactos = []
+        if not paciente.solicitudes:
+            paciente.solicitudes = []
         if psicologo.id not in paciente.contactos:
             paciente.contactos.append(psicologo.id)
+            if psicologo.id in paciente.solicitudes:
+                paciente.solicitudes.remove(psicologo.id) #Se elimina la solicitud
         paciente.save()
 
         if not psicologo.contactos:
             psicologo.contactos = []
+        if not psicologo.solicitudes:
+            psicologo.solicitudes = []
         if paciente.id not in psicologo.contactos:
             psicologo.contactos.append(paciente.id)
+            if paciente.id in psicologo.solicitudes:
+                psicologo.solicitudes.remove(paciente.id) #Se elimina la solicitud
         psicologo.save()
 
-        print("paciente: ")
+        print(f"Contactos paciente {paciente.id}: ")
         print(paciente.contactos)
-        print("psicologo: ")
+        print(f"Contactos psicologo: {psicologo.id}: ")
         print(psicologo.contactos)
+        psicologo_user = psicologo.user.username
+        asunto = "Amistad"
+        mensaje = f"{psicologo_user} ha aceptado tu solicitud."
+        url = reverse('ver_perfil', kwargs={'username': psicologo})
+        crear_notificacion(user,asunto,mensaje,url)
 
         # Respuesta JSON para confirmar el éxito
         return JsonResponse({"message": "Contacto agregado exitosamente"})
@@ -229,15 +271,104 @@ def agregar_contacto(request, username):
         # Si el paciente no existe, devolvemos un mensaje de error
         return JsonResponse({"error": "El paciente no existe"})
  
-def perfilPublico(request, username):
+def eliminar_contacto(request, username):
+    #La idea general es que obtenga al usuario actual (debe ser paciente) y al psicologo que es el username de la URL
+    user = get_object_or_404(User, username=username)
+    
+    try:
+        psicologo = Psicologo.objects.get(user=user)
+        paciente = get_object_or_404(Paciente, user=request.user)
+
+        if paciente.contactos and psicologo.id in paciente.contactos and paciente.id in psicologo.contactos:
+            paciente.contactos.remove(psicologo.id)  #Se remueven ambos contactos
+            psicologo.contactos.remove(paciente.id)
+            paciente.save()
+            psicologo.save()
+            print(f"Contactos paciente {paciente.id} después de eliminar: ")
+            print(paciente.contactos)
+            print(f"Contactos psicologo: {psicologo.id} después de eliminar: ")
+            print(psicologo.contactos)
+
+            # Respuesta JSON para confirmar el éxito
+            return JsonResponse({"message": "Contacto eliminado exitosamente"})
+        
+        else:
+            print("No hay contactos para eliminar")
+            # Si el psicólogo no existe, devolvemos un mensaje de error
+            return JsonResponse({"error": "No hay contactos para eliminar"})
+
+        
+
+    except Psicologo.DoesNotExist:
+        paciente = Paciente.objects.get(user=user)
+        psicologo = get_object_or_404(Psicologo, user=request.user)
+
+        if psicologo.contactos and paciente.id in psicologo.contactos and psicologo.id in paciente.contactos:
+            paciente.contactos.remove(psicologo.id)  #Se remueven ambos contactos
+            psicologo.contactos.remove(paciente.id)
+            paciente.save()
+            psicologo.save()
+            print(f"Contactos paciente {paciente.id} después de eliminar: ")
+            print(paciente.contactos)
+            print(f"Contactos psicologo: {psicologo.id} después de eliminar: ")
+            print(psicologo.contactos)
+
+            # Respuesta JSON para confirmar el éxito
+            return JsonResponse({"message": "Contacto eliminado exitosamente"})
+        
+        else:
+            print("No hay contactos para eliminar")
+            # Si el psicólogo no existe, devolvemos un mensaje de error
+            return JsonResponse({"error": "No hay contactos para eliminar"})
+        
+        return JsonResponse({"error": "El psicólogo no existe"})
+    except Paciente.DoesNotExist:
+        # Si el paciente no existe, devolvemos un mensaje de error
+        return JsonResponse({"error": "El paciente no existe"})
+    
+def eliminar_solicitud(request, username):
+    #La idea general es que obtenga al usuario actual (debe ser paciente) y al psicologo que es el username de la URL
+    user = get_object_or_404(User, username=username)
+    psicologo = get_object_or_404(Psicologo, user=request.user)
+    try:
+        paciente = Paciente.objects.get(user=user)
+
+        if not psicologo.solicitudes:
+            psicologo.solicitudes = []
+        if paciente.id in psicologo.solicitudes:
+            psicologo.solicitudes.remove(paciente.id) #Se elimina la solicitud
+        psicologo.save()
+
+        print(f"Contactos paciente {paciente.id}: ")
+        print(paciente.contactos)
+        print(f"Contactos psicologo: {psicologo.id}: ")
+        print(psicologo.contactos)
+        psicologo_user = psicologo.user.username
+        asunto = "Amistad"
+        mensaje = f"{psicologo_user} ha rechazado tu solicitud."
+        url = reverse('ver_perfil', kwargs={'username': psicologo})
+        crear_notificacion(user,asunto,mensaje,url)
+
+        # Respuesta JSON para confirmar el éxito
+        return JsonResponse({"message": "Solicitud eliminada exitosamente"})
+
+    except Psicologo.DoesNotExist:
+        # Si el psicólogo no existe, devolvemos un mensaje de error
+        return JsonResponse({"error": "El psicólogo no existe"})
+    except Paciente.DoesNotExist:
+        # Si el paciente no existe, devolvemos un mensaje de error
+        return JsonResponse({"error": "El paciente no existe"})
+    
+
+def perfilPublico(request, username,):
     # Obtener el usuario basado en el username
     user = get_object_or_404(User, username=username)
-    paciente = get_object_or_404(Paciente, user=request.user)
     
     # Intentar obtener el perfil de psicólogo para el usuario
     try:
         psicologo = Psicologo.objects.get(user=user)
         consultorio = Consultorio.objects.get(psicologo=psicologo)
+        paciente = get_object_or_404(Paciente, user=request.user)
         especialidad = psicologo.especialidad
         if psicologo.foto_perfil:
             with psicologo.foto_perfil.open('rb') as image_file:
@@ -265,7 +396,17 @@ def perfilPublico(request, username):
             usuario_agregado = 1
         else:
             usuario_agregado = 0
-        print(usuario_agregado)
+
+        #Verificar que los los usuarios tienen una solicitud pendiente
+        if not psicologo.solicitudes:
+            solicitud_pendiente = 0
+        elif paciente.id in psicologo.solicitudes:
+            solicitud_pendiente = 1
+        else:
+            solicitud_pendiente = 0
+
+        print(f"solicitud pendiente: {solicitud_pendiente}")
+
         datos = {
         'nombre': psicologo.user.first_name,
         'apellidos' : psicologo.user.last_name,
@@ -293,12 +434,15 @@ def perfilPublico(request, username):
         'curriculum':curriculum, 
         'costo_consulta':consultorio.costo_consulta, 
         'usuario_agregado': usuario_agregado, 
+        'solicitud_pendiente': solicitud_pendiente, 
     }
         return render(request, 'perfil_psicologo.html', {'usuario': datos})
     
     except Psicologo.DoesNotExist:
         try:
             paciente = Paciente.objects.get(user=user)
+            psicologo = get_object_or_404(Psicologo, user=request.user)
+
             if paciente.foto_perfil:
                 with paciente.foto_perfil.open('rb') as image_file:
                     image_data = image_file.read()
@@ -306,6 +450,22 @@ def perfilPublico(request, username):
             else:
                 foto = None
 
+            #Verificar que los usuarios (Paciente y Psicologo tienen una relacion)
+            if not paciente.contactos:
+                usuario_agregado = 0
+            elif psicologo.id in paciente.contactos:
+                usuario_agregado = 1
+            else:
+                usuario_agregado = 0
+
+            #Verificar que los los usuarios tienen una solicitud pendiente
+            if not psicologo.solicitudes:
+                solicitud_pendiente = 0
+            elif paciente.id in psicologo.solicitudes:
+                solicitud_pendiente = 1
+            else:
+                solicitud_pendiente = 0
+            print(f"solicitud pendiente: {solicitud_pendiente}")
             datos = {
             'nombre': paciente.user.first_name,
             'apellidos' : paciente.user.last_name,
@@ -318,7 +478,8 @@ def perfilPublico(request, username):
             'user': paciente.user.username,
             "psicologo": 0,
             'descripcion' : paciente.descripcion,
-            'usuario_agregado': 0,
+            'usuario_agregado': usuario_agregado,
+            'solicitud_pendiente': solicitud_pendiente,
             #'facebook': psicologo.enlace_facebook,
             #'linkedin': psicologo.enlace_linkedin,
             #'instagram': psicologo.enlace_instagram,
