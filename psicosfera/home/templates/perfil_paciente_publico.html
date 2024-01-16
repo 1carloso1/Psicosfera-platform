@@ -119,6 +119,7 @@
             method: 'GET',  // O 'POST' según tu lógica
             success: function(response) {
                 $('#botonAgregarContacto').text('solicitud Aceptada').prop('disabled', true);
+                $('#botonEliminarSolicitud').text('Rechazar Solicitud').prop('disabled', true);
             },
             error: function(error) {
                 console.error('Hubo un error al agregar el contacto:', error);
