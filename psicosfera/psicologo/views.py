@@ -29,96 +29,88 @@ def interfaz_psicologo(request):
             'diario': psicologo.diario
         }
     
-    return render(request, 'interfaz-psicologo.html',data)
+    return render(request, 'mi_consultorio.html',data)
 
 @login_required
 def guardar_cita(request):
     if request.method == 'POST':
         psicologo = Psicologo.objects.get(user=request.user)
-        pacientes = Paciente.objects.all()
+        try:
+            paciente = User.objects.get(username=request.POST.get('paciente'))
+            paciente = Paciente.objects.get(user=paciente)
+        except:
+            return JsonResponse({'mensaje': 'Nombre de usuario del paciente invalido'})
+            
+        titulo = request.POST.get('titulo')
+        fecha_inicio = request.POST.get('start').replace('-06:00',"")
+        fecha_fin = request.POST.get('end').replace('-06:00',"")
+        cita = Evento(paciente=paciente,psicologo=psicologo,titulo=titulo, fecha_inicio=fecha_inicio, fecha_fin=fecha_fin)
+        cita.save()
         
-        for paciente in pacientes:
-            if paciente.user.username == request.POST.get('paciente'):
-                titulo = request.POST.get('titulo')
-                fecha_inicio = request.POST.get('start').replace('-06:00',"")
-                fecha_fin = request.POST.get('end').replace('-06:00',"")
-                cita = Evento(paciente=paciente,psicologo=psicologo,titulo=titulo, fecha_inicio=fecha_inicio, fecha_fin=fecha_fin)
-                cita.save()
-                return JsonResponse({'mensaje': 'Cita guardado con éxito'})
-        return JsonResponse({'mensaje': 'Nombre de usuario del paciente invalido'})
+        return JsonResponse({'mensaje': 'Cita guardado con éxito'})
     else:
         return JsonResponse({'mensaje': 'Método no permitido'}, status=405)
 
 @login_required
 def eliminar_cita(request):
-    try:
-        cita = Evento.objects.get(id=request.POST.get('id'))
-        cita.delete()
-        return JsonResponse({'mensaje': 'Cita eliminada con éxito'})
-    except Evento.DoesNotExist:
-        return JsonResponse({'mensaje': 'La cita no existe'}, status=404)
+    if request.method == 'POST':
+        try:
+            cita = Evento.objects.get(id=request.POST.get('id'))
+            cita.delete()
+            return JsonResponse({'mensaje': 'Cita eliminada con éxito'})
+        except Evento.DoesNotExist:
+            return JsonResponse({'mensaje': 'La cita no existe'}, status=404)
+    else:
+        return JsonResponse({'mensaje': 'Método no permitido'}, status=405)
+    
  
 @login_required
 def obtener_citas(request):
     psicologo = Psicologo.objects.get(user=request.user)
-    citas = Evento.objects.all()
+    citas = Evento.objects.filter(psicologo=psicologo)
     
     if citas:
-        try:
-            citasPsicologo = []
-            for cita in citas:
-                if cita.psicologo == psicologo:
-                     
-                    citasPsicologo.append({
-                        'id': cita.id,
-                        'id_paciente': cita.paciente.id,
-                        'nombre_paciente': cita.paciente.user.first_name + ' ' + cita.paciente.user.last_name,
-                        'title': cita.titulo,
-                        'start': cita.fecha_inicio.strftime('%Y-%m-%dT%H:%M:%S'),  # Formato ISO8601  
-                        'end': cita.fecha_fin.strftime('%Y-%m-%dT%H:%M:%S'), # Formato ISO8601 
-                        'fecha_inicio': cita.fecha_inicio.strftime('%Y-%m-%d'),   
-                        'fecha_fin': cita.fecha_fin.strftime('%Y-%m-%d'),# Formato ISO8601
-                        'hora_fin': cita.fecha_fin.strftime('%H:%M:%S'),  # Formato ISO8601
-                        'hora_inicio': cita.fecha_inicio.strftime('%H:%M:%S'),  # Formato ISO8601
-                    })
-            return JsonResponse(citasPsicologo, safe=False)
-        except Evento.DoesNotExist:
-            return JsonResponse({'mensaje': 'Las citas no existe'}, status=404)
+        citasPsicologo = []
+        for cita in citas:                     
+            citasPsicologo.append({
+                'id': cita.id,
+                'id_paciente': cita.paciente.id,
+                'nombre_paciente': cita.paciente.user.first_name + ' ' + cita.paciente.user.last_name,
+                'title': cita.titulo,
+                'start': cita.fecha_inicio.strftime('%Y-%m-%dT%H:%M:%S'),  # Formato ISO8601  
+                'end': cita.fecha_fin.strftime('%Y-%m-%dT%H:%M:%S'), # Formato ISO8601 
+                'fecha_inicio': cita.fecha_inicio.strftime('%Y-%m-%d'),   
+                'fecha_fin': cita.fecha_fin.strftime('%Y-%m-%d'),# Formato ISO8601
+                'hora_fin': cita.fecha_fin.strftime('%H:%M:%S'),  # Formato ISO8601
+                'hora_inicio': cita.fecha_inicio.strftime('%H:%M:%S'),  # Formato ISO8601
+            })
+        return JsonResponse(citasPsicologo, safe=False)
+
     return JsonResponse({'mensaje': 'Las citas no existe'}, status=404)
 
 @login_required
 def obtener_citas_publico(request, username):
      # Obtener el usuario basado en el username
     user = get_object_or_404(User, username=username)
-    
-    
     # Intentar obtener el perfil de psicólogo para el usuario
     try:
         psicologo = Psicologo.objects.get(user=user)
         citas = Evento.objects.filter(psicologo=psicologo)
-        
-        if citas:
-            try:
-                citasPsicologo = []
-                for cita in citas:
-                    if cita.psicologo == psicologo:
-                        
-                        citasPsicologo.append({
-                            'id': cita.id,
-                            'id_paciente': cita.paciente.id,
-                            'nombre_paciente': cita.paciente.user.first_name + ' ' + cita.paciente.user.last_name,
-                            'title': cita.titulo,
-                            'start': cita.fecha_inicio.strftime('%Y-%m-%dT%H:%M:%S'),  # Formato ISO8601  
-                            'end': cita.fecha_fin.strftime('%Y-%m-%dT%H:%M:%S'), # Formato ISO8601 
-                            'fecha_inicio': cita.fecha_inicio.strftime('%Y-%m-%d'),   
-                            'fecha_fin': cita.fecha_fin.strftime('%Y-%m-%d'),# Formato ISO8601
-                            'hora_fin': cita.fecha_fin.strftime('%H:%M:%S'),  # Formato ISO8601
-                            'hora_inicio': cita.fecha_inicio.strftime('%H:%M:%S'),  # Formato ISO8601
-                        })
-                return JsonResponse(citasPsicologo, safe=False)
-            except Evento.DoesNotExist:
-                return JsonResponse({'mensaje': 'Las citas no existe'}, status=404)
-        return JsonResponse({'mensaje': 'Las citas no existe'}, status=404)
+        citasPsicologo = []
+        for cita in citas:
+            citasPsicologo.append({
+                'id': cita.id,
+                'id_paciente': cita.paciente.id,
+                'nombre_paciente': cita.paciente.user.first_name + ' ' + cita.paciente.user.last_name,
+                'title': cita.titulo,
+                'start': cita.fecha_inicio.strftime('%Y-%m-%dT%H:%M:%S'),  # Formato ISO8601  
+                'end': cita.fecha_fin.strftime('%Y-%m-%dT%H:%M:%S'), # Formato ISO8601 
+                'fecha_inicio': cita.fecha_inicio.strftime('%Y-%m-%d'),   
+                'fecha_fin': cita.fecha_fin.strftime('%Y-%m-%d'),# Formato ISO8601
+                'hora_fin': cita.fecha_fin.strftime('%H:%M:%S'),  # Formato ISO8601
+                'hora_inicio': cita.fecha_inicio.strftime('%H:%M:%S'),  # Formato ISO8601
+            })
+            return JsonResponse(citasPsicologo, safe=False)
     except Psicologo.DoesNotExist:
         pass  # El usuario no es un psicólogo, continuar
     
@@ -157,7 +149,6 @@ def datos_psicologo(request):
 
     try:
         consultorio = Consultorio.objects.get(psicologo=psicologo_id)
-  
         direccion = consultorio.direccion
         apertura = consultorio.horario_apertura
         cierre = consultorio.horario_cierre
@@ -196,6 +187,7 @@ def datos_psicologo(request):
     }
     
     return JsonResponse(datos, safe=False)
+
    
 def obtener_detalles_de_contactos(contactos):
     detalles_contactos = []
@@ -229,8 +221,8 @@ def diario_psicologo(request):
 @login_required
 def actualizar_psicologo(request):
     from home.views import crear_notificacion
-    psicologo = Psicologo.objects.get(user=request.user)
     if request.method == 'POST':
+        psicologo = Psicologo.objects.get(user=request.user)
         form = FormPsicologo(request.POST, request.FILES, instance=psicologo)
         if form.is_valid():
             try:
@@ -251,13 +243,13 @@ def actualizar_psicologo(request):
                 # Guardar los cambios en el modelo Psicologo
                 psicologo.save()
                 perfil_url = reverse('perfil')
-                message = "Cambios realizados correctamente."
+                message = "Cambios realizados correctamente en tus datos personales."
                 crear_notificacion(psicologo.user,"Cambios", message, perfil_url)
             except Exception as e:
                 messages.error(request, "Error al actualizar tus datos")
                 return redirect('perfil')
             # Redirigir a la página de perfil con un indicador de éxito en la URL
-            return redirect('actualizacion_exitosa')
+            return redirect('perfil')
         else:
             return HttpResponseRedirect(reverse('perfil') + '?error=true')
     else:
@@ -265,13 +257,17 @@ def actualizar_psicologo(request):
 
 @login_required
 def actualizar_consultorio(request):
-    psicologo = Psicologo.objects.get(user=request.user)
-    consultorio = Consultorio.objects.get(psicologo=psicologo)
+    from home.views import crear_notificacion
     if request.method == 'POST':
+        psicologo = Psicologo.objects.get(user=request.user)
+        consultorio = Consultorio.objects.get(psicologo=psicologo)
         form = FormConsultorio(request.POST, instance=consultorio)
         if form.is_valid():
             consultorio = form.save()
-            return HttpResponseRedirect(reverse('perfil') + '?success=true')
+            perfil_url = reverse('perfil')
+            message = "Cambios realizados correctamente en el consultorio."
+            crear_notificacion(psicologo.user,"Cambios", message, perfil_url)
+            return redirect('perfil')
         else:
             messages.error(request, "Datos invalidos.")
             return redirect('perfil')
@@ -312,10 +308,31 @@ def guardar_diario(request):
         return JsonResponse({'mensaje': 'Expediente guardado con éxito'})
     else:
         return JsonResponse({'mensaje': 'Método no permitido'}, status=405)
-    
+
+def obtener_pacientes(request):
+    # Obtener una instancia de MiModelo (puedes ajustar esto según tus necesidades)
+    psicologo = Psicologo.objects.get(user=request.user)
+    contactos = psicologo.contactos
+    detalles_contactos = []
+    contactos = {'3':3}
+    if contactos:
+        for contacto_id in contactos:
+            try:
+                paciente = Paciente.objects.get(id=contacto_id)
+                detalles_contactos.append({
+                    'usuario': paciente.user.username,
+                })
+            except Psicologo.DoesNotExist:
+                pass
+    print(detalles_contactos)
+    data = {'pacientes': detalles_contactos}
+
+    return JsonResponse(data, safe=False)
+
+
+
 
 def paciente_pdf(request,paciente_id):
-
     if paciente_id:
         paciente = Paciente.objects.get(id=paciente_id)
         nombre = str(paciente.user.last_name) + " " + str(paciente.user.first_name)

@@ -15,6 +15,7 @@ urlpatterns = [
     path('guardar_cita/', guardar_cita, name='guardar_cita'),
     path('guardar_notas/', guardar_notas, name='guardar_notas'),
     path('obtener_citas/', obtener_citas, name='obtener_citas'),
+    path('obtener_pacientes/', obtener_pacientes, name='obtener_pacientes'),
     path('eliminar_cita/', eliminar_cita, name='eliminar_cita'),
     path('paciente_pdf/<int:paciente_id>', paciente_pdf, name='paciente_pdf'),
     

@@ -18,6 +18,51 @@
 {% endblock links %}
 
 {% block contenido %}
+    <!-- Modales -->
+      <div class="modal fade" id="listaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"> 
+        <div class="modal-dialog" role="document"> 
+        <div class="modal-content"> 
+        <div class="modal-header"> 
+        <h5 class="modal-title" id="modalTitulo"> Crear Cita</h5> 
+        </button> 
+        </div> 
+        <div class="modal-body"> 
+        <div class="form-group"> 
+        <label for="tituloCita">Título de la Cita:</label> 
+        <input type="text" class="form-control" id="tituloCita"> 
+        </div> 
+        <div class="form-group"> 
+        <label for="dropdownPacientes">Seleccionar Paciente:</label> 
+        <select class="form-control" id="dropdownPacientes"></select> 
+        </div> 
+        </div> 
+        <div class="modal-footer"> 
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button> 
+        <button type="button" class="btn btn-primary" id="guardarCita">Guardar Cita</button> 
+        </div> 
+        </div> 
+        </div> 
+        </div>
+        
+        <div class="modal fade" id="eliminarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"> 
+          <div class="modal-dialog" role="document"> 
+          <div class="modal-content"> 
+          <div class="modal-header"> 
+          <h5 class="modal-title" id="modalTitulo"> Eliminar Cita</h5> 
+          </button> 
+          </div> 
+          <div class="modal-body"> 
+            <h6>¿Estas seguro de eliminar esta cita?</h6>
+          </div> 
+          <div class="modal-footer"> 
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button> 
+          <button type="button" class="btn btn-primary" id="guardarCita">Eliminar</button> 
+          </div> 
+          </div> 
+          </div> 
+          </div>
+    <!-- Final Modales -->
+    
 <section id="directorio" class="service-details">
   <div class="container">
     <div class="container section-title" data-aos="fade-up">
@@ -140,60 +185,68 @@
             navLinks: true,
             selectable: true,
             select: function(arg) {
-                var title = prompt('Titulo de la cita:');
-                if (title) {
-                  var paciente = prompt('Usuario del paciente:');
-                  if (paciente) {
-                    var csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-                    $.ajax({
-                      url: 'guardar_cita/',
-                      type: 'POST',
-                      headers: {
-                        'X-CSRFToken': csrfToken  
-                      },
-                      data: {
-                          titulo: title, 
-                          start: arg.startStr,
-                          end: arg.endStr,
-                          paciente: paciente
-                      },
-                      success: function(response) {
-                        alert(response.mensaje);
-                        calendar.refetchEvents(); 
-                        obtenerCitas();
-                      },
-                      error: function(xhr, status, error) {
-                          console.error('Error al guardar el evento:', error);
-                      }
-                    });
-                  }
+              mostrarModalCrear()
+                      .then(function(result) {
+                          // Se ejecuta cuando se llenan los campos y se guarda la cita
+                          var title= result.title;
+                          var paciente = result.paciente;
+                          var csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+                          $.ajax({
+                            url: 'guardar_cita/',
+                            type: 'POST',
+                            headers: {
+                              'X-CSRFToken': csrfToken  
+                            },
+                            data: {
+                                titulo: title, 
+                                start: arg.startStr,
+                                end: arg.endStr,
+                                paciente: paciente
+                            },
+                            success: function(response) {
+                              alert(response.mensaje);
+                              calendar.refetchEvents(); 
+                              obtenerCitas();
+                            },
+                            error: function(xhr, status, error) {
+                                console.error('Error al guardar el evento:', error);
+                            }
+                          });
+      
+                          calendar.unselect();
+                        })
+                      .catch(function(error) {
+                          // Se ejecuta si hay un error o se cierra el modal sin llenar los campos
+                          console.error(error);
+                      });
 
-                }
-                calendar.unselect();
             },
             eventClick: function(arg) {
-                if (confirm('¿Estás seguro de que deseas eliminar este evento?')) {
-                  var csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-                    $.ajax({
-                        url: 'eliminar_cita/',
-                        type: 'POST',
-                        headers: {
-                          'X-CSRFToken': csrfToken  
-                        },
-                        data: {
-                            id: arg.event.id
-                        },
-                        success: function(response) {
-                            alert(response.mensaje);
-                            arg.event.remove();
-                            $('#datos-paciente').attr('id', 'hidden');
-                            obtenerCitas();
-                        },
-                        error: function(xhr, status, error) {
-                            console.error('Error al eliminar el evento:', error);
-                        }
-                    });
-                }
+              mostrarModalEliminar().then(function(result) {
+                  if (result) {
+                      // Aquí dentro puedes realizar la lógica después de hacer clic en el botón "Guardar"
+                      var csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+                      $.ajax({
+                          url: 'eliminar_cita/',
+                          type: 'POST',
+                          headers: {
+                              'X-CSRFToken': csrfToken  
+                          },
+                          data: {
+                              id: arg.event.id
+                          },
+                          success: function(response) {
+                              alert(response.mensaje);
+                              arg.event.remove();
+                              $('#datos-paciente').attr('id', 'hidden');
+                              obtenerCitas();
+                          },
+                          error: function(xhr, status, error) {
+                              console.error('Error al eliminar el evento:', error);
+                          }
+                      });
+                  }
+              });
             },
             editable: true,
             dayMaxEvents: true,
@@ -203,10 +256,94 @@
         calendar.render();
     });
 </script>
+<script>
+  function mostrarModalCrear() {
+    return new Promise(function(resolve, reject) {
+        var modal = $('#listaModal');
+        modal.modal('show');
+
+        // Agrega un evento al botón de guardar dentro del modal
+        $('#listaModal .btn-primary').on('click', function() {
+            // Obtiene los valores del título y del paciente
+            var title = $('#tituloCita').val();
+            var paciente = $('#dropdownPacientes').val();
+
+            // Verifica si ambos campos están llenos
+            if (title && paciente) {
+                // Resuelve la promesa con los valores
+                resolve({ title: title, paciente: paciente });
+
+                // Cierra el modal
+                modal.modal('hide');
+            } else {
+                // Rechaza la promesa si no se llenaron ambos campos
+                alert("Por favor, llene todos los campos.");
+            }
+        });
+        $('#listaModal .btn-secondary').on('click', function() {
+          modal.modal('hide');
+        });
+
+    });
+}
+</script>
+
+<script>
+function mostrarModalEliminar() {
+    return new Promise(function(resolve, reject) {
+        var modal = $('#eliminarModal');
+        modal.modal('show');
+
+        // Agrega un evento al botón de guardar dentro del modal
+        $('#eliminarModal .btn-primary').on('click', function() {
+            modal.modal('hide');
+            resolve(true);
+        });
+
+        $('#eliminarModal .btn-secondary').on('click', function() {
+            modal.modal('hide');
+            resolve(false);
+        });
+    });
+}
+</script>
+
+
+<script>
+  function obtenerPacientes() {
+    $.ajax({
+      url: 'obtener_pacientes/',
+      method: 'GET',
+      dataType: 'json',
+      success: function(data) {
+          // Obtén el elemento select
+          var dropdown = $('#dropdownPacientes');
+
+          // Limpia el dropdown actual
+          dropdown.empty();
+          if (data.pacientes && data.pacientes.length > 0) {
+            dropdown.append('<option value="" selected>Seleccionar Paciente</option>');
+            // Itera sobre cada paciente en los datos
+            for (var i = 0; i < data.pacientes.length; i++) {
+                var paciente = data.pacientes[i];
+                dropdown.append('<option value="' + paciente.usuario + '">' + paciente.usuario + '</option>');
+            }
+          }else{
+            dropdown.append('<option value="" selected>Aun no tienes pacientes</option>');
+            }
+      },
+      error: function(error) {
+          console.error('Error al obtener el contenido:', error);
+      }
+    });
+  }
+</script>
+
 
   <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
   <script src="{% static 'js/jquery-3.6.0.js' %}"></script>
   <script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
+  <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
   <script>
     function changeClass(boton) { 
       var botones = document.querySelectorAll('.btn');
@@ -246,6 +383,7 @@
     try {
       obtenerCitas()
       obtenerDiario()
+      obtenerPacientes()
     } catch (error) {
       console.log('Error:', error);
     }
@@ -267,7 +405,6 @@
                 },
                 dataType: 'json',
                 success: function(response) {
-                  var foto = response.foto;              
                   var nombre = response.nombre ;
                   var edad = response.edad;
                   var sexo = response.sexo;
@@ -311,17 +448,17 @@
 <script>
   function obtenerDiario() {
     $.ajax({
-        url: 'diario_psicologo/',
-        method: 'GET',
-        dataType: 'json',
-        success: function(data) {
-            CKEDITOR.instances.editor1.setData(data.campo_texto);
-        },
-        error: function(error) {
-            console.error('Error al obtener el contenido:', error);
-        }
+      url: 'diario_psicologo/',
+      method: 'GET',
+      dataType: 'json',
+      success: function(data) {
+          CKEDITOR.instances.editor1.setData(data.campo_texto);
+      },
+      error: function(error) {
+          console.error('Error al obtener el contenido:', error);
+      }
     });
-}
+  }
 </script>
 
 <script>
