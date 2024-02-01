@@ -327,8 +327,25 @@ body {
   color: var(--color-default);
   background-color: var(--color-background);
   font-family: var(--font-default);
+  
 }
 
+body {
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  background-color: #333; /* Color de fondo del encabezado */
+  color: white; /* Color del texto del encabezado */
+  padding: 10px; /* Espaciado interno del encabezado */
+  height: 60px; /* Altura del encabezado */
+}
+
+main {
+  margin-top: 60px; /* Margen superior para el cuerpo, igual a la altura del encabezado */
+  padding: 20px; /* Espaciado interno del cuerpo */
+}
 
 a {
   color: var(--color-primary);
@@ -472,7 +489,7 @@ section {
 
 .header .logo img {
   width:280px;
-  height: 200px;
+  height: 75px;
   margin-right: 6px;
 }
 
