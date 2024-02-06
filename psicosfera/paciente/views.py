@@ -17,6 +17,10 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from psicologo.views import codigoANombre
+from django.contrib.auth.models import User
+from django.shortcuts import get_object_or_404
+
+
 
 def datos_paciente(request):
     try:
@@ -52,9 +56,6 @@ def datos_paciente(request):
 
     except:
         print("No hay expediente.")
-
-    
-
     data ={
             'usuario':usuario,
             "foto": foto,
@@ -90,6 +91,7 @@ def obtener_detalles_de_contactos(contactos):
                 # Manejar si el usuario no existe
                 pass
     return detalles_contactos
+
 
 @login_required
 def actualizar_paciente(request):

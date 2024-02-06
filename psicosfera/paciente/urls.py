@@ -9,4 +9,5 @@ urlpatterns = [
     path('autocompletar-ubicaciones/', autocompletar_ubicaciones, name = 'autocompletar-ubicaciones'),
     path('filtrar_psicologos/', psicologos_por_especialidad_nombre, name = 'filtrar_psicologos'), 
     path('calcular-edad/', calcular_edad, name='calcular_edad'),
+
 ]

@@ -13,6 +13,7 @@ urlpatterns = [
     path('perfil/<str:username>/eliminar-solicitud/', eliminar_solicitud, name='eliminar_solicitud'),
     path('perfil/<str:username>/eliminar-contacto/', eliminar_contacto, name='eliminar_contacto'),
     path('obtener_citas_publico/<str:username>/', obtener_citas_publico, name='obtener_citas_publico'),
+    path('agendar_cita/<str:username>/', agendar_cita, name='agendar_cita'),
     path('datos/', datos, name = 'datos'),
     path('datos_default/', datos_default, name = 'datos_default'),
     path('actualizar_psicologo/', actualizar_psicologo, name = 'actualizar_psicologo'),

@@ -1,6 +1,6 @@
 from psicologo.especialidades import ESPECIALIDADES_CHOICES_2
 from .models import Consultorio, Psicologo
-from evento.models import Evento
+from evento.models import Evento, SolicitudAgenda
 from reportlab.lib.pagesizes import A4
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image
 from reportlab.lib.styles import getSampleStyleSheet
@@ -49,8 +49,8 @@ def guardar_cita(request):
         
         return JsonResponse({'mensaje': 'Cita guardado con éxito'})
     else:
-        return JsonResponse({'mensaje': 'Método no permitido'}, status=405)
-
+        return JsonResponse({'mensaje': 'Método no permitido'}, status=405)  
+    
 @login_required
 def eliminar_cita(request):
     if request.method == 'POST':
@@ -68,6 +68,30 @@ def eliminar_cita(request):
 def obtener_citas(request):
     psicologo = Psicologo.objects.get(user=request.user)
     citas = Evento.objects.filter(psicologo=psicologo)
+    
+    if citas:
+        citasPsicologo = []
+        for cita in citas:                     
+            citasPsicologo.append({
+                'id': cita.id,
+                'id_paciente': cita.paciente.id,
+                'nombre_paciente': cita.paciente.user.first_name + ' ' + cita.paciente.user.last_name,
+                'title': cita.titulo,
+                'start': cita.fecha_inicio.strftime('%Y-%m-%dT%H:%M:%S'),  # Formato ISO8601  
+                'end': cita.fecha_fin.strftime('%Y-%m-%dT%H:%M:%S'), # Formato ISO8601 
+                'fecha_inicio': cita.fecha_inicio.strftime('%Y-%m-%d'),   
+                'fecha_fin': cita.fecha_fin.strftime('%Y-%m-%d'),# Formato ISO8601
+                'hora_fin': cita.fecha_fin.strftime('%H:%M:%S'),  # Formato ISO8601
+                'hora_inicio': cita.fecha_inicio.strftime('%H:%M:%S'),  # Formato ISO8601
+            })
+        return JsonResponse(citasPsicologo, safe=False)
+
+    return JsonResponse({'mensaje': 'Las citas no existe'}, status=404)
+
+@login_required
+def obtener_solicitud_citas(request):
+    psicologo = Psicologo.objects.get(user=request.user)
+    citas = SolicitudAgenda.objects.filter(psicologo=psicologo)
     
     if citas:
         citasPsicologo = []
@@ -110,9 +134,10 @@ def obtener_citas_publico(request, username):
                 'hora_fin': cita.fecha_fin.strftime('%H:%M:%S'),  # Formato ISO8601
                 'hora_inicio': cita.fecha_inicio.strftime('%H:%M:%S'),  # Formato ISO8601
             })
-            return JsonResponse(citasPsicologo, safe=False)
+
+        return JsonResponse(citasPsicologo, safe=False)
     except Psicologo.DoesNotExist:
-        pass  # El usuario no es un psicólogo, continuar
+        return JsonResponse({'mensaje': 'Las citas no existe'}, status=404)  # El usuario no es un psicólogo, continuar
     
 
 @login_required

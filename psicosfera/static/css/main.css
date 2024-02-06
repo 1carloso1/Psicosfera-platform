@@ -3316,6 +3316,37 @@ section {
 }
 
 /*--------------------------------------------------------------
+# Carrusel Agenda
+--------------------------------------------------------------*/
+
+.calendar-container {
+  width: 1150px; /* Ajusta el ancho según tus preferencias */
+  height: 900px; /* Ajusta el alto según tus preferencias */
+  overflow: hidden;
+  position: relative;
+  margin: auto; /* Para centrar el contenedor horizontalmente */
+  display: flex; /* Para centrar el contenedor verticalmente */
+  justify-content: center; /* Para centrar el contenedor verticalmente */
+  align-items: center; /* Para centrar el contenedor verticalmente */
+}
+
+.calendar {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.calendar.active {
+  opacity: 1;
+}
+
+
+
+/*--------------------------------------------------------------
 # Lista de citas
 --------------------------------------------------------------*/
 .services-list {

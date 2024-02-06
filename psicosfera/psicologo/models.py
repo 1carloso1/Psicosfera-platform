@@ -40,6 +40,7 @@ class Psicologo(models.Model):
     diario = RichTextField(blank=True, null=True)
     contactos = models.JSONField(blank=True, null=True)
     solicitudes = models.JSONField(blank=True, null=True)
+    solicitudesCita = models.JSONField(blank=True, null=True)
     
     
 

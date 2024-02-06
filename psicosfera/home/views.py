@@ -10,7 +10,7 @@ from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.models import User
 from psicologo.models import Consultorio, Psicologo
 from paciente.models import Paciente
-from evento.models import Notification
+from evento.models import Notification, Evento, SolicitudAgenda
 import base64
 from psicologo.forms import FormPsicologo, FormConsultorio
 from paciente.forms import FormPaciente
@@ -23,6 +23,7 @@ from django.urls import reverse
 from django.contrib.auth.tokens import default_token_generator
 from django.http import HttpResponse
 from psicosfera.settings import MEDIA_ROOT
+from datetime import datetime
         
 class Home(TemplateView):
     def get_template_names(self):
@@ -145,8 +146,59 @@ def crear_notificacion(user,asunto, mensaje, url):
         enviar_correo(asunto,user.email, mensaje)
     elif asunto == "Amistad":
         enviar_correo(asunto,user.email, mensaje)
+    elif asunto == "Agendar Cita":
+        enviar_correo(asunto,user.email, mensaje)
     else:
         pass
+
+@login_required
+def aceptar_solicitud_cita(request):
+    if request.method == 'POST':
+        try:
+            solicitud = SolicitudAgenda.objects.get(id=request.POST.get('id'))
+            paciente = solicitud.paciente
+            psicologo = solicitud.psicologo
+            titulo = solicitud.titulo
+            fecha_inicio = solicitud.fecha_inicio
+            fecha_fin = solicitud.fecha_fin
+            motivo = solicitud.motivo
+            solicitud.delete()
+
+             # Crear un nuevo evento con la información de la solicitud
+            cita = Evento(paciente=paciente, psicologo=psicologo, titulo=titulo, fecha_inicio=fecha_inicio, fecha_fin=fecha_fin, motivo=motivo)
+            cita.save()
+
+            asunto = "Agendar Cita"
+            mensaje = f"{psicologo} ha aceptado tu cita para el día {fecha_inicio}"
+            url = reverse('ver_perfil', kwargs={'username': psicologo})
+            crear_notificacion(paciente.user,asunto,mensaje,url)
+            
+            return JsonResponse({'mensaje': 'Cita guardada con éxito'})
+        except Evento.DoesNotExist:
+            return JsonResponse({'mensaje': 'La cita no existe'}, status=404)
+    else:
+        return JsonResponse({'mensaje': 'Método no permitido'}, status=405)
+    
+def eliminar_solicitud_cita(request):
+    if request.method == 'POST':
+        try:
+            cita = SolicitudAgenda.objects.get(id=request.POST.get('id'))
+            paciente = cita.paciente
+            psicologo = cita.psicologo
+            fecha_inicio = cita.fecha_inicio
+
+            cita.delete()
+
+            asunto = "Agendar Cita"
+            mensaje = f"{psicologo} ha rechazado tu cita para el día {fecha_inicio}"
+            url = reverse('ver_perfil', kwargs={'username': psicologo})
+            crear_notificacion(paciente.user,asunto,mensaje,url)
+
+            return JsonResponse({'mensaje': 'Cita eliminada con éxito'})
+        except Evento.DoesNotExist:
+            return JsonResponse({'mensaje': 'La cita no existe'}, status=404)
+    else:
+        return JsonResponse({'mensaje': 'Método no permitido'}, status=405)
         
     
 def marcar_notificacion_leida(request):
@@ -221,6 +273,52 @@ def enviar_solicitud(request, username):
         # Si el psicólogo no existe, devolvemos un mensaje de error
         return JsonResponse({"error": "El psicólogo no existe"})
 
+    # Respuesta JSON para confirmar el éxito
+    return JsonResponse({"message": "Solicitud enviada exitosamente"})
+
+@login_required
+def agendar_cita(request, username):
+    # Obtener el usuario basado en el username
+    user = get_object_or_404(User, username=username)
+    
+    # Intentar obtener el perfil de psicólogo para el usuario
+    if request.method == 'POST':
+        try:
+            psicologo = Psicologo.objects.get(user=user)
+            try:
+                paciente = Paciente.objects.get(user=request.user)
+            except Paciente.DoesNotExist:
+                return JsonResponse({'mensaje': 'Paciente no encontrado.'}, status=404)
+            
+            titulo = request.POST.get('titulo')
+            motivo = request.POST.get('motivo')
+            fecha_inicio = request.POST.get('start').replace('-06:00', "")
+            fecha_fin = request.POST.get('end').replace('-06:00', "")
+
+            cita = SolicitudAgenda(paciente=paciente, psicologo=psicologo, titulo=titulo, fecha_inicio=fecha_inicio, fecha_fin=fecha_fin, motivo=motivo)
+            cita.save()
+            print("------CITA-----")
+            print(cita)
+            print("---------------")
+            notificacion_cita(paciente, psicologo)
+
+            print(cita)
+            # Agrega un retorno específico para el éxito en el método POST
+            return JsonResponse({'mensaje': 'Cita agendada correctamente'})
+        except Psicologo.DoesNotExist:
+            return JsonResponse({'mensaje': 'El psicologo no existe'}, status=404)  # El usuario no es un psicólogo, continuar
+    else:
+        return JsonResponse({'mensaje': 'Método no permitido'}, status=405)  
+
+def notificacion_cita(paciente, psicologo):
+    _psicologo = psicologo
+    _paciente = paciente
+    paciente_user = _paciente.user.username
+    asunto = "Agendar Cita"
+    mensaje = f"{paciente_user} te ha solicitado agendar una cita."
+    url = reverse('interfaz')
+    crear_notificacion(_psicologo.user,asunto,mensaje,url)
+    print("Se creo la notificacion")
     # Respuesta JSON para confirmar el éxito
     return JsonResponse({"message": "Solicitud enviada exitosamente"})
 
@@ -434,7 +532,8 @@ def perfilPublico(request, username,):
         'curriculum':curriculum, 
         'costo_consulta':consultorio.costo_consulta, 
         'usuario_agregado': usuario_agregado, 
-        'solicitud_pendiente': solicitud_pendiente, 
+        'solicitud_pendiente': solicitud_pendiente,
+        'paciente': paciente,
     }
         return render(request, 'perfil_psicologo.html', {'usuario': datos})
     

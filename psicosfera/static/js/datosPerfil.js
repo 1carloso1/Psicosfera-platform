@@ -51,7 +51,7 @@ $(document).ready(function() {
           $('#edad').text(data.edad);
           $('#age').val(data.edad);
           $('#correo').text(data.correo);
-          document.getElementById('correo2').value = data.correo;
+          //document.getElementById('correo2').value = data.correo;
           $('#numero').text(data.telefono);
           $("#Phone").val(data.telefono);
           $('#descripcion').text(data.descripcion);
@@ -63,6 +63,9 @@ $(document).ready(function() {
           if (data.psicologo == 1){
             // Mostrar detalles de los contactos
         var contactosHTML2 = '<div class="row justify-content-center">';
+        // Crear opciones para el select
+        var dropdownOptions = '';
+        
         if (data.contactos) {
           data.contactos.forEach(function(contacto) {
               contactosHTML2 += `
@@ -79,6 +82,8 @@ $(document).ready(function() {
                       </a>
                   </div>
               `;
+
+              dropdownOptions += `<option value="${contacto.usuario}">${contacto.nombre} ${contacto.apellido}</option>`;
           });
         } else {
           contactosHTML2 = '<p>Sin contactos</p>';  
@@ -103,6 +108,9 @@ $(document).ready(function() {
             $('#twitter').attr('href', data.twitter);
             $("#Twitter").val(data.twitter);
             $('#contactosPsico').html(contactosHTML2);
+            console.log('Opciones del select:', dropdownOptions);
+            $('#dropdownPacientes').html(dropdownOptions);
+           
 
 
 
@@ -123,3 +131,4 @@ $(document).ready(function() {
     }
   });
 });
+

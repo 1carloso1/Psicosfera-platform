@@ -21,51 +21,71 @@
     <!-- Modales -->
       <div class="modal fade" id="listaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"> 
         <div class="modal-dialog" role="document"> 
-        <div class="modal-content"> 
-        <div class="modal-header"> 
-        <h5 class="modal-title" id="modalTitulo"> Crear Cita</h5> 
-        </button> 
-        </div> 
-        <div class="modal-body"> 
-        <div class="form-group"> 
-        <label for="tituloCita">Título de la Cita:</label> 
-        <input type="text" class="form-control" id="tituloCita"> 
-        </div> 
-        <div class="form-group"> 
-        <label for="dropdownPacientes">Seleccionar Paciente:</label> 
-        <select class="form-control" id="dropdownPacientes"></select> 
-        </div> 
-        </div> 
-        <div class="modal-footer"> 
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button> 
-        <button type="button" class="btn btn-primary" id="guardarCita">Guardar Cita</button> 
-        </div> 
-        </div> 
-        </div> 
+          <div class="modal-content"> 
+            <div class="modal-header"> 
+              <h5 class="modal-title" id="modalTitulo"> Crear Cita</h5> 
+                </button> 
+              </div> 
+              <div class="modal-body"> 
+                <div class="form-group"> 
+                <label for="tituloCita">Título de la Cita:</label> 
+                <input type="text" class="form-control" id="tituloCita"> 
+                </div> 
+                <div class="form-group"> 
+                <label >Seleccionar Paciente:</label> 
+                <select class="form-control" id="dropdownPacientes"></select>  
+                </div> 
+                </div> 
+                <div class="modal-footer"> 
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button> 
+                <button type="button" class="btn btn-primary" id="guardarCita">Guardar Cita</button> 
+              </div> 
+            </div> 
+          </div> 
         </div>
         
         <div class="modal fade" id="eliminarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"> 
           <div class="modal-dialog" role="document"> 
-          <div class="modal-content"> 
-          <div class="modal-header"> 
-          <h5 class="modal-title" id="modalTitulo"> Eliminar Cita</h5> 
-          </button> 
+            <div class="modal-content"> 
+              <div class="modal-header"> 
+              <h5 class="modal-title" id="modalTitulo"> Eliminar Cita</h5> 
+              </button> 
+              </div> 
+              <div class="modal-body"> 
+                <h6>¿Estas seguro de eliminar esta cita?</h6>
+              </div> 
+              <div class="modal-footer"> 
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button> 
+              <button type="button" class="btn btn-primary" id="eliminarCita">Eliminar</button> 
+              </div> 
+            </div> 
           </div> 
-          <div class="modal-body"> 
-            <h6>¿Estas seguro de eliminar esta cita?</h6>
+        </div>
+
+        <div class="modal fade" id="solicitudCitaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"> 
+          <div class="modal-dialog" role="document"> 
+            <div class="modal-content"> 
+              <div class="modal-header"> 
+              <h5 class="modal-title" id="modalTitulo">Solicitud de Cita</h5> 
+              </button> 
+              </div> 
+              <div class="modal-body"> 
+                <h6>Motivo:</h6>
+              </div> 
+              <div class="modal-footer"> 
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button> 
+              <button type="button" class="btn btn-danger" id="eliminarSolicitudCita">Eliminar</button> 
+              <button type="button" class="btn btn-primary" id="guardarSolicitudCita">Aceptar</button> 
+              </div> 
+            </div> 
           </div> 
-          <div class="modal-footer"> 
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button> 
-          <button type="button" class="btn btn-primary" id="guardarCita">Eliminar</button> 
-          </div> 
-          </div> 
-          </div> 
-          </div>
+        </div>
     <!-- Final Modales -->
     
 <section id="directorio" class="service-details">
   <div class="container">
     <div class="container section-title" data-aos="fade-up">
+      <br>
       <h2>Directorio de Pacientes</h2>
     </div><!-- End Section Title -->
     <div class="row gy-5">
@@ -125,11 +145,21 @@
 <section id="agenda" class="service-details">
   <div class="container">  
     <div class="container section-title" data-aos="fade-up">
-      <h2>Calendario de citas</h2>
+      <h2>Agenda</h2>
     </div><!-- End Section Title -->
-    <div id='calendar'>{% csrf_token %}</div>
+    
+    <select id="calendarSelector">
+      <option value="calendar">Calendario 1</option>
+      <option value="calendar1">Calendario 2</option>
+    </select>
+    <br>
+    <div class="calendar-container" id="calendar-container">
+      <div class="calendar active" id="calendar">{% csrf_token %}</div>
+      <div class="calendar" id="calendar1">{% csrf_token %}</div>
+    </div>
   </div>
 </section>
+
 
 <section id="diario">
   
@@ -147,9 +177,29 @@
 
 
 {% block scripts %}
-
+  <script src="{% static 'js/datosPerfil.js' %}"></script>
   <script src="{% static 'ckeditor/ckeditor.js' %}"></script>
   <script src="{% static 'ckeditor/lang/es.js' %}"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const calendarContainer = document.getElementById('calendar-container');
+      const calendarSelector = document.getElementById('calendarSelector');
+    
+      calendarSelector.addEventListener('change', function() {
+        const selectedCalendarId = calendarSelector.value;
+        const selectedCalendar = document.getElementById(selectedCalendarId);
+    
+        // Oculta todos los calendarios
+        const allCalendars = document.querySelectorAll('.calendar');
+        allCalendars.forEach(calendar => {
+          calendar.classList.remove('active');
+        });
+    
+        // Muestra el calendario seleccionado
+        selectedCalendar.classList.add('active');
+      });
+    });
+  </script>
 <script>
   CKEDITOR.replace( 'editor1' );
   function guardarPersonal() {
@@ -257,6 +307,74 @@
     });
 </script>
 <script>
+  document.addEventListener('DOMContentLoaded', function() {
+      var calendar1El = document.getElementById('calendar1');
+      var calendar1 = new FullCalendar.Calendar(calendar1El, {
+          headerToolbar: {
+              left: 'prev,next today',
+              center: 'title',
+              right: 'dayGridMonth,timeGridWeek,timeGridDay'
+          },
+          navLinks: true,
+          selectable: true,
+          eventClick: function(arg) {
+            mostrarModalAceptarCita().then(function(result) {
+                if (result.aceptar) {
+                    // Aquí dentro puedes realizar la lógica después de hacer clic en el botón "Guardar"
+                    var csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+                    $.ajax({
+                        url: 'aceptar_solicitud_cita/',
+                        type: 'POST',
+                        headers: {
+                            'X-CSRFToken': csrfToken  
+                        },
+                        data: {
+                            id: arg.event.id
+                        },
+                        success: function(response) {
+                            alert(response.mensaje);
+                            arg.event.remove();
+                            $('#datos-paciente').attr('id', 'hidden');
+                            obtenerCitas();
+                        },
+                        error: function(xhr, status, error) {
+                            console.error('Error al eliminar el evento:', error);
+                        }
+                    });
+                } else if (result.eliminar){
+                  // Aquí dentro puedes realizar la lógica después de hacer clic en el botón "Guardar"
+                  var csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+                  $.ajax({
+                      url: 'eliminar_solicitud_cita/',
+                      type: 'POST',
+                      headers: {
+                          'X-CSRFToken': csrfToken  
+                      },
+                      data: {
+                          id: arg.event.id
+                      },
+                      success: function(response) {
+                          alert(response.mensaje);
+                          arg.event.remove();
+                          $('#datos-paciente').attr('id', 'hidden');
+                          obtenerCitas();
+                      },
+                      error: function(xhr, status, error) {
+                          console.error('Error al eliminar el evento:', error);
+                      }
+                  });
+                }
+            });
+          },
+          editable: true,
+          dayMaxEvents: true,
+          events: "obtener_solicitud_citas/" 
+      });
+
+      calendar1.render();
+  });
+</script>
+<script>
   function mostrarModalCrear() {
     return new Promise(function(resolve, reject) {
         var modal = $('#listaModal');
@@ -287,6 +405,33 @@
     });
 }
 </script>
+
+<script>
+  function mostrarModalAceptarCita() {
+    return new Promise(function(resolve, reject) {
+      var modal = $('#solicitudCitaModal');
+      modal.modal('show');
+
+      // Agrega un evento al botón de guardar dentro del modal
+      $('#solicitudCitaModal .btn-primary').on('click', function() {
+          modal.modal('hide');
+          resolve({ aceptar: true });
+      });
+
+       // Agrega un evento al botón de eliminar dentro del modal
+       $('#solicitudCitaModal #eliminarSolicitudCita').on('click', function() {
+        modal.modal('hide');
+        resolve({ eliminar: true });
+    });
+
+      $('#solicitudCitaModal .btn-secondary').on('click', function() {
+          modal.modal('hide');
+          resolve(false);
+      });
+  });
+}
+</script>
+
 
 <script>
 function mostrarModalEliminar() {

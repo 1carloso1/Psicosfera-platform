@@ -2,6 +2,7 @@ from django.db import models
 from paciente.models import Paciente
 from psicologo.models import Psicologo
 from django.contrib.auth.models import User
+from django.utils.dateparse import parse_datetime
 
 # Create your models here.
 class Evento(models.Model):
@@ -10,6 +11,16 @@ class Evento(models.Model):
     fecha_inicio = models.DateTimeField()
     fecha_fin = models.DateTimeField()
     titulo = models.CharField(max_length=255)
+    motivo = models.CharField(max_length=1000, null=True, blank=True)
+
+class SolicitudAgenda(models.Model):
+    paciente = models.ForeignKey(Paciente, verbose_name="Paciente", on_delete=models.CASCADE)
+    psicologo = models.ForeignKey(Psicologo, verbose_name="Psicologo", on_delete=models.CASCADE)
+    fecha_inicio = models.DateTimeField()
+    fecha_fin = models.DateTimeField()
+    titulo = models.CharField(max_length=255)
+    motivo = models.CharField(max_length=1000, null=True, blank=True)
+
     
 
 class Notification(models.Model):

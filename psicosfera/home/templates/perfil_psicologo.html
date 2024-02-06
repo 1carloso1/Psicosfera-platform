@@ -21,6 +21,31 @@
 {% endblock links %}
 
 {% block contenido %}
+<!-- Modales -->
+<div class="modal fade" id="listaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"> 
+  <div class="modal-dialog" role="document"> 
+    <div class="modal-content"> 
+      <div class="modal-header"> 
+        <h5 class="modal-title" id="modalTitulo">Solicitar Cita</h5> 
+          </button> 
+        </div> 
+        <div class="modal-body"> 
+          <div class="form-group"> 
+          <label for="tituloCita">Título de la Consulta:</label> 
+          <input type="text" class="form-control" id="tituloCita"> 
+          <label for="motivoCita">Motivo de la Consulta:</label> 
+          <textarea class="form-control" id="motivoCita" rows="4"></textarea> 
+          </div> 
+          <div class="form-group">   
+          </div> 
+          </div> 
+          <div class="modal-footer"> 
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button> 
+          <button type="button" class="btn btn-primary" id="guardarCita">Guardar Cita</button> 
+        </div> 
+      </div> 
+    </div> 
+  </div>
 <section class="section profile" id="perfil">
   <div class="row">
     <div class="col-xl-4" >
@@ -44,6 +69,8 @@
           </div>
           <br>
           {% if usuario.usuario_agregado == 1 %}
+          <button onclick="window.location.href='#agenda'" class="btn btn-primary">Agendar Cita</button>
+          <br>
           <button id="botonEliminarContacto" class="btn btn-danger" onclick="eliminarContacto('{{ usuario.user }}')">Eliminar Psicólogo</button>
           {% elif usuario.usuario_agregado == 0 and usuario.solicitud_pendiente == 0%}
           <!-- <a class="btn btn-primary" href="{% url 'agregar_contacto' username=usuario.user %}">Agregar Psicólogo</a>-->
@@ -137,19 +164,28 @@
       </div>
     </div>
     <section id="agenda" class="service-details">
-      <div class="container">  
-        <div class="container section-title" data-aos="fade-up">
-          <h2>Calendario de citas</h2>
-        </div><!-- End Section Title -->
-        <div id='calendar'>{% csrf_token %}</div>
-      </div>
+        <div class="container">  
+          <div class="container section-title" data-aos="fade-up">
+            <h2>Calendario de citas</h2>
+            <br>
+          </div><!-- End Section Title -->
+          <div class="container section-title">
+            <h5>Recuerda solicitar tu cita en el horario de atención establecido en el apartado de Consultorio.</h5>
+          </div><!-- End Section Title -->
+    
+          <div class="calendar-container" id="calendar-container">
+            <div class="calendar active" id="calendar">{% csrf_token %}</div>
+          </div>
+        </div>
     </section>
+    
   </div>
 </section>
 
 {% endblock %}
  
 {% block scripts %}
+
   <link href="{% static 'lightbox/js/lightbox.js' %}" rel="stylesheet">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="{% static 'js/googleMapsAPI.js' %}" ></script>
@@ -197,10 +233,14 @@
   </script>
   <script>
     var username = "{{ usuario.user}}"; // Obtener el nombre de usuario del psicólogo
+    var paciente_name = "{{ usuario.paciente}}"; // Obtener el nombre de usuario del psicólogo
     var obtenerCitasPublico = `/obtener_citas_publico/${username}/`;
+    var agendarCitasPublico = `/agendar_cita/${username}/`;
   </script>
+
   <script src="{% static 'js/index.global.min.js' %}" ></script>
-  <script>
+
+<script>
     document.addEventListener('DOMContentLoaded', function() {
         var calendarEl = document.getElementById('calendar');
         var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -212,52 +252,89 @@
             navLinks: true,
             selectable: true,
             select: function(arg) {
-                var title = prompt('Titulo de la cita:');
-                if (title) {
-                  var paciente = prompt('Usuario del paciente:');
-                  if (paciente) {
-                    var csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-                    $.ajax({
-                      url: 'guardar_cita/',
-                      type: 'POST',
-                      headers: {
-                        'X-CSRFToken': csrfToken  
-                      },
-                      data: {
-                          titulo: title, 
-                          start: arg.startStr,
-                          end: arg.endStr,
-                          paciente: paciente
-                      },
-                      success: function(response) {
-                        alert(response.mensaje);
-                        calendar.refetchEvents(); 
-                        obtenerCitas();
-                      },
-                      error: function(xhr, status, error) {
-                          console.error('Error al guardar el evento:', error);
-                      }
-                    });
-                  }
+              mostrarModalCrear()
+                      .then(function(result) {
+                          // Se ejecuta cuando se llenan los campos y se guarda la cita
+                          var title= result.title;
+                          var paciente = result.paciente;
+                          var motivo = result.motivo;
+                          var csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+                          $.ajax({
+                            url: agendarCitasPublico,
+                            type: 'POST',
+                            headers: {
+                              'X-CSRFToken': csrfToken  
+                            },
+                            data: {
+                                titulo: title, 
+                                start: arg.startStr,
+                                end: arg.endStr,
+                                paciente: paciente,
+                                motivo: motivo
+                            },
+                            success: function(response) {
+                              alert(response.mensaje);
+                              calendar.refetchEvents(); 
+                              obtenerCitasPublicas();
+                            },
+                            error: function(xhr, status, error) {
+                                console.log(xhr.responseText)
+                                console.error('Error al guardar el evento:', error);
+                            }
+                          });
+      
+                          calendar.unselect();
+                        })
+                      .catch(function(error) {
+                          // Se ejecuta si hay un error o se cierra el modal sin llenar los campos
+                          console.error(error);
+                      });
 
-                }
-                calendar.unselect();
             },
-            selectable: false,
             editable: false,
-            eventStartEditable: false,
-            eventResizableFromStart: false,
-            eventDurationEditable: false,
-            eventOverlap: false,
             dayMaxEvents: true,
-            events: obtenerCitasPublico,
+            events: obtenerCitasPublico 
         });
 
         calendar.render();
     });
 </script>
+
 <script>
-  function obtenerCitas(){
+  function mostrarModalCrear() {
+    return new Promise(function(resolve, reject) {
+        var modal = $('#listaModal');
+        modal.modal('show');
+
+        // Agrega un evento al botón de guardar dentro del modal
+        $('#listaModal .btn-primary').on('click', function() {
+            // Obtiene los valores del título y del paciente
+            var title = $('#tituloCita').val();
+            var motivo = $('#motivoCita').val();
+            var paciente = paciente_name;
+
+            // Verifica si ambos campos están llenos
+            if (title && paciente && motivo) {
+                // Resuelve la promesa con los valores
+                resolve({ title: title, paciente: paciente, motivo: motivo });
+
+                // Cierra el modal
+                modal.modal('hide');
+            } else {
+                // Rechaza la promesa si no se llenaron ambos campos
+                alert("Por favor, llene todos los campos.");
+            }
+        });
+        $('#listaModal .btn-secondary').on('click', function() {
+          modal.modal('hide');
+        });
+
+    });
+}
+</script>
+
+<script>
+  function obtenerCitasPublicas(){
     $.ajax({
         url: obtenerCitasPublico,  
         type: 'GET',
@@ -282,7 +359,7 @@
     // Realiza una solicitud AJAX para obtener las citas de todos los pacientes
 
     try {
-      obtenerCitas()
+      obtenerCitasPublicas()
     } catch (error) {
       console.log('Error:', error);
     }
