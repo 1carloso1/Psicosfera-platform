@@ -2478,26 +2478,7 @@
   <script src="{% static 'js/datosPerfil.js' %}"></script>
   <script src="{% static 'ckeditor/ckeditor.js' %}"></script>
   <script src="{% static 'ckeditor/lang/es.js' %}"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const calendarContainer = document.getElementById('calendar-container');
-      const calendarSelector = document.getElementById('calendarSelector');
-    
-      calendarSelector.addEventListener('change', function() {
-        const selectedCalendarId = calendarSelector.value;
-        const selectedCalendar = document.getElementById(selectedCalendarId);
-    
-        // Oculta todos los calendarios
-        const allCalendars = document.querySelectorAll('.calendar');
-        allCalendars.forEach(calendar => {
-          calendar.classList.remove('active');
-        });
-    
-        // Muestra el calendario seleccionado
-        selectedCalendar.classList.add('active');
-      });
-    });
-</script>
+
 
 <script>
   function guardarPersonal() {
@@ -2615,85 +2596,11 @@
           navLinks: true,
           selectable: true,
           eventClick: function(arg) {
-            mostrarModalAceptarCita().then(function(result) {
-                if (result.aceptar) {
-                    // Aquí dentro puedes realizar la lógica después de hacer clic en el botón "Guardar"
-                    var csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-                    $.ajax({
-                        url: 'aceptar_solicitud_cita/',
-                        type: 'POST',
-                        headers: {
-                            'X-CSRFToken': csrfToken  
-                        },
-                        data: {
-                            id: arg.event.id
-                        },
-                        success: function(response) {
-                            alert(response.mensaje);
-                            arg.event.remove();
-                            $('#datos-paciente').attr('id', 'hidden');
-                            obtenerCitas();
-                        },
-                        error: function(xhr, status, error) {
-                            console.error('Error al eliminar el evento:', error);
-                        }
-                    });
-                } else if (result.eliminar){
-                  // Aquí dentro puedes realizar la lógica después de hacer clic en el botón "Guardar"
-                  var csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-                  $.ajax({
-                      url: 'eliminar_solicitud_cita/',
-                      type: 'POST',
-                      headers: {
-                          'X-CSRFToken': csrfToken  
-                      },
-                      data: {
-                          id: arg.event.id
-                      },
-                      success: function(response) {
-                          alert(response.mensaje);
-                          arg.event.remove();
-                          $('#datos-paciente').attr('id', 'hidden');
-                          obtenerCitas();
-                      },
-                      error: function(xhr, status, error) {
-                          console.error('Error al eliminar el evento:', error);
-                      }
-                  });
-                }
-            });
-          },
-          editable: true,
-          dayMaxEvents: true,
-          events: "obtener_solicitud_citas/" 
-      });
-
-      calendar1.render();
-
-        }
-
-    });
-</script>
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-      var calendar1El = document.getElementById('calendar1');
-      var calendar1 = new FullCalendar.Calendar(calendar1El, {
-          headerToolbar: {
-              left: 'prev,next today',
-              center: 'title',
-              right: 'dayGridMonth,timeGridWeek,timeGridDay'
-          },
-          navLinks: true,
-          selectable: true,
-          eventClick: function(arg) {
-
-            // Obtén el motivo de la solicitud haciendo una solicitud GET al servidor
             var motivoUrl = '/obtener_motivo_cita/?id=' + arg.event.id;
 
             $.get(motivoUrl, function(response) {
-                var motivo = response.mensaje;
-                console.log(motivo)
-
+            var motivo = response.mensaje;
+            console.log(motivo)
                 mostrarModalAceptarCita(motivo).then(function(result) {
                     if (result.aceptar) {
                         // Aquí dentro puedes realizar la lógica después de hacer clic en el botón "Guardar"
@@ -2738,18 +2645,21 @@
                         error: function(xhr, status, error) {
                             console.error('Error al eliminar el evento:', error);
                         }
-                        });
+                    });
                     }
                 });
             });
-        },
+          },
           editable: true,
           dayMaxEvents: true,
           events: "obtener_solicitud_citas/" 
       });
 
       calendar1.render();
-  });
+
+        }
+
+    });
 </script>
 <script>
   function mostrarModalCrear() {

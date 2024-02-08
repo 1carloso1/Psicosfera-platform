@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import path
 from .views import *
 from paciente.views import datos_paciente
-from home.views import aceptar_solicitud_cita, eliminar_solicitud_cita
+from home.views import aceptar_solicitud_cita
 from django.conf import settings
 from django.conf.urls.static import static
 

@@ -9,6 +9,8 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from paciente.models import Paciente, Expediente
 import base64
+
+from evento.models import Evento, SolicitudAgenda
 from .forms import FormPaciente
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -175,6 +177,59 @@ def autocompletar_ubicaciones(request):
         return JsonResponse(suggestions, safe=False)
 
     return JsonResponse([], safe=False)
+@login_required
+def obtener_citas_paciente(request):
+    paciente = Paciente.objects.get(user=request.user)
+    citas = Evento.objects.filter(paciente=paciente)
+    
+    if citas:
+        citasPaciente = []
+        for cita in citas:                     
+            citasPaciente.append({
+                'id': cita.id,
+                'id_psicologo': cita.psicologo.id,
+                'nombre_psicologo': cita.psicologo.user.first_name + ' ' + cita.psicologo.user.last_name,
+                'title': cita.titulo,
+                'start': cita.fecha_inicio.strftime('%Y-%m-%dT%H:%M:%S'),  # Formato ISO8601  
+                'end': cita.fecha_fin.strftime('%Y-%m-%dT%H:%M:%S'), # Formato ISO8601 
+                'fecha_inicio': cita.fecha_inicio.strftime('%Y-%m-%d'),   
+                'fecha_fin': cita.fecha_fin.strftime('%Y-%m-%d'),# Formato ISO8601
+                'hora_fin': cita.fecha_fin.strftime('%H:%M:%S'),  # Formato ISO8601
+                'hora_inicio': cita.fecha_inicio.strftime('%H:%M:%S'),  # Formato ISO8601
+            })
+        return JsonResponse(citasPaciente, safe=False)
+
+    return JsonResponse({'mensaje': 'Las citas no existe'}, status=404)
+
+@login_required  
+def obtener_solicitud_citas_enviadas_paciente(request):
+    paciente = Paciente.objects.get(user=request.user)
+    try:
+        citas = SolicitudAgenda.objects.filter(paciente=paciente)
+        if citas:
+            citasPaciente = []
+            for cita in citas:                     
+                citasPaciente.append({
+                    'id': cita.id,
+                    'id_psicologo': cita.psicologo.id,
+                    'nombre_psicologo': cita.psicologo.user.first_name + ' ' + cita.psicologo.user.last_name,
+                    'title': cita.titulo,
+                    'start': cita.fecha_inicio.strftime('%Y-%m-%dT%H:%M:%S'),  # Formato ISO8601  
+                    'end': cita.fecha_fin.strftime('%Y-%m-%dT%H:%M:%S'), # Formato ISO8601 
+                    'fecha_inicio': cita.fecha_inicio.strftime('%Y-%m-%d'),   
+                    'fecha_fin': cita.fecha_fin.strftime('%Y-%m-%d'),# Formato ISO8601
+                    'hora_fin': cita.fecha_fin.strftime('%H:%M:%S'),  # Formato ISO8601
+                    'hora_inicio': cita.fecha_inicio.strftime('%H:%M:%S'),  # Formato ISO8601
+                    'motivo': cita.motivo
+                })
+            return JsonResponse(citasPaciente, safe=False)
+        else:
+            return JsonResponse({'mensaje': 'No hay citas para el psicólogo y paciente dados.'}, status=404)
+
+    except Psicologo.DoesNotExist:
+        return JsonResponse({'mensaje': 'Las citas no existe'}, status=404)  # El usuario no es un psicólogo, continuar
+    except Paciente.DoesNotExist:
+        return JsonResponse({'mensaje': 'El paciente no existe'}, status=404)
 
 #Este metodo filtrara los psicologos por la especilidad ingresada o su nombre
 def psicologos_por_especialidad_nombre(request):

@@ -179,7 +179,7 @@ def aceptar_solicitud_cita(request):
     else:
         return JsonResponse({'mensaje': 'Método no permitido'}, status=405)
     
-def eliminar_solicitud_cita(request):
+def eliminar_solicitud_cita_psicologo(request):
     if request.method == 'POST':
         try:
             cita = SolicitudAgenda.objects.get(id=request.POST.get('id'))
@@ -466,7 +466,8 @@ def eliminar_solicitud(request, username):
     except Paciente.DoesNotExist:
         # Si el paciente no existe, devolvemos un mensaje de error
         return JsonResponse({"error": "El paciente no existe"})
-    
+
+
 
 def perfilPublico(request, username,):
     # Obtener el usuario basado en el username

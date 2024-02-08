@@ -62,6 +62,18 @@ def eliminar_cita(request):
             return JsonResponse({'mensaje': 'La cita no existe'}, status=404)
     else:
         return JsonResponse({'mensaje': 'Método no permitido'}, status=405)
+    
+@login_required
+def eliminar_solicitud_cita(request):
+    if request.method == 'POST':
+        try:
+            cita = SolicitudAgenda.objects.get(id=request.POST.get('id'))
+            cita.delete()
+            return JsonResponse({'mensaje': 'Cita eliminada con éxito'})
+        except Evento.DoesNotExist:
+            return JsonResponse({'mensaje': 'La cita no existe'}, status=404)
+    else:
+        return JsonResponse({'mensaje': 'Método no permitido'}, status=405)
        
  
 @login_required
@@ -88,6 +100,8 @@ def obtener_citas(request):
 
     return JsonResponse({'mensaje': 'Las citas no existe'}, status=404)
 
+
+
 @login_required
 def obtener_solicitud_citas(request):
     psicologo = Psicologo.objects.get(user=request.user)
@@ -112,6 +126,8 @@ def obtener_solicitud_citas(request):
         return JsonResponse(citasPsicologo, safe=False)
 
     return JsonResponse({'mensaje': 'Las citas no existe'}, status=404)
+
+
 
 @login_required
 def obtener_citas_publico(request, username):
@@ -139,7 +155,68 @@ def obtener_citas_publico(request, username):
         return JsonResponse(citasPsicologo, safe=False)
     except Psicologo.DoesNotExist:
         return JsonResponse({'mensaje': 'Las citas no existe'}, status=404)  # El usuario no es un psicólogo, continuar
+
+@login_required  
+def obtener_solicitud_citas_enviadas_psicologo(request,username):
+    paciente = Paciente.objects.get(user=request.user)
+    user = get_object_or_404(User, username=username)
+    try:
+        psicologo = Psicologo.objects.get(user=user)
+        citas = SolicitudAgenda.objects.filter(paciente=paciente, psicologo=psicologo)
+        if citas:
+            citasPaciente = []
+            for cita in citas:                     
+                citasPaciente.append({
+                    'id': cita.id,
+                    'id_paciente': cita.paciente.id,
+                    'nombre_paciente': cita.paciente.user.first_name + ' ' + cita.paciente.user.last_name,
+                    'title': cita.titulo,
+                    'start': cita.fecha_inicio.strftime('%Y-%m-%dT%H:%M:%S'),  # Formato ISO8601  
+                    'end': cita.fecha_fin.strftime('%Y-%m-%dT%H:%M:%S'), # Formato ISO8601 
+                    'fecha_inicio': cita.fecha_inicio.strftime('%Y-%m-%d'),   
+                    'fecha_fin': cita.fecha_fin.strftime('%Y-%m-%d'),# Formato ISO8601
+                    'hora_fin': cita.fecha_fin.strftime('%H:%M:%S'),  # Formato ISO8601
+                    'hora_inicio': cita.fecha_inicio.strftime('%H:%M:%S'),  # Formato ISO8601
+                    'motivo': cita.motivo
+                })
+            return JsonResponse(citasPaciente, safe=False)
+        else:
+            return JsonResponse({'mensaje': 'No hay citas para el psicólogo y paciente dados.'}, status=404)
+
+    except Psicologo.DoesNotExist:
+        return JsonResponse({'mensaje': 'Las citas no existe'}, status=404)  # El usuario no es un psicólogo, continuar
+    except Paciente.DoesNotExist:
+        return JsonResponse({'mensaje': 'El paciente no existe'}, status=404)
     
+@login_required  
+def obtener_solicitud_citas_enviadas(request):
+    paciente = Paciente.objects.get(user=request.user)
+    try:
+        citas = SolicitudAgenda.objects.filter(paciente=paciente)
+        if citas:
+            citasPaciente = []
+            for cita in citas:                     
+                citasPaciente.append({
+                    'id': cita.id,
+                    'id_paciente': cita.paciente.id,
+                    'nombre_paciente': cita.paciente.user.first_name + ' ' + cita.paciente.user.last_name,
+                    'title': cita.titulo,
+                    'start': cita.fecha_inicio.strftime('%Y-%m-%dT%H:%M:%S'),  # Formato ISO8601  
+                    'end': cita.fecha_fin.strftime('%Y-%m-%dT%H:%M:%S'), # Formato ISO8601 
+                    'fecha_inicio': cita.fecha_inicio.strftime('%Y-%m-%d'),   
+                    'fecha_fin': cita.fecha_fin.strftime('%Y-%m-%d'),# Formato ISO8601
+                    'hora_fin': cita.fecha_fin.strftime('%H:%M:%S'),  # Formato ISO8601
+                    'hora_inicio': cita.fecha_inicio.strftime('%H:%M:%S'),  # Formato ISO8601
+                    'motivo': cita.motivo
+                })
+            return JsonResponse(citasPaciente, safe=False)
+        else:
+            return JsonResponse({'mensaje': 'No hay citas para el psicólogo y paciente dados.'}, status=404)
+
+    except Psicologo.DoesNotExist:
+        return JsonResponse({'mensaje': 'Las citas no existe'}, status=404)  # El usuario no es un psicólogo, continuar
+    except Paciente.DoesNotExist:
+        return JsonResponse({'mensaje': 'El paciente no existe'}, status=404)
 
 @login_required
 def datos_psicologo(request):

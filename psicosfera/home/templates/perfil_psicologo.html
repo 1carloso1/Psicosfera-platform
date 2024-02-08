@@ -18,10 +18,33 @@
 {% block links %}
   <link href="{% static 'css/style.css' %}" rel="stylesheet">
   <link href="{% static 'lightbox/css/lightbox.css' %}" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/backend-plugin.min.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/backend.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/all.min.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/line-awesome.min.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/dripicons.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/remixicon.css' %}">
 {% endblock links %}
 
 {% block contenido %}
 <!-- Modales -->
+<div class="modal fade" id="eliminarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"> 
+  <div class="modal-dialog" role="document"> 
+    <div class="modal-content"> 
+      <div class="modal-header"> 
+      <h5 class="modal-title" id="modalTitulo">Eliminar Solicitud de Cita</h5> 
+      </button> 
+      </div> 
+      <div class="modal-body"> 
+        <h6>¿Estas seguro de eliminar esta cita?</h6>
+      </div> 
+      <div class="modal-footer"> 
+      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button> 
+      <button type="button" class="btn btn-primary" id="eliminarCita">Eliminar</button> 
+      </div> 
+    </div> 
+  </div> 
+</div>
 <div class="modal fade" id="listaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"> 
   <div class="modal-dialog" role="document"> 
     <div class="modal-content"> 
@@ -76,7 +99,7 @@
           <!-- <a class="btn btn-primary" href="{% url 'agregar_contacto' username=usuario.user %}">Agregar Psicólogo</a>-->
           <button id="botonEnviarSolicitud" class="btn btn-primary" onclick="enviarSolicitud('{{ usuario.user }}')">Enviar Solicitud</button>
           {% endif %}
-
+ 
           {% if usuario.solicitud_pendiente == 1 and usuario.usuario_agregado == 0 %}
           <button class="btn btn-primary" disabled>Solicitud Enviada</button>
           {% endif %}
@@ -163,21 +186,48 @@
         </div>
       </div>
     </div>
+  
+
     <section id="agenda" class="service-details">
-        <div class="container">  
-          <div class="container section-title" data-aos="fade-up">
-            <h2>Calendario de citas</h2>
-            <br>
-          </div><!-- End Section Title -->
-          <div class="container section-title">
-            <h5>Recuerda solicitar tu cita en el horario de atención establecido en el apartado de Consultorio.</h5>
-          </div><!-- End Section Title -->
-    
-          <div class="calendar-container" id="calendar-container">
-            <div class="calendar active" id="calendar">{% csrf_token %}</div>
+      <div class="col-lg-12" >                
+          <div class="card card-block card-stretch">
+              <div class="card-body custom-notes-space">
+                  <h3 class="">Agenda de Citas</h3>
+                  <h5 class="">Recuerda solicitar tu cita en el horario de atención establecido en el apartado de Consultorio.</h5>
+                  <div class="iq-tab-content">
+                      <div class="d-flex flex-wrap align-items-top justify-content-between">
+                          <ul class="d-flex nav nav-pills text-center note-tab mb-3" id="note-pills-tab" role="tablist">                                
+                              <li class="nav-item">
+                                  <a class="nav-link home active show" data-toggle="pill" data-init="note" href="#note1" role="tab" aria-selected="false">Citas Proximas</a>
+                              </li>
+                              <li class="nav-item">
+                                  <a class="nav-link home" data-toggle="pill" data-init="shared-note" href="#note2" role="tab" aria-selected="true"> Mis Solicitudes de Citas</a>
+                              </li>
+                          </ul> 
+                                    
+                      </div>             
+                      <div class="note-content tab-content">                                
+                          <div id="note1" class="tab-pane fade active show">
+                              <div class="calendar-container" id="calendar-container">
+                                  <div class="calendar active" id="calendar">{% csrf_token %}</div>
+                                  <br>
+                              </div>
+                              <br>
+  
+                          </div>
+                          <div id="note2" class="tab-pane fade active ">
+                              <div class="calendar-container" id="calendar-container2">
+                                  <div class="calendar active" id="calendar1">{% csrf_token %}</div>
+                              </div>
+                              <br>
+  
+                          </div> 
+                      </div> 
+                  </div>
+              </div>
           </div>
-        </div>
-    </section>
+      </div>
+  </section>
     
   </div>
 </section>
@@ -235,6 +285,7 @@
     var username = "{{ usuario.user}}"; // Obtener el nombre de usuario del psicólogo
     var paciente_name = "{{ usuario.paciente}}"; // Obtener el nombre de usuario del psicólogo
     var obtenerCitasPublico = `/obtener_citas_publico/${username}/`;
+    var obtenerSolicitudCitasPorPsicologo = `/obtener_solicitud_citas_enviadas/${username}/`;
     var agendarCitasPublico = `/agendar_cita/${username}/`;
   </script>
 
@@ -297,8 +348,76 @@
         });
 
         calendar.render();
+        inicializarSegundoCalendario();
+
+        function inicializarSegundoCalendario() {
+            var calendar1El = document.getElementById('calendar1');
+            var calendar1 = new FullCalendar.Calendar(calendar1El, {
+        
+          headerToolbar: {
+              left: 'prev,next today',
+              center: 'title',
+              right: 'dayGridMonth,timeGridWeek,timeGridDay'
+          },
+          navLinks: true,
+          selectable: true,
+          eventClick: function(arg) {
+            mostrarModalEliminar().then(function(result) {
+              if (result) {
+                  // Aquí dentro puedes realizar la lógica después de hacer clic en el botón "Guardar"
+                  var csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+                  $.ajax({
+                      url: '/eliminar_solicitud_cita/',
+                      type: 'POST',
+                      headers: {
+                          'X-CSRFToken': csrfToken  
+                      },
+                      data: {
+                          id: arg.event.id
+                      },
+                      success: function(response) {
+                          alert(response.mensaje);
+                          arg.event.remove();
+                          $('#datos-paciente').attr('id', 'hidden');
+                          obtenerCitas();
+                      },
+                      error: function(xhr, status, error) {
+                          console.error('Error al eliminar el evento:', error);
+                      }
+                  });
+              }
+          });
+          },
+          editable: true,
+          dayMaxEvents: true,
+          events: obtenerSolicitudCitasPorPsicologo  
+      });
+
+      calendar1.render();
+
+        }
     });
 </script>
+
+<script>
+  function mostrarModalEliminar() {
+      return new Promise(function(resolve, reject) {
+          var modal = $('#eliminarModal');
+          modal.modal('show');
+  
+          // Agrega un evento al botón de guardar dentro del modal
+          $('#eliminarModal .btn-primary').on('click', function() {
+              modal.modal('hide');
+              resolve(true);
+          });
+  
+          $('#eliminarModal .btn-secondary').on('click', function() {
+              modal.modal('hide');
+              resolve(false);
+          });
+      });
+  }
+  </script>
 
 <script>
   function mostrarModalCrear() {
