@@ -199,6 +199,16 @@ def eliminar_solicitud_cita(request):
             return JsonResponse({'mensaje': 'La cita no existe'}, status=404)
     else:
         return JsonResponse({'mensaje': 'Método no permitido'}, status=405)
+    
+@login_required   
+def obtener_motivo(request):
+    if request.method == 'GET':
+        cita_id = request.GET.get('id')
+        cita = get_object_or_404(SolicitudAgenda, id=cita_id)
+        motivo = cita.motivo
+        return JsonResponse({'mensaje': motivo})
+    else:
+        return JsonResponse({'mensaje': 'Método no permitido'}, status=405)
         
     
 def marcar_notificacion_leida(request):

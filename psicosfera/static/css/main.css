@@ -3337,7 +3337,7 @@ section {
 --------------------------------------------------------------*/
 
 .calendar-container {
-  width: 1150px; /* Ajusta el ancho según tus preferencias */
+  width: 1400px; /* Ajusta el ancho según tus preferencias */
   height: 900px; /* Ajusta el alto según tus preferencias */
   overflow: hidden;
   position: relative;

@@ -62,7 +62,7 @@ def eliminar_cita(request):
             return JsonResponse({'mensaje': 'La cita no existe'}, status=404)
     else:
         return JsonResponse({'mensaje': 'Método no permitido'}, status=405)
-    
+       
  
 @login_required
 def obtener_citas(request):
@@ -107,6 +107,7 @@ def obtener_solicitud_citas(request):
                 'fecha_fin': cita.fecha_fin.strftime('%Y-%m-%d'),# Formato ISO8601
                 'hora_fin': cita.fecha_fin.strftime('%H:%M:%S'),  # Formato ISO8601
                 'hora_inicio': cita.fecha_inicio.strftime('%H:%M:%S'),  # Formato ISO8601
+                'motivo': cita.motivo
             })
         return JsonResponse(citasPsicologo, safe=False)
 

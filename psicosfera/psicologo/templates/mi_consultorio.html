@@ -74,8 +74,9 @@
               <h5 class="modal-title" id="modalTitulo">Solicitud de Cita</h5> 
               </button> 
               </div> 
-              <div class="modal-body"> 
-                <h6>Motivo:</h6>
+              <div class="modal-body">
+                <label >Motivo:</label> 
+                <p id="motivo_cita_text"></p>
               </div> 
               <div class="modal-footer"> 
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button> 
@@ -139,7 +140,7 @@
             </div>
           </div><!-- End testimonial item -->
                 <br>
-                <input type="submit" class="btn btn-primary" value="Guardar nota"></input>
+                <input type="submit" class="btn btn-primary" value="Guardar nota">
               </form>
           </div>
           </div>
@@ -148,12 +149,7 @@
 </section>
         
 <section id="agenda" class="service-details">
-  <div class="container">  
-    <div class="container section-title" data-aos="fade-up">
-      <h2>Agenda</h2>
-    </div><!-- End Section Title -->
-    
-    <div class="col-lg-12">                
+    <div class="col-lg-12" >                
         <div class="card card-block card-stretch">
             <div class="card-body custom-notes-space">
                 <h3 class="">Tu Agenda</h3>
@@ -173,21 +169,23 @@
                         <div id="note1" class="tab-pane fade active show">
                             <div class="calendar-container" id="calendar-container">
                                 <div class="calendar active" id="calendar">{% csrf_token %}</div>
-                              </div>
+                                <br>
+                            </div>
+                            <br>
+
                         </div>
-                        <div id="note2" class="tab-pane fade active show">
+                        <div id="note2" class="tab-pane fade active ">
                             <div class="calendar-container" id="calendar-container2">
                                 <div class="calendar active" id="calendar1">{% csrf_token %}</div>
-                              </div>
-                        </div>
-                        
+                            </div>
+                            <br>
+
+                        </div> 
                     </div> 
                 </div>
             </div>
         </div>
     </div>
-</div>
-  </div>
 </section>
 
 
@@ -2607,7 +2605,8 @@
 
         function inicializarSegundoCalendario() {
             var calendar1El = document.getElementById('calendar1');
-      var calendar1 = new FullCalendar.Calendar(calendar1El, {
+            var calendar1 = new FullCalendar.Calendar(calendar1El, {
+        
           headerToolbar: {
               left: 'prev,next today',
               center: 'title',
@@ -2687,12 +2686,42 @@
           navLinks: true,
           selectable: true,
           eventClick: function(arg) {
-            mostrarModalAceptarCita().then(function(result) {
-                if (result.aceptar) {
+
+            // Obtén el motivo de la solicitud haciendo una solicitud GET al servidor
+            var motivoUrl = '/obtener_motivo_cita/?id=' + arg.event.id;
+
+            $.get(motivoUrl, function(response) {
+                var motivo = response.mensaje;
+                console.log(motivo)
+
+                mostrarModalAceptarCita(motivo).then(function(result) {
+                    if (result.aceptar) {
+                        // Aquí dentro puedes realizar la lógica después de hacer clic en el botón "Guardar"
+                        var csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+                        $.ajax({
+                            url: 'aceptar_solicitud_cita/',
+                            type: 'POST',
+                            headers: {
+                                'X-CSRFToken': csrfToken  
+                            },
+                            data: {
+                                id: arg.event.id
+                            },
+                            success: function(response) {
+                                alert(response.mensaje);
+                                arg.event.remove();
+                                $('#datos-paciente').attr('id', 'hidden');
+                                obtenerCitas();
+                            },
+                            error: function(xhr, status, error) {
+                                console.error('Error al eliminar el evento:', error);
+                            }
+                        });
+                    } else if (result.eliminar){
                     // Aquí dentro puedes realizar la lógica después de hacer clic en el botón "Guardar"
                     var csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
                     $.ajax({
-                        url: 'aceptar_solicitud_cita/',
+                        url: 'eliminar_solicitud_cita/',
                         type: 'POST',
                         headers: {
                             'X-CSRFToken': csrfToken  
@@ -2709,32 +2738,11 @@
                         error: function(xhr, status, error) {
                             console.error('Error al eliminar el evento:', error);
                         }
-                    });
-                } else if (result.eliminar){
-                  // Aquí dentro puedes realizar la lógica después de hacer clic en el botón "Guardar"
-                  var csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-                  $.ajax({
-                      url: 'eliminar_solicitud_cita/',
-                      type: 'POST',
-                      headers: {
-                          'X-CSRFToken': csrfToken  
-                      },
-                      data: {
-                          id: arg.event.id
-                      },
-                      success: function(response) {
-                          alert(response.mensaje);
-                          arg.event.remove();
-                          $('#datos-paciente').attr('id', 'hidden');
-                          obtenerCitas();
-                      },
-                      error: function(xhr, status, error) {
-                          console.error('Error al eliminar el evento:', error);
-                      }
-                  });
-                }
+                        });
+                    }
+                });
             });
-          },
+        },
           editable: true,
           dayMaxEvents: true,
           events: "obtener_solicitud_citas/" 
@@ -2776,10 +2784,13 @@
 </script>
 
 <script>
-  function mostrarModalAceptarCita() {
+  function mostrarModalAceptarCita(motivo) {
     return new Promise(function(resolve, reject) {
-      var modal = $('#solicitudCitaModal');
-      modal.modal('show');
+    var modal = $('#solicitudCitaModal');
+    modal.modal('show');
+
+    // Agrega el motivo al contenido del modal
+    $('#motivo_cita_text').text(motivo);
 
       // Agrega un evento al botón de guardar dentro del modal
       $('#solicitudCitaModal .btn-primary').on('click', function() {
