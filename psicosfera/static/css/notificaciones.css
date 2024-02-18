@@ -27,6 +27,15 @@
     color: #555; /* Cambia el color del texto según tus preferencias */
 }
 
+.btn-seleccionado {
+    background-color: #c5adce; /* Agrega el color que deseas */
+}
+
+.btn-custom:hover {
+    background-color: #9b54ca; /* Tu color de fondo más oscuro */
+    color: #fff; /* Tu color de texto más claro */
+}
+
 /* Estilo para notificaciones no leídas */
 .notificacion-no-leida {
     font-weight: bold; /* Puedes resaltarlas en negrita */

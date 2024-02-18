@@ -86,7 +86,7 @@
           
           <div class="notification-icon-container">
 
-            <a class="notification-icon " class="notificaciones-icono" href="#" data-bs-toggle="dropdown">
+            <a class="notification-icon " class="notificaciones-icono" href="#" data-bs-toggle="dropdown" id="btnTodas2">
               <span id="punto-rojo"></span>
               <img src="{% static 'img/elementos/notificacion.png' %}" alt="Notification" class="icon-img">
             </a>
@@ -95,32 +95,39 @@
             <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications-container text-center">
             <li class="dropdown-header">
                 <h6>Notificaciones</h6>
+                <div class="btn-group" role="group" aria-label="Notificaciones" id="notificacionesBtnGroup">
+                  <button type="button" class="btn btn-custom" id="btnTodas">No Leídas</button>
+                  <button type="button" class="btn btn-custom" id="btnLeidas">Leídas</button>
+              </div>
             </li>
-            {% for notification in user_notifications %}
-                {% if notification.is_read %}
-                    <!-- Notificación leída -->
-                    <li class="notificacion-leida">
-                        <a href="{{ notification.notification_url }}" class="notification-link" data="{{ notification.id }}">
-                            <hr class="dropdown-divider">
-                            <div class="notification-content">
-                                <span class="notification-message">{{ notification.mensaje }}</span>
-                                <span class="notification-timestamp">{{ notification.timestamp|date:"F j, Y H:i" }}</span>
-                            </div>
-                        </a>
-                    </li>
-                {% else %}
-                    <!-- Notificación no leída -->
-                    <li class="notificacion-no-leida">
-                      <a href="{{ notification.notification_url }}" class="notification-link" data="{{ notification.id }}">
-                        <hr class="dropdown-divider">
-                        <div class="notification-content">
-                          <span class="notification-message">{{ notification.mensaje }}</span>
-                          <span class="notification-timestamp">{{ notification.timestamp|date:"F j, Y H:i" }}</span>
-                        </div>
-                      </a>
-                    </li>
-                    {% endif %}
-                    {% endfor %}
+              <!-- Notificaciones no leídas -->
+              {% for notification in user_notifications %}
+              {% if not notification.is_read %}
+                  <!-- Notificación no leída -->
+                  <li class="notificacion-no-leida">
+                    <a href="{{ notification.notification_url }}" class="notification-link" data="{{ notification.id }}">
+                      <hr class="dropdown-divider">
+                      <div class="notification-content">
+                        <span class="notification-message">{{ notification.mensaje }}</span>
+                        <span class="notification-timestamp">{{ notification.timestamp|date:"F j, Y H:i" }}</span>
+                      </div>
+                    </a>
+                  </li>
+                  {% endif %}
+                  {% endfor %}
+
+    <!-- Notificaciones leídas -->
+    {% for notification in notificacionesLeidas %}
+    <li class="notificacion-leida">
+        <a href="{{ notification.notification_url }}" class="notification-link" data="{{ notification.id }}">
+            <hr class="dropdown-divider">
+            <div class="notification-content">
+                <span class="notification-message">{{ notification.mensaje }}</span>
+                <span class="notification-timestamp">{{ notification.timestamp|date:"F j, Y H:i" }}</span>
+            </div>
+        </a>
+    </li>
+    {% endfor %}
                   </ul>
                 </div>
                   
@@ -324,6 +331,68 @@
     });
 </script>
 <script>
+  $(document).ready(function () {
+      // Manejar clic en el botón "Todas"
+      $('#btnTodas').on('click', function (e) {
+        e.stopPropagation()
+          // Actualizar el contenido en la lista desplegable
+          mostrarTodasNotificaciones();
+          $(this).addClass('btn-seleccionado');
+          $('#btnLeidas').removeClass('btn-seleccionado');
+      });
+
+      // Manejar clic en el botón "Todas"
+      $('#btnTodas2').on('click', function (e) {
+        e.stopPropagation()
+          // Actualizar el contenido en la lista desplegable
+          mostrarTodasNotificaciones();
+      });
+
+
+      // Manejar clic en el botón "Leídas"
+      $('#btnLeidas').on('click', function (e) {
+        e.stopPropagation()
+          // Filtrar notificaciones leídas y actualizar el contenido
+          mostrarNotificacionesLeidas();
+          // Aplicar estilo al botón seleccionado
+          $(this).addClass('btn-seleccionado');
+          $('#btnTodas').removeClass('btn-seleccionado');
+      });
+
+      // Manejar eventos de "hover" sobre los botones
+      $('#btnTodas, #btnLeidas').on('mouseenter', function () {
+        // Aplicar estilo de "hover" al botón cuando el mouse está sobre él
+        $(this).addClass('btn-hover');
+    });
+
+    $('#btnTodas, #btnLeidas').on('mouseleave', function () {
+        // Quitar estilo de "hover" al botón cuando el mouse sale de él, excepto si está seleccionado
+        if (!$(this).hasClass('btn-selected')) {
+            $(this).removeClass('btn-hover');
+        }
+    });
+
+      function mostrarTodasNotificaciones() {
+        // Aquí colocas el código para mostrar todas las notificaciones
+        // Puedes utilizar el contenido que ya está en el template
+        // o realizar una solicitud AJAX para obtener nuevas notificaciones.
+    
+        // Ejemplo de cómo puedes ocultar/mostrar elementos:
+        $('.notificacion-leida').hide();
+        $('.notificacion-no-leida').show();
+        
+      }
+    
+      function mostrarNotificacionesLeidas() {
+        // Aquí colocas el código para mostrar solo las notificaciones leídas
+        // Puedes utilizar el contenido que ya está en el template
+        // o realizar una solicitud AJAX para obtener nuevas notificaciones.
+    
+        // Ejemplo de cómo puedes ocultar/mostrar elementos:
+        $('.notificacion-no-leida').hide();
+        $('.notificacion-leida').show();
+      }
+  });
 </script>
 <script>
   var notificacionesNoLeidas = {{ notificacionesNoLeidas|default:0 }};
