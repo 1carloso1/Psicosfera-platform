@@ -87,6 +87,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'home.context_processors.notifications',
+                'home.context_processors.recordatorios_citas',
             ],
         },
     },

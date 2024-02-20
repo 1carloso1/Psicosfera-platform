@@ -67,7 +67,7 @@ def actualizar_password(request):
         return JsonResponse({'mensaje': 'Método no permitido'}, status=405) 
 
 def enviar_correo(asunto,correo, mensaje):
-    email_origen = 'chalaca23ff@gmail.com'
+    email_origen = 'yodacholo@gmail.com'
     recipient_list = [correo]
 
     email = EmailMessage(asunto, mensaje, email_origen, recipient_list)
@@ -147,6 +147,8 @@ def crear_notificacion(user,asunto, mensaje, url):
     elif asunto == "Amistad":
         enviar_correo(asunto,user.email, mensaje)
     elif asunto == "Agendar Cita":
+        enviar_correo(asunto,user.email, mensaje)
+    elif asunto == "Cita Proxima":
         enviar_correo(asunto,user.email, mensaje)
     else:
         pass
@@ -260,6 +262,7 @@ def exito_actualizacion(request):
     return HttpResponseRedirect(reverse('perfil') + '?success=true')
 
 def enviar_solicitud(request, username):
+    #Solo el paciente puede enviar solicitud
     user = get_object_or_404(User, username=username)
     paciente = get_object_or_404(Paciente, user=request.user)
     paciente_user = paciente.user.username

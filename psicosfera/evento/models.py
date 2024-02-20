@@ -12,6 +12,7 @@ class Evento(models.Model):
     fecha_fin = models.DateTimeField()
     titulo = models.CharField(max_length=255)
     motivo = models.CharField(max_length=1000, null=True, blank=True)
+    aviso24h = models.IntegerField(default=0)
 
 class SolicitudAgenda(models.Model):
     paciente = models.ForeignKey(Paciente, verbose_name="Paciente", on_delete=models.CASCADE)
