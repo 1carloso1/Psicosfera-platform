@@ -42,8 +42,8 @@ Sigue los pasos a continuación para levantar el proyecto:
 Clona el repositorio en tu máquina local:
 
 ```bash
-git clone <repositorio-url>
-cd <nombre-del-directorio-del-proyecto>
+git clone https://github.com/1carloso1/Psicosfera-platform.git
+cd psicosfera
 ```
 ### 2. Levantar los Contenedores de Docker
 
