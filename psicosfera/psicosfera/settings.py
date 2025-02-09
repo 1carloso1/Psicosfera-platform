@@ -174,7 +174,7 @@ SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 SESSION_COOKIE_SECURE = True  # Solo si estás utilizando HTTPS
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 SESSION_COOKIE_HTTPONLY = True
-GOOGLE_MAPS_API_KEY = 'YOUR API KEY HERE'
+GOOGLE_MAPS_API_KEY = 'AIzaSyChp083C-WKB5jSySbKyATCg9THrP9w9hA'
 
 # Collect static files here
 STATIC_ROOT = join(BASE_DIR, 'run', 'static_root')
